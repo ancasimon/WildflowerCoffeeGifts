@@ -151,7 +151,7 @@ CREATE TABLE ProductThemes (
 
 
  --Ad Payment Types:
- --PaymentType 1 for user 1:
+ --PaymentTypes for user 1:
 declare @paymentType nvarchar(25) = 'Visa'
 declare @userId int = 1
 declare @accountNo bigint = 1111111111111111
@@ -161,8 +161,26 @@ declare @isActive bit = 1
 insert into PaymentTypes(PaymentType, UserId, AccountNo, ExpirationYear, ExpirationMonth, IsActive)
 values(@paymentType, @userId, @accountNo, @expirationYear, @expirationMonth, @isActive)
 
- --PaymentType 2 for user 2:
 declare @paymentType nvarchar(25) = 'Mastercard'
+declare @userId int = 1
+declare @accountNo bigint = 1234567899990000
+declare @expirationYear int = 2025
+declare @expirationMonth int = 12
+declare @isActive bit = 1
+insert into PaymentTypes(PaymentType, UserId, AccountNo, ExpirationYear, ExpirationMonth, IsActive)
+values(@paymentType, @userId, @accountNo, @expirationYear, @expirationMonth, @isActive)
+
+declare @paymentType nvarchar(25) = 'American Express'
+declare @userId int = 1
+declare @accountNo bigint = 0000000000000001
+declare @expirationYear int = 2025
+declare @expirationMonth int = 12
+declare @isActive bit = 0
+insert into PaymentTypes(PaymentType, UserId, AccountNo, ExpirationYear, ExpirationMonth, IsActive)
+values(@paymentType, @userId, @accountNo, @expirationYear, @expirationMonth, @isActive)
+
+ --PaymentTypes for user 2:
+declare @paymentType nvarchar(25) = 'Visa'
 declare @userId int = 2
 declare @accountNo bigint = 2222222222222222
 declare @expirationYear int = 2025
@@ -171,8 +189,26 @@ declare @isActive bit = 1
 insert into PaymentTypes(PaymentType, UserId, AccountNo, ExpirationYear, ExpirationMonth, IsActive)
 values(@paymentType, @userId, @accountNo, @expirationYear, @expirationMonth, @isActive)
 
- --PaymentType 3 for user 3:
-declare @paymentType nvarchar(25) = 'AmEx'
+declare @paymentType nvarchar(25) = 'Mastercard'
+declare @userId int = 2
+declare @accountNo bigint = 1234123412341234
+declare @expirationYear int = 2025
+declare @expirationMonth int = 12
+declare @isActive bit = 1
+insert into PaymentTypes(PaymentType, UserId, AccountNo, ExpirationYear, ExpirationMonth, IsActive)
+values(@paymentType, @userId, @accountNo, @expirationYear, @expirationMonth, @isActive)
+
+declare @paymentType nvarchar(25) = 'American Express'
+declare @userId int = 2
+declare @accountNo bigint = 0000111100002222
+declare @expirationYear int = 2025
+declare @expirationMonth int = 12
+declare @isActive bit = 0
+insert into PaymentTypes(PaymentType, UserId, AccountNo, ExpirationYear, ExpirationMonth, IsActive)
+values(@paymentType, @userId, @accountNo, @expirationYear, @expirationMonth, @isActive)
+
+ --PaymentTypes for user 3:
+declare @paymentType nvarchar(25) = 'Visa'
 declare @userId int = 3
 declare @accountNo bigint = 3333333333333333
 declare @expirationYear int = 2025
@@ -181,8 +217,27 @@ declare @isActive bit = 1
 insert into PaymentTypes(PaymentType, UserId, AccountNo, ExpirationYear, ExpirationMonth, IsActive)
 values(@paymentType, @userId, @accountNo, @expirationYear, @expirationMonth, @isActive)
 
+declare @paymentType nvarchar(25) = 'Mastercard'
+declare @userId int = 3
+declare @accountNo bigint = 1234432112344321
+declare @expirationYear int = 2025
+declare @expirationMonth int = 12
+declare @isActive bit = 1
+insert into PaymentTypes(PaymentType, UserId, AccountNo, ExpirationYear, ExpirationMonth, IsActive)
+values(@paymentType, @userId, @accountNo, @expirationYear, @expirationMonth, @isActive)
+
+declare @paymentType nvarchar(25) = 'American Express'
+declare @userId int = 3
+declare @accountNo bigint = 3333000033330000
+declare @expirationYear int = 2025
+declare @expirationMonth int = 12
+declare @isActive bit = 0
+insert into PaymentTypes(PaymentType, UserId, AccountNo, ExpirationYear, ExpirationMonth, IsActive)
+values(@paymentType, @userId, @accountNo, @expirationYear, @expirationMonth, @isActive)
+
 select *
 from PaymentTypes
+
 
 --Add Product Themes:
 declare @theme nvarchar(25) = 'Sports'
