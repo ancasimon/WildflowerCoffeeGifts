@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ancuta\\source\\repos\\groupE11\\bangazon\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts.csproj": {}
+    "C:\\Users\\bethh\\source\\repos\\Bangazon\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ancuta\\source\\repos\\groupE11\\bangazon\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts.csproj": {
+    "C:\\Users\\bethh\\source\\repos\\Bangazon\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ancuta\\source\\repos\\groupE11\\bangazon\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts.csproj",
+        "projectUniqueName": "C:\\Users\\bethh\\source\\repos\\Bangazon\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts.csproj",
         "projectName": "WildflowerCoffeeGifts",
-        "projectPath": "C:\\Users\\Ancuta\\source\\repos\\groupE11\\bangazon\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts.csproj",
-        "packagesPath": "C:\\Users\\Ancuta\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ancuta\\source\\repos\\groupE11\\bangazon\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts\\obj\\",
+        "projectPath": "C:\\Users\\bethh\\source\\repos\\Bangazon\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts.csproj",
+        "packagesPath": "C:\\Users\\bethh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\bethh\\source\\repos\\Bangazon\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts\\WildflowerCoffeeGifts\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Ancuta\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\bethh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
         }
       }
     }
