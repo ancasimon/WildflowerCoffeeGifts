@@ -278,8 +278,19 @@ values('Roses', 'www.google.com', 19.99, 'description of bouquet')
 insert into FlowerArrangements(Title, ImageUrl, Price, Description)
 values('Chrysanthumums', 'www.google.com', 19.99, 'description of bouquet')
 
+--insert into FlowerArrangements(Title, ImageUrl, Price, Description)
+--values('Buttercups', 'www.google.com', 19.99, 'description of bouquet'),
+--('Gladiolas', 'www.google.com', 19.99, 'description of bouquet')
+
 select *
 from FlowerArrangements
+
+SELECT TOP (1000) [Id]
+      ,[Title]
+      ,[ImageUrl]
+      ,[Price]
+      ,[Description]
+  FROM [WCG].[dbo].[FlowerArrangements]
 
  --Add Products:
  --Product 1:
