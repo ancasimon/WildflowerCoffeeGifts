@@ -38,9 +38,9 @@ namespace WildflowerCoffeeGifts.Controllers
         [HttpPost]
         public IActionResult CreateTheme(ProductTheme newTheme)
         {
-            _themeRepo.AddTheme(newTheme);
+            var brandNewTheme = _themeRepo.AddTheme(newTheme);
 
-            return Created($"/api/themes/{newTheme.Id}", newTheme);
+            return Created($"/api/themes/{newTheme.Id}", brandNewTheme);
         }
 
         [HttpPut("{id}")]

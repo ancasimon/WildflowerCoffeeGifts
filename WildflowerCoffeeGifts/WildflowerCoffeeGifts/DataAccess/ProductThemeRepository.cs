@@ -39,7 +39,7 @@ namespace WildflowerCoffeeGifts.DataAccess
             return selectedTheme;
         }
 
-        public void AddTheme(ProductTheme themeToAdd)
+        public ProductTheme AddTheme(ProductTheme themeToAdd)
         {
             var sql = @"INSERT INTO [dbo].[ProductThemes]
                                     ([Theme],
@@ -51,6 +51,16 @@ namespace WildflowerCoffeeGifts.DataAccess
             using var db = new SqlConnection(_connectionString);
 
             var newId = db.ExecuteScalar<int>(sql, themeToAdd);
+
+            var queryGetTheme = @"select *
+                                from ProductThemes
+                                Where Id = @id";
+
+            var parameters = new { id = newId };
+
+            var newTheme = db.QueryFirstOrDefault<ProductTheme>(queryGetTheme, parameters);
+
+            return newTheme;
         }
 
         public ProductTheme Update(int id, ProductTheme theme)
