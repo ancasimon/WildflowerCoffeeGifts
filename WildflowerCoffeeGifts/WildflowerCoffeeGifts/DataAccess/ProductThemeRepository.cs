@@ -23,5 +23,20 @@ namespace WildflowerCoffeeGifts.DataAccess
 
             return allThemes;
         }
+
+        public ProductTheme GetThemeById(int id)
+        {
+            using var db = new SqlConnection(_connectionString);
+
+            var query = @"select *
+                            from ProductThemes
+                            where Id = @id";
+
+            var parameters = new { id = id };
+
+            var selectedTheme = db.QueryFirstOrDefault<ProductTheme>(query, parameters);
+
+            return selectedTheme;
+        }
     }
 }

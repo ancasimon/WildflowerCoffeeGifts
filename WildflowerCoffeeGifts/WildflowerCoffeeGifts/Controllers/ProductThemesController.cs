@@ -26,5 +26,13 @@ namespace WildflowerCoffeeGifts.Controllers
 
             return Ok(allThemes);
         }
+
+        [HttpGet("{id}")]
+        public IActionResult GetThemeById(int id)
+        {
+            var selectedTheme = _themeRepo.GetThemeById(id);
+            if (selectedTheme == null) return NotFound("We did not find a theme with that ID. Please try again.");
+            return Ok(selectedTheme);
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace WildflowerCoffeeGifts.Models
     {
         public int Id { get; set; }
         public string Theme { get; set; }
+        public bool IsActive { get; set; }
     }
 }
