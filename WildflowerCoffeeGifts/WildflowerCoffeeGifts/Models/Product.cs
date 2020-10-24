@@ -13,6 +13,7 @@ namespace WildflowerCoffeeGifts.Models
         public int ProductThemeId { get; set; }
         public int Price { get; set; }
         public string Description { get; set; }
+        public bool IsActive { get; set; } = true;
 
         // if reach stretch goal use these
         // public int CoffeeMugId { get; set; }
