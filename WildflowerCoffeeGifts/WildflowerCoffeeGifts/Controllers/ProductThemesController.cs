@@ -31,7 +31,7 @@ namespace WildflowerCoffeeGifts.Controllers
         public IActionResult GetThemeById(int id)
         {
             var selectedTheme = _themeRepo.GetThemeById(id);
-            if (selectedTheme == null) return NotFound("We did not find a theme with that ID. Please try again.");
+            if (selectedTheme == null) return NotFound("We did not find a product theme with that ID. Please try again.");
             return Ok(selectedTheme);
         }
 
@@ -47,6 +47,11 @@ namespace WildflowerCoffeeGifts.Controllers
         public IActionResult UpdateTheme(int id, ProductTheme theme)
         {
             var updatedTheme = _themeRepo.Update(id, theme);
+
+            if(_themeRepo.GetThemeById(id) == null)
+            {
+                return NotFound("We could not delete this record because we did not find a product theme with that ID. Please try again.");
+            }
 
             return Ok(updatedTheme);
         }
