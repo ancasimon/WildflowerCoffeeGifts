@@ -34,5 +34,13 @@ namespace WildflowerCoffeeGifts.Controllers
             if (selectedTheme == null) return NotFound("We did not find a theme with that ID. Please try again.");
             return Ok(selectedTheme);
         }
+
+        [HttpPost]
+        public IActionResult CreateTheme(ProductTheme newTheme)
+        {
+            _themeRepo.AddTheme(newTheme);
+
+            return Created($"/api/themes/{newTheme.Id}", newTheme);
+        }
     }
 }

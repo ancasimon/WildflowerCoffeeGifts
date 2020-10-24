@@ -38,5 +38,19 @@ namespace WildflowerCoffeeGifts.DataAccess
 
             return selectedTheme;
         }
+
+        public void AddTheme(ProductTheme themeToAdd)
+        {
+            var sql = @"INSERT INTO [dbo].[ProductThemes]
+                                    ([Theme],
+                                     [IsActive])
+                                Output inserted.Id
+                                VALUES
+                                    (@theme, @isActive)";
+            
+            using var db = new SqlConnection(_connectionString);
+
+            var newId = db.ExecuteScalar<int>(sql, themeToAdd);
+        }
     }
 }
