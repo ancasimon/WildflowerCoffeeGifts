@@ -42,5 +42,13 @@ namespace WildflowerCoffeeGifts.Controllers
 
             return Created($"/api/themes/{newTheme.Id}", newTheme);
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateTheme(int id, ProductTheme theme)
+        {
+            var updatedTheme = _themeRepo.Update(id, theme);
+
+            return Ok(updatedTheme);
+        }
     }
 }
