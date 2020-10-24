@@ -38,5 +38,50 @@ namespace WildflowerCoffeeGifts.DataAccess
 
             return selectedTheme;
         }
+
+        public ProductTheme AddTheme(ProductTheme themeToAdd)
+        {
+            var sql = @"INSERT INTO [dbo].[ProductThemes]
+                                    ([Theme],
+                                     [IsActive])
+                                Output inserted.Id
+                                VALUES
+                                    (@theme, @isActive)";
+            
+            using var db = new SqlConnection(_connectionString);
+
+            var newId = db.ExecuteScalar<int>(sql, themeToAdd);
+
+            var queryGetTheme = @"select *
+                                from ProductThemes
+                                Where Id = @id";
+
+            var parameters = new { id = newId };
+
+            var newTheme = db.QueryFirstOrDefault<ProductTheme>(queryGetTheme, parameters);
+
+            return newTheme;
+        }
+
+        public ProductTheme Update(int id, ProductTheme theme)
+        {
+            var sql = @"UPDATE [dbo].[ProductThemes]
+                            SET [Theme] = @theme,
+                                [IsActive] = @isActive
+                            OUTPUT INSERTED.*
+                            WHERE Id = @id";
+            using var db = new SqlConnection(_connectionString);
+
+            var parameters = new
+            {
+                theme.Theme,
+                theme.IsActive,
+                id //shortcut for id = id since both the parameter and the property are called id
+            };
+
+            var updatedTheme = db.QueryFirstOrDefault<ProductTheme>(sql, parameters);
+
+            return updatedTheme;
+        }
     }
 }
