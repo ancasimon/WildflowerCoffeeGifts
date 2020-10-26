@@ -27,6 +27,16 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(allThemes);
         }
 
+        // Get themes by status (to see only active/not deleted records or only inactive/deleted themes):
+        [HttpGet("bystatus/{isActive}")]
+        public IActionResult GetThemesByStatus(bool isActive)
+        {
+            var themesByStatus = _themeRepo.GetThemesByStatus(isActive);
+
+            return Ok(themesByStatus);
+        }
+
+
         [HttpGet("{id}")]
         public IActionResult GetThemeById(int id)
         {

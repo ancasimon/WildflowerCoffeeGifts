@@ -24,6 +24,31 @@ namespace WildflowerCoffeeGifts.DataAccess
             return allThemes;
         }
 
+        // Get themes by status so you can see active themes only (not deleted, wheree IsActive property is false/0) or deleted / aka inactive themes (where IsActive is true or 1):
+        public IEnumerable<ProductTheme> GetThemesByStatus(bool isActive)
+        {
+            using var db = new SqlConnection(_connectionString);
+
+            var sql = "select * from ProductThemes where IsActive = @isActive";
+
+            var parameters = new { isActive = isActive };
+
+            var themesByStatus = db.Query<ProductTheme>(sql, parameters);
+
+            return themesByStatus;
+        }
+
+        // Get inactive / "deleted" themes only: 
+        //public IEnumerable<ProductTheme> GetAllDeletedThemes()
+        //{
+        //    using var db = new SqlConnection(_connectionString);
+        //    var sql = "select * from ProductThemes where IsActive = 0";
+
+        //    var deletedThemes = db.Query<ProductTheme>(sql);
+
+        //    return deletedThemes;
+        //}
+
         public ProductTheme GetThemeById(int id)
         {
             using var db = new SqlConnection(_connectionString);
