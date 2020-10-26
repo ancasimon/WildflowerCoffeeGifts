@@ -9,7 +9,7 @@ using WildflowerCoffeeGifts.Models;
 
 namespace WildflowerCoffeeGifts.Controllers
 {
-    [Route("api/paymentType")]
+    [Route("api/paymentTypes")]
     [ApiController]
     public class PaymentTypeController : ControllerBase
     {
@@ -23,9 +23,8 @@ namespace WildflowerCoffeeGifts.Controllers
         public IActionResult GetAllPaymentTypes()
         {
             var allPaymentTypes = _paymentTypeRepo.GetAllPaymentTypes();
+
             return Ok(allPaymentTypes);
-
         }
-
     }
 }
