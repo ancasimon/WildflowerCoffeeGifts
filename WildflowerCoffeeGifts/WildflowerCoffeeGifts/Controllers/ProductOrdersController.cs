@@ -28,6 +28,8 @@ namespace WildflowerCoffeeGifts.Controllers
         [HttpGet("{orderId}")]
         public IActionResult GetItemsInSingleOrder(int orderId)
         {
+            // if (_orderRepo.GetOrderById(id) == null) return NotFound("We could not find this order. Please enter a valid order ID."); ANCA QUESTION: How can I reference the other repo here???
+
             var allItemsInSingleOrder = _productOrderRepo.GetProductOrdersByOrderId(orderId);
 
             return Ok(allItemsInSingleOrder);

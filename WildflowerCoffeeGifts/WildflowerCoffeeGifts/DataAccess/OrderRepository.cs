@@ -25,18 +25,18 @@ namespace WildflowerCoffeeGifts.DataAccess
         }
 
         // Get single order with just order table details:
-        //public Order GetOrderById(int id)
-        //{
-        //    using var db = new SqlConnection(_connectionString);
+        public Order GetOrderById(int id)
+        {
+            using var db = new SqlConnection(_connectionString);
 
-        //    var sqlQuery = @"select * from Orders where Id = @id";
+            var sqlQuery = @"select * from Orders where Id = @id";
 
-        //    var parameters = new { id }; //simplified display of id = id!
+            var parameters = new { id }; //simplified display of id = id!
 
-        //    var selectedOrder = db.QueryFirstOrDefault<Order>(sqlQuery, parameters);
+            var selectedOrder = db.QueryFirstOrDefault<Order>(sqlQuery, parameters);
 
-        //    return selectedOrder;
-        //}
+            return selectedOrder;
+        }
 
         // Get single order with related ProductOrder records too!
         public Order GetOrderByIdWithLineItems(int id)
