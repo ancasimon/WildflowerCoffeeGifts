@@ -23,5 +23,18 @@ namespace WildflowerCoffeeGifts.DataAccess
 
             return allOrders;
         }
+
+        public Order GetOrderById(int id)
+        {
+            using var db = new SqlConnection(_connectionString);
+
+            var sqlQuery = @"select * from Orders where Id = @id";
+
+            var parameters = new { id }; //simplified display of id = id!
+
+            var selectedOrder = db.QueryFirstOrDefault<Order>(sqlQuery, parameters);
+
+            return selectedOrder;
+        }
     }
 }
