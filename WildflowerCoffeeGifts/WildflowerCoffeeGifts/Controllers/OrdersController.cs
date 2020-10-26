@@ -30,11 +30,13 @@ namespace WildflowerCoffeeGifts.Controllers
         [HttpGet("{id}")]
         public IActionResult GetOrderById(int id)
         {
-            var selectedOrder = _orderRepo.GetOrderById(id);
+            var selectedOrder = _orderRepo.GetOrderByIdWithLineItems(id);
 
             if (selectedOrder == null) return NotFound("We could not find this order. Please enter a valid order ID.");
 
             return Ok(selectedOrder);
         }
+
+
     }
 }

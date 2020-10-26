@@ -15,6 +15,7 @@ namespace WildflowerCoffeeGifts.Models
         public DateTime PurchaseDate { get; set; }
         public string DeliveryAddress { get; set; }
         public bool IsActive { get; set; } = true;
+        public List<ProductOrder> LineItems { get; set; } = new List<ProductOrder>();
 
     }
 }
