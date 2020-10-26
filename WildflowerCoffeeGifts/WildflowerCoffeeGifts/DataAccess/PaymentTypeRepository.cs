@@ -18,7 +18,7 @@ namespace WildflowerCoffeeGifts.DataAccess
         public IEnumerable<PaymentType> GetAllPaymentTypes()
         {
             using var db = new SqlConnection(_connectionString);
-            var sql = "select PaymentType from PaymentTypes";
+            var sql = "select * from PaymentTypes";
 
             var allPaymentTypes = db.Query<PaymentType>(sql);
 

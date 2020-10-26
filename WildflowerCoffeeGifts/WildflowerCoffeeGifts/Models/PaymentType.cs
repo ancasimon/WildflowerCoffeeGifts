@@ -11,7 +11,7 @@ namespace WildflowerCoffeeGifts.Models
         // changed to PaymentOption due to class being called PaymentType
         public string PaymentOption { get; set; }
         public int UserId { get; set; }
-        public int AccountNo { get; set; }
+        public long AccountNo { get; set; }
         public int ExpirationMonth { get; set; }
         public int ExpirationYear { get; set; }
         public bool IsActive { get; set; } = true;
