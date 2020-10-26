@@ -25,6 +25,19 @@ namespace WildflowerCoffeeGifts.DataAccess
             return allPaymentTypes;
         }
 
+        public PaymentType GetSinglePaymentTypeById(int id)
+        {
+            using var db = new SqlConnection(_connectionString);
+            var sql = @"select * 
+                        from PaymentTypes
+                        where Id = @id";
+
+            var parameters = new { id = id };
+
+            var singlePaymentType = db.QueryFirstOrDefault<PaymentType>(sql, parameters);
+
+            return singlePaymentType;
+        }
 
     }
 }

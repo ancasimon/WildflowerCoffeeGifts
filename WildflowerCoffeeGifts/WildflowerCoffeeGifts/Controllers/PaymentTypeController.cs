@@ -26,5 +26,14 @@ namespace WildflowerCoffeeGifts.Controllers
 
             return Ok(allPaymentTypes);
         }
+
+        [HttpGet("{id}")]
+        public IActionResult GetSinglePaymentTypeById(int id)
+        {
+            var singlePayment = _paymentTypeRepo.GetSinglePaymentTypeById(id);
+            if (singlePayment == null) return NotFound("Nothing was found with this id! Try again.");
+
+            return Ok(singlePayment);
+        }
     }
 }
