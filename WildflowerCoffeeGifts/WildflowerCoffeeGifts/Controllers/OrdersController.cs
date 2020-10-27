@@ -27,6 +27,13 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(allOrders);
         }
 
+        [HttpGet("bystatus/{isActive}")]
+        public IActionResult GetOrdersByStatus(bool isActive)
+        {
+            var ordersByStatus = _orderRepo.GetOrdersByStatus(isActive);
+            return Ok(ordersByStatus);
+        }
+
         [HttpGet("{id}")]
         public IActionResult GetOrderById(int id)
         {
@@ -37,6 +44,26 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(selectedOrder);
         }
 
+        [HttpPost]
+        public IActionResult CreateOrder(Order newOrder)
+        {
+            var brandNewOrder = _orderRepo.AddOrder(newOrder);
+
+            return Created($"/api/orders/{brandNewOrder.Id}", brandNewOrder);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateOrder(int id, Order order)
+        {
+            var updatedOrder = _orderRepo.Update(id, order);
+
+            if(_orderRepo.GetOrderById(id) == null)
+            {
+                return NotFound("We could not find an order with this ID. Please try again.");
+            }
+
+            return Ok(updatedOrder);
+        }
 
     }
 }
