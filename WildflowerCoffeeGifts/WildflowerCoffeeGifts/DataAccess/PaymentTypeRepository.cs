@@ -39,5 +39,67 @@ namespace WildflowerCoffeeGifts.DataAccess
             return singlePaymentType;
         }
 
+        public PaymentType AddNewPayment(PaymentType newPayment)
+        {
+            var sql = @"INSERT INTO [dbo].[PaymentTypes]
+                        ([PaymentOption],
+                         [UserId],
+                         [AccountNo],
+                         [ExpirationYear],
+                         [ExpirationMonth],
+                         [IsActive])
+                         Output inserted.Id
+                        VALUES 
+                         (@paymentOption,
+                          @userId,
+                          @accountNo,
+                          @expirationYear,
+                          @expirationMonth,
+                          @isActive)";
+
+            using var db = new SqlConnection(_connectionString);
+
+            var newPaymentTypeId = db.ExecuteScalar<int>(sql, newPayment);
+
+            var getPaymentType = @"select *
+                                   from PaymentTypes
+                                   where Id = @id";
+
+            var parameters = new { id = newPaymentTypeId };
+
+            var addNewPayment = db.QueryFirstOrDefault<PaymentType>(getPaymentType, parameters);
+
+            return addNewPayment;
+        }
+
+        public PaymentType UpdatePaymentType(int id, PaymentType updatedInfo)
+        {
+            var sql = @"UPDATE [dbo].[PaymentTypes]
+                          SET [PaymentOption] = @paymentOption,
+                          [UserId] = @userId,
+                          [AccountNo] = @accountNo,
+                          [ExpirationYear] = @expirationYear,
+                          [ExpirationMonth] = @expirationMonth,
+                          [IsActive] = @isActive
+                          OUTPUT INSERTED.*
+                            WHERE Id = @id";
+            using var db = new SqlConnection(_connectionString);
+
+            var parameters = new
+            {
+                updatedInfo.PaymentOption,
+                updatedInfo.UserId,
+                updatedInfo.AccountNo,
+                updatedInfo.ExpirationYear,
+                updatedInfo.ExpirationMonth,
+                updatedInfo.IsActive,
+                id
+            };
+
+            var updatedPaymentType = db.QueryFirstOrDefault<PaymentType>(sql, parameters);
+
+            return updatedPaymentType;
+        }
+
     }
 }
