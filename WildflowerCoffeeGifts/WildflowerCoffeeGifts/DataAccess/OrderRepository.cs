@@ -47,7 +47,9 @@ namespace WildflowerCoffeeGifts.DataAccess
                 ordersList.Add(selectedOrder);
             }
 
-            return ordersList.AsEnumerable();
+            var finalList = ordersList.AsEnumerable();
+
+            return finalList;
         }
 
         // Get single order with just order table details:
