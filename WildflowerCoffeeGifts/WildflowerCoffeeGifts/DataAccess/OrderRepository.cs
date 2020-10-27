@@ -21,7 +21,33 @@ namespace WildflowerCoffeeGifts.DataAccess
 
             var allOrders = db.Query<Order>(sql);
 
-            return allOrders;
+            var ordersList = allOrders.ToList();
+
+            foreach (var item in allOrders)
+            {
+                // get order id:
+                var orderId = item.Id;
+
+                // get all the line items for this order:
+                var queryForLineItems = @"select *
+                                      from ProductOrders po
+                                      where po.OrderId = @id";
+                var parameters = new { id = orderId };
+                var orderLineItems = db.Query<ProductOrder>(queryForLineItems, parameters);
+
+                // get the details of the order id passed in as a parameter:
+                var queryForOrder = @"select *
+                                  from Orders o
+                                  where o.Id = @id";
+                var selectedOrder = db.QueryFirstOrDefault<Order>(queryForOrder, parameters);
+
+                // assign the ProductOrder records returned by the first query above to the LineItems List property on the order object:
+                selectedOrder.LineItems = (List<ProductOrder>)orderLineItems;
+                //push to a new variable!! and return that variable!
+                ordersList.Add(selectedOrder);
+            }
+
+            return ordersList.AsEnumerable();
         }
 
         // Get single order with just order table details:
