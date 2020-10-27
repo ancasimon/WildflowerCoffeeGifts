@@ -46,7 +46,7 @@ namespace WildflowerCoffeeGifts.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateTheme(int id, PaymentType paymentUpdate)
+        public IActionResult UpdatePaymentType(int id, PaymentType paymentUpdate)
         {
             var updatePaymentType = _paymentTypeRepo.UpdatePaymentType(id, paymentUpdate);
 
