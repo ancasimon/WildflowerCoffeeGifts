@@ -36,5 +36,13 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(singleProduct);
 
         }
+
+        [HttpPost]
+        public IActionResult AddNewProduct(Product newItem)
+        {
+            var createNewProduct = _productsRepo.NewProduct(newItem);
+
+            return Created($"/api/products/{newItem.Id}", createNewProduct);
+        }
     }
 }
