@@ -45,6 +45,19 @@ namespace WildflowerCoffeeGifts.Controllers
 
         }
 
+        [HttpPut("{id}")]
+        public IActionResult UpdateTheme(int id, PaymentType paymentUpdate)
+        {
+            var updatePaymentType = _paymentTypeRepo.UpdatePaymentType(id, paymentUpdate);
+
+            if (_paymentTypeRepo.GetSinglePaymentTypeById(id) == null)
+            {
+                return NotFound("We don't have a record of anything with this id! Try a different one!");
+            }
+
+            return Ok(updatePaymentType);
+        }
+
 
     }
 }

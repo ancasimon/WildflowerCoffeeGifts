@@ -72,5 +72,34 @@ namespace WildflowerCoffeeGifts.DataAccess
             return addNewPayment;
         }
 
+        public PaymentType UpdatePaymentType(int id, PaymentType updatedInfo)
+        {
+            var sql = @"UPDATE [dbo].[PaymentTypes]
+                          SET [PaymentOption] = @paymentOption,
+                          [UserId] = @userId,
+                          [AccountNo] = @accountNo,
+                          [ExpirationYear] = @expirationYear,
+                          [ExpirationMonth] = @expirationMonth,
+                          [IsActive] = @isActive
+                          OUTPUT INSERTED.*
+                            WHERE Id = @id";
+            using var db = new SqlConnection(_connectionString);
+
+            var parameters = new
+            {
+                updatedInfo.PaymentOption,
+                updatedInfo.UserId,
+                updatedInfo.AccountNo,
+                updatedInfo.ExpirationYear,
+                updatedInfo.ExpirationMonth,
+                updatedInfo.IsActive,
+                id
+            };
+
+            var updatedPaymentType = db.QueryFirstOrDefault<PaymentType>(sql, parameters);
+
+            return updatedPaymentType;
+        }
+
     }
 }
