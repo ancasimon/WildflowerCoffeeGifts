@@ -2,10 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using WildflowerCoffeeGifts.DataAccess;
+using WildflowerCoffeeGifts.Models;
 
 namespace WildflowerCoffeeGifts.Controllers
 {
-    public class ProductsController
+    [Route("api/products")]
+    [ApiController]
+    public class ProductsController : ControllerBase
     {
+        ProductsRepository _productsRepo;
+        public ProductsController()
+        {
+            _productsRepo = new ProductsRepository();
+        }
+
+        [HttpGet]
+        public IActionResult GetAllProducts()
+        {
+            var allProducts = _productsRepo.GetProducts();
+
+            return Ok(allProducts);
+        }
     }
 }
