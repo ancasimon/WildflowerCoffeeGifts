@@ -26,5 +26,15 @@ namespace WildflowerCoffeeGifts.Controllers
 
             return Ok(allProducts);
         }
+
+        [HttpGet("{id}")]
+        public IActionResult ViewSingleProduct(int id)
+        {
+            var singleProduct = _productsRepo.ViewProductById(id);
+            if (singleProduct == null) return NotFound("Nothing was found with this id! Try again.");
+
+            return Ok(singleProduct);
+
+        }
     }
 }

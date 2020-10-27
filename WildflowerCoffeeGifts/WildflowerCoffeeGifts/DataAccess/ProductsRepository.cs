@@ -24,5 +24,19 @@ namespace WildflowerCoffeeGifts.DataAccess
             return allProducts;
         }
 
+        public Product ViewProductById(int id)
+        {
+            using var db = new SqlConnection(_connectionString);
+            var sql = @"select * 
+                        from Products
+                        where Id = @id";
+
+            var parameters = new { id = id };
+
+            var singleProduct = db.QueryFirstOrDefault<Product>(sql, parameters);
+
+            return singleProduct;
+        }
+
     }
 }
