@@ -21,7 +21,8 @@ namespace WildflowerCoffeeGifts.DataAccess
 
             var allOrders = db.Query<Order>(sql);
 
-            var ordersList = allOrders.ToList();
+            List<Order> ordersList = new List<Order>();
+            ordersList = allOrders.ToList();
 
             foreach (var item in allOrders)
             {
