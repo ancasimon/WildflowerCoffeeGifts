@@ -44,5 +44,13 @@ namespace WildflowerCoffeeGifts.Controllers
 
             return Created($"/api/products/{newItem.Id}", createNewProduct);
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateProduct(int id, Product updatedItem)
+        {
+            var updateProduct = _productsRepo.UpdateProduct(id, updatedItem);
+            
+        }
+
     }
 }
