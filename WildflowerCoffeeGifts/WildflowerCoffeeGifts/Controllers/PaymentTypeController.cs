@@ -35,5 +35,16 @@ namespace WildflowerCoffeeGifts.Controllers
 
             return Ok(singlePayment);
         }
+
+        [HttpPost]
+        public IActionResult AddNewPayment(PaymentType newPayment)
+        {
+            var createPaymentType = _paymentTypeRepo.AddNewPayment(newPayment);
+
+            return Created($"/api/paymentTypes/{newPayment.Id}", createPaymentType);
+
+        }
+
+
     }
 }
