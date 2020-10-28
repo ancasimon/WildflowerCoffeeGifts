@@ -36,6 +36,14 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(singlePayment);
         }
 
+        [HttpGet("bystatus/{isActive}")]
+        public IActionResult GetPaymentTypesByStatus(bool isActive)
+        {
+            var allPaymentTypes = _paymentTypeRepo.GetPaymentTypesByStatus(isActive);
+
+            return Ok(allPaymentTypes);
+        }
+
         [HttpPost]
         public IActionResult AddNewPayment(PaymentType newPayment)
         {
