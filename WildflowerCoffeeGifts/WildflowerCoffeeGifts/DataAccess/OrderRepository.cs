@@ -36,21 +36,12 @@ namespace WildflowerCoffeeGifts.DataAccess
                 var parameters = new { id = orderId };
                 var orderLineItems = db.Query<ProductOrder>(queryForLineItems, parameters);
 
-                // get the details of the order id passed in as a parameter:
-                var queryForOrder = @"select *
-                                  from Orders o
-                                  where o.Id = @id";
-                var selectedOrder = db.QueryFirstOrDefault<Order>(queryForOrder, parameters);
+                List<ProductOrder> orderLineItemsList = orderLineItems.ToList();
 
-                // assign the ProductOrder records returned by the first query above to the LineItems List property on the order object:
-                selectedOrder.LineItems = (List<ProductOrder>)orderLineItems;
-                //push to a new variable!! and return that variable!
-                ordersList.Add(selectedOrder);
+                // assign the ProductOrder records returned by the query above to the LineItems List property on the order object:
+                item.LineItems.AddRange(orderLineItemsList);
             }
-
-            var finalList = ordersList.AsEnumerable();
-
-            return finalList;
+            return allOrders;
         }
 
         // Get orders by status -> so that we can get only active / not deleted orders and all inactive / deleted orders:
