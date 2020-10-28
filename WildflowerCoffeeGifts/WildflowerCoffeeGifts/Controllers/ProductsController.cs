@@ -34,7 +34,14 @@ namespace WildflowerCoffeeGifts.Controllers
             if (singleProduct == null) return NotFound("Nothing was found with this id! Try again.");
 
             return Ok(singleProduct);
+        }
 
+        [HttpGet("bystatus/{isActive}")]
+        public IActionResult GetProductsByStatus(bool isActive)
+        {
+            var productStatus = _productsRepo.GetProductsByStatus(isActive);
+
+            return Ok(productStatus);
         }
 
         [HttpPost]

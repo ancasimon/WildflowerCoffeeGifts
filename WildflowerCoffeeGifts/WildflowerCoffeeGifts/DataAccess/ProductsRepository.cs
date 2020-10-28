@@ -38,6 +38,20 @@ namespace WildflowerCoffeeGifts.DataAccess
             return singleProduct;
         }
 
+        public IEnumerable<Product> GetProductsByStatus(bool isActive)
+        {
+            using var db = new SqlConnection(_connectionString);
+
+            var sql = @"select * from Products 
+                        where isActive = @isActive";
+
+            var parameters = new { IsActive = isActive };
+
+            var productStatus = db.Query<Product>(sql, parameters);
+
+            return productStatus;
+        }
+
         public Product NewProduct(Product newProduct)
         {
             var sql = @"INSERT INTO [dbo].[Products]
