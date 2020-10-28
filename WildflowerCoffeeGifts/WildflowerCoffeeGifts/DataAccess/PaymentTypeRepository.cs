@@ -39,6 +39,19 @@ namespace WildflowerCoffeeGifts.DataAccess
             return singlePaymentType;
         }
 
+        public IEnumerable<PaymentType> GetPaymentTypesByStatus(bool isActive)
+        {
+            using var db = new SqlConnection(_connectionString);
+            var sql = @"select * from PaymentTypes
+                        where isActive = @isActive";
+
+            var parameters = new { IsActive = isActive };
+
+            var allPaymentTypesByStatus = db.Query<PaymentType>(sql, parameters);
+
+            return allPaymentTypesByStatus;
+        }
+
         public PaymentType AddNewPayment(PaymentType newPayment)
         {
             var sql = @"INSERT INTO [dbo].[PaymentTypes]
