@@ -41,6 +41,9 @@ namespace WildflowerCoffeeGifts
             app.UseRouting();
 
             app.UseAuthorization();
+            //Added to connect it to our React app for frontend:
+
+            app.UseCors(policyName => policyName.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
             app.UseEndpoints(endpoints =>
             {
