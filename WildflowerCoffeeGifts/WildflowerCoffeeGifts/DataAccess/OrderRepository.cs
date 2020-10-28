@@ -35,6 +35,7 @@ namespace WildflowerCoffeeGifts.DataAccess
                                       where po.OrderId = @id";
                 var parameters = new { id = orderId };
                 var orderLineItems = db.Query<ProductOrder>(queryForLineItems, parameters);
+
                 List<ProductOrder> orderLineItemsList = orderLineItems.ToList();
 
                 // assign the ProductOrder records returned by the query above to the LineItems List property on the order object:
