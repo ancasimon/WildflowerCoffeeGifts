@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WildflowerCoffeeGifts.DataAccess;
+using WildflowerCoffeeGifts.Models;
 
 namespace WildflowerCoffeeGifts.Controllers
 {
@@ -33,5 +34,21 @@ namespace WildflowerCoffeeGifts.Controllers
             if (selectedUser == null) return NotFound("We did not find a user with that ID. Please try again.");
             return Ok(selectedUser);
         }
+
+        [HttpPost]
+        public IActionResult CreateUser(User user) 
+        {
+            _userRepo.Add(user);
+            return Created($"/api/users/{user.Id}", user);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateUser(int id, User user)
+        {
+            var updatedUser = _userRepo.Update(id, user);
+
+            return Ok(updatedUser);
+        }
+
     }
 }
