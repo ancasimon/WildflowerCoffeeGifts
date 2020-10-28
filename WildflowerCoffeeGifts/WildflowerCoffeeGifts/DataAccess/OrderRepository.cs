@@ -40,15 +40,8 @@ namespace WildflowerCoffeeGifts.DataAccess
 
                 // assign the ProductOrder records returned by the query above to the LineItems List property on the order object:
                 item.LineItems.AddRange(orderLineItemsList);
-
-                // push the item into the ordersList! 
-                ordersList.Add(item);
-
             }
-
-            var finalList = ordersList.AsEnumerable();
-
-            return finalList;
+            return allOrders;
         }
 
         // Get orders by status -> so that we can get only active / not deleted orders and all inactive / deleted orders:
