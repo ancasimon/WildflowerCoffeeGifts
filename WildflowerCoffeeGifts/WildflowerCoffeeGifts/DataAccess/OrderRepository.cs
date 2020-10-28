@@ -35,17 +35,14 @@ namespace WildflowerCoffeeGifts.DataAccess
                                       where po.OrderId = @id";
                 var parameters = new { id = orderId };
                 var orderLineItems = db.Query<ProductOrder>(queryForLineItems, parameters);
+                List<ProductOrder> orderLineItemsList = orderLineItems.ToList();
 
-                // get the details of the order id passed in as a parameter:
-                var queryForOrder = @"select *
-                                  from Orders o
-                                  where o.Id = @id";
-                var selectedOrder = db.QueryFirstOrDefault<Order>(queryForOrder, parameters);
+                // assign the ProductOrder records returned by the query above to the LineItems List property on the order object:
+                item.LineItems.AddRange(orderLineItemsList);
 
-                // assign the ProductOrder records returned by the first query above to the LineItems List property on the order object:
-                selectedOrder.LineItems = (List<ProductOrder>)orderLineItems;
-                //push to a new variable!! and return that variable!
-                ordersList.Add(selectedOrder);
+                // push the item into the ordersList! 
+                ordersList.Add(item);
+
             }
 
             var finalList = ordersList.AsEnumerable();
