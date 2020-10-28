@@ -46,10 +46,16 @@ namespace WildflowerCoffeeGifts.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateProduct(int id, Product updatedItem)
+        public IActionResult UpdateProduct(int id, Product updatedProduct)
         {
-            var updateProduct = _productsRepo.UpdateProduct(id, updatedItem);
-            
+            var updateProduct = _productsRepo.UpdateProductById(id, updatedProduct);
+
+            if (_productsRepo.ViewProductById(id) == null)
+            {
+                return NotFound("We don't have a record of anything with this id! Try a different one!");
+            }
+
+            return Ok(updateProduct);
         }
 
     }

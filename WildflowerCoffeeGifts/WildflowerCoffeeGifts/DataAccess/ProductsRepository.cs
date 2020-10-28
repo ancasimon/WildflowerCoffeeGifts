@@ -71,5 +71,35 @@ namespace WildflowerCoffeeGifts.DataAccess
             return addNewProduct;
         }
 
+        public Product UpdateProductById(int id, Product updatedProduct)
+        {
+            var sql = @"UPDATE [dbo].[Products]
+                        SET [Title] = @title,
+                        [ImageUrl] = @imageUrl,
+                        [ProductThemeId] = @productThemeId,
+                        [Price] = @price,
+                        [Description] = @description,
+                        [IsActive] = @isActive
+                          OUTPUT INSERTED.*
+                            WHERE Id = @id";
+            using var db = new SqlConnection(_connectionString);
+
+            var parameters = new
+            {
+                updatedProduct.Title,
+                updatedProduct.ImageUrl,
+                updatedProduct.ProductThemeId,
+                updatedProduct.Price,
+                updatedProduct.Description,
+                updatedProduct.IsActive,
+                id
+            };
+
+            var updateProduct = db.QueryFirstOrDefault<Product>(sql, parameters);
+
+            return updateProduct;
+        }
+
+
     }
 }
