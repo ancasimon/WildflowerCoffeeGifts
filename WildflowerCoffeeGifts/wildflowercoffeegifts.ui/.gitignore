@@ -3,6 +3,8 @@
 package-lock.json
 dist/
 .firebase/
+.DS_Store
+build/
 # dependencies
 /node_modules
 /.pnp
