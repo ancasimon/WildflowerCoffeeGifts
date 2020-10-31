@@ -1,12 +1,38 @@
-import React from 'react';
+import React, { Component } from 'react';
+
+import {
+  BrowserRouter,
+  Route,
+  Redirect,
+  Switch,
+} from 'react-router-dom';
+
+import Home from '../components/pages/Home/Home';
+import MyNavbar from '../components/shared/MyNavbar/MyNavbar';
+import Orders from '../components/pages/Orders/Orders';
+import Products from '../components/pages/Products/Products';
+import ShoppingCart from '../components/pages/ShoppingCart/ShoppingCart';
 import './App.scss';
 
 class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <h1>Wildflower Coffee Gifts</h1>
-        <button className="btn btn-info">I am a button</button>
+        <BrowserRouter>
+          <React.Fragment>
+            <MyNavbar />
+            <div className="container">
+              <div className="row">
+                <Switch>
+                  <Route path='/home' component={Home} />
+                  <Route path='/orders' component={Orders} />
+                  <Route path='/products' component={Products} />
+                  <Route path='/cart' component={ShoppingCart} />
+                </Switch>
+              </div>
+            </div>
+          </React.Fragment>
+        </BrowserRouter>
       </div>
     );
   }
