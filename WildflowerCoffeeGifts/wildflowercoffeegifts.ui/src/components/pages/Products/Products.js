@@ -5,7 +5,8 @@ import './Products.scss';
 
 class Products extends React.Component {
   render() {
-    // const selectedProduct = this.props;
+    // ANCA: IMPORTANT NOTE: When the Products page and individual cards are done,
+    // I will make the necessary updates to remove thi splaceholder info and update the links in the product cards!
     const singleProductLink = '/products/2';
     return (
             <div>
