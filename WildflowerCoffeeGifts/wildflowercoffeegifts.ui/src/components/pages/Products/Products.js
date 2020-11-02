@@ -11,9 +11,9 @@ class Products extends React.Component {
             <div>
                 Products Page
 
-                Placeholder: Link to a single product view
-                (this link will eventually go in the single product card layout component):
-                (and it will pass down the product object id in props .... I think)
+                <p>Placeholder: Link to a single product view</p>
+                <p>(this link will eventually go in the single product card layout component):</p>
+                <p>(and it will pass down the product object id in props .... I think)</p>
                 <Link to={singleProductLink}>Link to Single Product View</Link>
             </div>
     );

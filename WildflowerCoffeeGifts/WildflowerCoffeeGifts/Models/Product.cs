@@ -17,5 +17,6 @@ namespace WildflowerCoffeeGifts.Models
         public int CoffeeMugId { get; set; }
         public int flowerArrId { get; set; }
         public bool IsActive { get; set; } = true;
+        public int QuantityAvailable { get; set; }
     }
 }

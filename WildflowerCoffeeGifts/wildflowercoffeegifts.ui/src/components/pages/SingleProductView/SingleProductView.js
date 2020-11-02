@@ -16,6 +16,7 @@ class SingleProductView extends React.Component {
         this.setState({
           selectedProduct: response.data,
         });
+        console.error('response.data', response);
       })
       .catch((error) => console.error('Unable to get the selected product', error));
   }
@@ -31,12 +32,23 @@ class SingleProductView extends React.Component {
     return (
             <div>
                 <h1>{selectedProduct.title}</h1>
+                {
+                selectedProduct.isActive
+                  ? <div>
                 <img src="selectedProduct.imageUrl" alt="flower package photo" />
                 <h3>Price: ${selectedProduct.price}</h3>
+                <h3>Available Quantity: {selectedProduct.quantityAvailable}</h3>
                 <h4>{selectedProduct.description}</h4>
-                <h6>Product Theme: {selectedProduct.productThemeId}</h6>
-                <h6>Coffee Mug: {selectedProduct.coffeeMugId}</h6>
-                <h6>Flower Arrangement: {selectedProduct.flowerArrId}</h6>
+                {/* <h6>Product Theme: {selectedProduct.pt.theme}</h6>
+                <h6>Coffee Mug: {selectedProduct.cm.title}</h6>
+                <h6>Flower Arrangement: {selectedProduct.fa.title}</h6> */}
+                <button>Add to Cart</button>
+                </div>
+                  : <div>
+                  <p>This product is no longer available. Please select a different product. Thank you for your understanding!</p>
+                </div>
+  }
+
             </div>
     );
   }
