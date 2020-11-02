@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import productsData from '../../../helpers/data/productsData';
 
 import './SingleProductView.scss';
@@ -35,20 +36,20 @@ class SingleProductView extends React.Component {
                 {
                 selectedProduct.isActive
                   ? <div>
-                <img src="selectedProduct.imageUrl" alt="flower package photo" />
-                <h3>Price: ${selectedProduct.price}</h3>
-                <h3>Available Quantity: {selectedProduct.quantityAvailable}</h3>
-                <h4>{selectedProduct.description}</h4>
-                {/* <h6>Product Theme: {selectedProduct.pt.theme}</h6>
-                <h6>Coffee Mug: {selectedProduct.cm.title}</h6>
-                <h6>Flower Arrangement: {selectedProduct.fa.title}</h6> */}
-                <button>Add to Cart</button>
-                </div>
+                      <img src="selectedProduct.imageUrl" alt="flower package photo" />
+                      <h3>Price: ${selectedProduct.price}</h3>
+                      <h3>Available Quantity: {selectedProduct.quantityAvailable}</h3>
+                      <h4>{selectedProduct.description}</h4>
+                      {/* <h6>Product Theme: {selectedProduct.pt.theme}</h6>
+                      <h6>Coffee Mug: {selectedProduct.cm.title}</h6>
+                      <h6>Flower Arrangement: {selectedProduct.fa.title}</h6> */}
+                      <button>Add to Cart</button>
+                    </div>
                   : <div>
-                  <p>This product is no longer available. Please select a different product. Thank you for your understanding!</p>
-                </div>
-  }
-
+                      <p>This product is no longer available. Please select a different product. Thank you for your understanding!</p>
+                    </div>
+                }
+               <Link to='/products'>Back to Products</Link>
             </div>
     );
   }
