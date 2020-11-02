@@ -27,6 +27,14 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(allProducts);
         }
 
+        [HttpGet("Top")]
+        public IActionResult GetProductsTopTwenty()
+        {
+            var topProducts = _productsRepo.GetProductsTopTwenty();
+
+            return Ok(topProducts);
+        }
+
         [HttpGet("{id}")]
         public IActionResult ViewSingleProduct(int id)
         {

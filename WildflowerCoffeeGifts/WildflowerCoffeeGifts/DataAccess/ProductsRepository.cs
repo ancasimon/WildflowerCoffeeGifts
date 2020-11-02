@@ -24,6 +24,17 @@ namespace WildflowerCoffeeGifts.DataAccess
             return allProducts;
         }
 
+         public IEnumerable<Product> GetProductsTopTwenty()
+        {
+            using var db = new SqlConnection(_connectionString);
+            var sql = @"select top 20 * 
+                       from Products
+                       order by DateCreated desc";
+
+            var topProducts = db.Query<Product>(sql);
+
+            return topProducts;
+        }
         public Product ViewProductById(int id)
         {
             using var db = new SqlConnection(_connectionString);
