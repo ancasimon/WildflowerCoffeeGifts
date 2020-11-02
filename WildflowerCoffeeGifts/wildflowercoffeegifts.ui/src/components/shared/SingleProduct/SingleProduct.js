@@ -7,10 +7,12 @@ class SingleProduct extends React.Component {
     return (
       <div>
         <ul>
-          <li>product.id </li>
-          <li>product.title </li>
-          <li>product.description </li>
-          <li>product.datecreated </li>
+          <li>{product.id} </li>
+          <li>{product.title} </li>
+          <li>{product.description} </li>
+          <li>Price: ${product.price} </li>
+          <li>{product.datecreated} </li>
+          <li>QTY:{product.quantityavailable} </li>
         </ul>
 
       </div>

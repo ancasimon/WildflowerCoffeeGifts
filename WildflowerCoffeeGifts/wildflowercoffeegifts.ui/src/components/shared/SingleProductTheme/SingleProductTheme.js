@@ -4,8 +4,10 @@ class SingleProductTheme extends React.Component {
   render() {
     const { theme } = this.props;
     return (
-      <div>
-        {theme.theme}
+      <div className='SingleProductTheme'>
+        <li className= "list-group-item m-3 d-flex">
+           <h2 className="theme-name">{theme.theme}</h2>
+        </li>
       </div>
     );
   }
