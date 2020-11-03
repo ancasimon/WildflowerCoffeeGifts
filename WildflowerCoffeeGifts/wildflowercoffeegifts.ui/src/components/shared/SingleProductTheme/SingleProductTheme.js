@@ -1,4 +1,5 @@
 import React from 'react';
+import './SingleProductTheme.scss';
 
 class SingleProductTheme extends React.Component {
   render() {
@@ -6,7 +7,7 @@ class SingleProductTheme extends React.Component {
     return (
       <div className='SingleProductTheme'>
         <li className= "list-group-item m-3 d-flex">
-           <h2 className="theme-name">{theme.theme}</h2>
+           <h2 className="theme-name">{theme.theme} ({theme.count})</h2>
         </li>
       </div>
     );

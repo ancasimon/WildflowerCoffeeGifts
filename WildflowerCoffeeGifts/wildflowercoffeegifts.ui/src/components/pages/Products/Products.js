@@ -16,7 +16,7 @@ class Products extends React.Component {
     const { products } = this.state;
     const buildProducts = products.map((product) => (<SingleProduct key={product.id} product={product}/>));
     return (
-            <div className= "Products d-flex flex-wrap">
+      <div className="d-flex flex-wrap">
              {buildProducts}
             </div>
     );

@@ -7,4 +7,10 @@ const getAllProducts = () => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-export default { getAllProducts };
+const getThreeProducts = () => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/products/TopThree`)
+    .then((response) => resolve(response.data))
+    .catch((error) => reject(error));
+});
+
+export default { getAllProducts, getThreeProducts };

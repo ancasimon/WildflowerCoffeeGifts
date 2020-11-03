@@ -6,22 +6,19 @@ class SingleProduct extends React.Component {
     const { product } = this.props;
     return (
       <div>
-       <div className= 'row my-4'>
-       <div className= 'col-sm d-flex flex-wrap'>
-       <div className= 'card m-3'>
-       <div className= 'card-title'>
-         <h4 className= "title mt-3">{product.title}</h4>
-        </div>
-          <img src={product.imageurl} className= "card-img-top" alt="product"/>
-          <div className="card-body text-center">
-            <p>Price: ${product.price}</p>
-            <p>Description:{product.description}</p>
-            <p>Quantities Available:{product.quantityavailable}</p>
-          </div>
+      <div className= 'card'>
+      <div className= 'card-title'>
+        <h4 className= "title mt-3">{product.title}</h4>
        </div>
-       </div>
-       </div>
+         <img src={product.imageUrl} className= "card-img-top" alt="product"/>
+         <div className="card-body text-center">
+           <p>Price: ${product.price}</p>
+           <p>Description: {product.description}</p>
+           <p>Quantities Available:{product.quantityavailable}</p>
+         </div>
       </div>
+      </div>
+
     );
   }
 }

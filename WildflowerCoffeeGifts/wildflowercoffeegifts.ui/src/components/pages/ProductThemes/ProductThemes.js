@@ -16,7 +16,6 @@ class ProductThemes extends React.Component {
     return (
   <div>
     {buildProductThemes}
-    <h3>{themes.length}</h3>
   </div>
     );
   }
