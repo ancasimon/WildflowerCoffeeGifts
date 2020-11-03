@@ -40,9 +40,9 @@ class SingleProductView extends React.Component {
                       <h3>Price: ${selectedProduct.price}</h3>
                       <h3>Available Quantity: {selectedProduct.quantityAvailable}</h3>
                       <h4>{selectedProduct.description}</h4>
-                      {/* <h6>Product Theme: {selectedProduct.pt.theme}</h6>
-                      <h6>Coffee Mug: {selectedProduct.cm.title}</h6>
-                      <h6>Flower Arrangement: {selectedProduct.fa.title}</h6> */}
+                      <h6>Product Theme: {selectedProduct.productThemeName}</h6>
+                      <h6>Coffee Mug: {selectedProduct.coffeeMugName}</h6>
+                      <h6>Flower Arrangement: {selectedProduct.flowerArrName}</h6>
                       <button>Add to Cart</button>
                     </div>
                   : <div>
