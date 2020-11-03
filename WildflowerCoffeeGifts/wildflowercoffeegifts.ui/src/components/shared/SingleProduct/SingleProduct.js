@@ -16,7 +16,7 @@ class SingleProduct extends React.Component {
           <div className="card-body text-center">
             <p>Price: ${product.price}</p>
             <p>Description:{product.description}</p>
-            <p>Quantity Available:{product.quantityavailable}</p>
+            <p>Quantities Available:{product.quantityavailable}</p>
           </div>
        </div>
        </div>
