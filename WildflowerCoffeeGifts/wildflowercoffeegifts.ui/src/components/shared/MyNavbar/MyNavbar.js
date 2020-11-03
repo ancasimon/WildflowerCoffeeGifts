@@ -24,30 +24,34 @@ class MyNavbar extends React.Component {
 
     return (
       <div className="MyNavbar">
-        <Navbar className="navbar-dark bg-dark" expand="md">
-          <NavbarBrand href="/">Wildflower Coffee Gifts</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={isOpen} navbar>
-          <Nav className="ml-auto NavList" navbar>
-            <NavItem className="NavItem">
-              <NavLink tag={RRNavLink} to="/home">Home</NavLink>
+      <Navbar className="navbar-dark bg-dark" expand="md">
+        <NavbarBrand href="/">Wildflower Coffee Gifts</NavbarBrand>
+        <NavbarToggler onClick={this.toggle} />
+        <Collapse isOpen={isOpen} navbar>
+        <Nav className="ml-auto NavList" navbar>
+          <NavItem className="NavItem">
+            <NavLink tag={RRNavLink} to="/home">Home</NavLink>
+          </NavItem>
+          <NavItem className="NavItem">
+            <NavLink tag={RRNavLink} to="/products">Products</NavLink>
+          </NavItem>
+          <NavItem className="NavItem">
+            <NavLink tag={RRNavLink} to="/orders">Orders</NavLink>
+          </NavItem>
+          <NavItem className="NavItem">
+            <NavLink tag={RRNavLink} to="/cart">Cart</NavLink>
+          </NavItem>
+          <NavItem className="NavItem">
+            <button className="btn btn-light">Log In</button>
+          </NavItem>
+          <NavItem>
+              <input type="text" placeholder="search..." name="search"/>
+              <button type="submit"><i class="fa fa-search"></i></button>
             </NavItem>
-            <NavItem className="NavItem">
-              <NavLink tag={RRNavLink} to="/products">Products</NavLink>
-            </NavItem>
-            <NavItem className="NavItem">
-              <NavLink tag={RRNavLink} to="/orders">Orders</NavLink>
-            </NavItem>
-            <NavItem className="NavItem">
-              <NavLink tag={RRNavLink} to="/cart">Cart</NavLink>
-            </NavItem>
-            <NavItem className="NavItem">
-              <button className="btn btn-light">Log In</button>
-            </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
+          </Nav>
+        </Collapse>
+      </Navbar>
+    </div>
     );
   }
 }

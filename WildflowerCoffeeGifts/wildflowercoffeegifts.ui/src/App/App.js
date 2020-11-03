@@ -13,6 +13,7 @@ import Orders from '../components/pages/Orders/Orders';
 import Products from '../components/pages/Products/Products';
 import ShoppingCart from '../components/pages/ShoppingCart/ShoppingCart';
 import SingleProductView from '../components/pages/SingleProductView/SingleProductView';
+import SearchedProducts from '../components/pages/SearchedProducts/SearchedProducts';
 
 import './App.scss';
 
@@ -31,6 +32,7 @@ class App extends React.Component {
                   <Route path='/products/:id' component={SingleProductView} />
                   <Route path='/products' component={Products} />
                   <Route path='/cart' component={ShoppingCart} />
+                  <Route path='/search' component={SearchedProducts} />
                 </Switch>
               </div>
             </div>

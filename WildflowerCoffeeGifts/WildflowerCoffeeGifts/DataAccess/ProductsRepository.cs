@@ -24,6 +24,20 @@ namespace WildflowerCoffeeGifts.DataAccess
             return allProducts;
         }
 
+        public Product FindAProduct(string searchWord)
+        {
+            using var db = new SqlConnection(_connectionString);
+            var sql = @"select *
+                        from Products
+                        where Title like '%" + searchWord + "%'";
+
+            var parameters = new { searchWrd = searchWord };
+
+            var foundProduct = db.QueryFirstOrDefault<Product>(sql, parameters);
+
+            return foundProduct;
+        }
+
         public Product ViewProductById(int id)
         {
             using var db = new SqlConnection(_connectionString);
