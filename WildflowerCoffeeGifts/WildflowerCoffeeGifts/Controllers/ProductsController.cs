@@ -14,9 +14,11 @@ namespace WildflowerCoffeeGifts.Controllers
     public class ProductsController : ControllerBase
     {
         ProductsRepository _productsRepo;
+        ProductWithRelatedDataRepository _productsWithRelatedDataRepo;
         public ProductsController()
         {
             _productsRepo = new ProductsRepository();
+            _productsWithRelatedDataRepo = new ProductWithRelatedDataRepository();
         }
 
         [HttpGet]
@@ -30,7 +32,9 @@ namespace WildflowerCoffeeGifts.Controllers
         [HttpGet("{id}")]
         public IActionResult ViewSingleProduct(int id)
         {
-            var singleProduct = _productsRepo.ViewProductById(id);
+            // var singleProduct = _productsRepo.ViewProductById(id); // Anca: changed this method to call the product model that includes the related data as well!!!
+            var singleProduct = _productsWithRelatedDataRepo.ViewProductWithDataById(id);
+
             if (singleProduct == null) return NotFound("Nothing was found with this id! Try again.");
 
             return Ok(singleProduct);
