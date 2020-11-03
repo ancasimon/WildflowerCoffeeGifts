@@ -12,10 +12,11 @@ class SingleProduct extends React.Component {
        <div className= 'card-title'>
          <h4 className= "title mt-3">{product.title}</h4>
         </div>
-          <img src={product.img} className= "card-img-top" alt="product"/>
+          <img src={product.imageurl} className= "card-img-top" alt="product"/>
           <div className="card-body text-center">
             <p>Price: ${product.price}</p>
             <p>Description:{product.description}</p>
+            <p>Quantity Available:{product.quantityavailable}</p>
           </div>
        </div>
        </div>
