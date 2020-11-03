@@ -31,19 +31,6 @@ namespace WildflowerCoffeeGifts.DataAccess
                         from Products
                         where Id = @id";
 
-            // Anca: I would like to get additional data to display for a product such as product theme name and coffe mug title and flower arrangement title - should I get the data via this query? but then, how can I access these additional properties of the foreigh keys?
-            // When I tried to do this, it seemed to pull only the data from the last table (in this case FlowerArr...) and if I tried to do specific selects of specific columns, it wouldn't let me select them in VS Code. 
-
-            //var sqlWithAdditionalData = @"select p.Id, p.Title, p.ImageUrl, p.IsActive, p.Price, p.Description, p.DateCreated, p.QuantityAvailable, pt.Theme, cm.Title, fa.Title
-            //                                from Products p
-            //                                    join ProductThemes pt
-            //                                        on p.ProductThemeId = pt.Id
-            //                                            join CoffeeMugs cm
-            //                                                on p.CoffeeMugId = cm.Id
-            //                                                    join FlowerArrangements fa
-            //                                                        on p.FlowerArrId = fa.Id
-                                            //where Id = @id";
-
             var parameters = new { id = id };
 
             var singleProduct = db.QueryFirstOrDefault<Product>(sql, parameters);
