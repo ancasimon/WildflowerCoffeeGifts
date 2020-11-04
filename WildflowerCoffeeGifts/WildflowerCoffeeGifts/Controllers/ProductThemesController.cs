@@ -13,10 +13,12 @@ namespace WildflowerCoffeeGifts.Controllers
     [ApiController]
     public class ProductThemesController : ControllerBase
     {
+        ProductCountRepository _countRepo;
         ProductThemeRepository _themeRepo;
         public ProductThemesController()
         {
             _themeRepo = new ProductThemeRepository();
+            _countRepo = new ProductCountRepository();
         }
 
         [HttpGet]
@@ -25,6 +27,14 @@ namespace WildflowerCoffeeGifts.Controllers
             var allThemes = _themeRepo.GetAllThemes();
 
             return Ok(allThemes);
+        }
+
+        [HttpGet("counttheme")]
+        public IActionResult GetThemebyCount()
+        {
+            var countThemes = _countRepo.GetThemebyCount();
+
+            return Ok(countThemes);
         }
 
         // Get themes by status (to see only active/not deleted records or only inactive/deleted themes):
