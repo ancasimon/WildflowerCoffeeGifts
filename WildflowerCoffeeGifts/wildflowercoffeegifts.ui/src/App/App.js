@@ -19,28 +19,7 @@ import ordersData from '../helpers/data/ordersData';
 import './App.scss';
 
 class App extends React.Component {
-  state = {
-    cart: {},
-    userId: 1,
-  }
-
-  getCart = () => {
-    const { cart, userId } = this.state;
-    ordersData.getCart(userId)
-      .then((response) => {
-        this.setState({
-          cart: response.data,
-        });
-      })
-      .catch((error) => console.error('Unable to get the shopping cart.', error));
-  }
-
-  componentDidMount() {
-    this.getCart(this.state.userId);
-  }
-
   render() {
-    const { cart } = this.state;
     return (
       <div className="App">
         <BrowserRouter>
@@ -50,10 +29,10 @@ class App extends React.Component {
               <div className="row">
                 <Switch>
                   <Route path='/home' component={Home} />
+                  <Route path='/cart' component={ShoppingCart} />
                   <Route path='/orders' component={Orders} />
-                  <Route path='/products/:id' component={SingleProductView} cart={this.state.cart} />
+                  <Route path='/products/:id' component={SingleProductView} />
                   <Route path='/products' component={Products} />
-                  <Route path='/cart' component={ShoppingCart} cart={this.state.cart} />
                 </Switch>
               </div>
             </div>
