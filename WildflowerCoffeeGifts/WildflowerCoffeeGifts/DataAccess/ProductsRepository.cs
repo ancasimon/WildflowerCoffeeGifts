@@ -24,6 +24,37 @@ namespace WildflowerCoffeeGifts.DataAccess
             return allProducts;
         }
 
+         public IEnumerable<Product> GetProductsTopTwenty()
+        {
+            using var db = new SqlConnection(_connectionString);
+            var sql = @"select top 20 * 
+                       from Products
+                       order by DateCreated desc";
+
+            var topProducts = db.Query<Product>(sql);
+
+            return topProducts;
+        }
+
+        public IEnumerable<Product> GetProductsTopThree()
+        {
+            using var db = new SqlConnection(_connectionString);
+            var sql = @"WITH TopRows AS(
+                        select ProductThemeId,
+	                    Title,
+	                    ROW_NUMBER() OVER(
+	                    PARTITION BY [ProductThemeId]
+	                    Order By [Title] ASC
+	                    )AS [ROW NUMBER]
+                            from Products
+                            )
+                        Select * FROM TopRows
+                        Where TopRows.[ROW NUMBER]<=3";
+
+            var topthreeProducts = db.Query<Product>(sql);
+
+            return topthreeProducts;
+        }
         public Product ViewProductById(int id)
         {
             using var db = new SqlConnection(_connectionString);
