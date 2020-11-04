@@ -22,9 +22,8 @@ namespace WildflowerCoffeeGifts.DataAccess
             join Products p1 
             on p.Id = p1.ProductThemeId
             group by p1.ProductThemeId, p.Theme";
-
             var count = db.Query<ProductCount>(sql);
-
+ 
             return count;
         }
     }
