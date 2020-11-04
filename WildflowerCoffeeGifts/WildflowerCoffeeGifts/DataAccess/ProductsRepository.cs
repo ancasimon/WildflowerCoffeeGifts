@@ -94,7 +94,8 @@ namespace WildflowerCoffeeGifts.DataAccess
                         [CoffeeMugId],
                         [FlowerArrId],
                         [DateCreated],
-                        [IsActive])
+                        [IsActive],
+                        [QuantityAvailable])
                         Output inserted.Id
                      VALUES
                        (@title,
@@ -105,7 +106,8 @@ namespace WildflowerCoffeeGifts.DataAccess
                         @CoffeeMugId,
                         @FlowerArrId,
                         @DateCreated,
-                        @isActive)";
+                        @isActive,
+                        @quantityAvailable)";
 
             using var db = new SqlConnection(_connectionString);
 
@@ -133,7 +135,8 @@ namespace WildflowerCoffeeGifts.DataAccess
                         [CoffeeMugId] = @coffeeMugId,
                         [FlowerArrId] = @flowerArrId,
                         [DateCreated] = @dateCreated,
-                        [IsActive] = @isActive
+                        [IsActive] = @isActive,
+                        [QuantityAvailable] = @quantityAvailable
                           OUTPUT INSERTED.*
                             WHERE Id = @id";
             using var db = new SqlConnection(_connectionString);
@@ -149,6 +152,7 @@ namespace WildflowerCoffeeGifts.DataAccess
                 updatedProduct.flowerArrId,
                 updatedProduct.DateCreated,
                 updatedProduct.IsActive,
+                updatedProduct.QuantityAvailable,
                 id
             };
 

@@ -19,4 +19,10 @@ const getThreeProducts = () => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-export default { getAllProducts, getThreeProducts, getTwentyProducts };
+const getSingleProduct = (id) => axios.get(`${baseUrl}/products/${id}`);
+export default {
+  getAllProducts,
+  getThreeProducts,
+  getTwentyProducts,
+  getSingleProduct,
+};

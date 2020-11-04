@@ -12,6 +12,8 @@ import MyNavbar from '../components/shared/MyNavbar/MyNavbar';
 import Orders from '../components/pages/Orders/Orders';
 import Products from '../components/pages/Products/Products';
 import ShoppingCart from '../components/pages/ShoppingCart/ShoppingCart';
+import SingleProductView from '../components/pages/SingleProductView/SingleProductView';
+
 import './App.scss';
 
 class App extends React.Component {
@@ -26,6 +28,7 @@ class App extends React.Component {
                 <Switch>
                   <Route path='/home' component={Home} />
                   <Route path='/orders' component={Orders} />
+                  <Route path='/products/:id' component={SingleProductView} />
                   <Route path='/products' component={Products} />
                   <Route path='/cart' component={ShoppingCart} />
                 </Switch>
