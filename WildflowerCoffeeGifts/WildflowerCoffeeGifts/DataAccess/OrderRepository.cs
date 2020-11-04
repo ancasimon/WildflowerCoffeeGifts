@@ -130,17 +130,18 @@ namespace WildflowerCoffeeGifts.DataAccess
             using var db = new SqlConnection(_connectionString);
 
             // get the details of the order id for the userId passed in as a parameter:
-            var parameterUserId = new { userId };
+            var parameterUserId = new { UserId = userId };
             var queryForOrder = @"select *
                                 from Orders o
-                                where o.IsCompleted = 0 AND o.UserId = @id";
+                                where o.IsCompleted = 0 AND o.UserId = @UserId"; //what is on the left side of the equation here is the variable I am declaring - and I am filling it with the data on the right, which is the parameter we are passing in to the method / and the variable is calling that parameter!!
             var selectedOrder = db.QueryFirstOrDefault<Order>(queryForOrder, parameterUserId);
 
             // get the list of ProductOrder records associated with this order it:
-            var parameterOrderId = new { selectedOrder.Id };
+            var orderId = selectedOrder.Id;
+            var parameterOrderId = new { OrderId = orderId };
             var queryForLineItems = @"select *
                                       from ProductOrders po
-                                      where po.OrderId = @id";
+                                      where po.OrderId = @OrderId";
 
             var orderLineItems = db.Query<ProductOrder>(queryForLineItems, parameterOrderId);
 

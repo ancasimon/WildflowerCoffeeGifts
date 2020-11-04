@@ -21,22 +21,22 @@ import './App.scss';
 class App extends React.Component {
   state = {
     cart: {},
-    selectedOrderId: 0,
+    userId: 1,
   }
 
   getCart = () => {
-    const { cart, selectedOrderId } = this.state;
-    ordersData.getSingleOrder(selectedOrderId)
+    const { cart, userId } = this.state;
+    ordersData.getCart(userId)
       .then((response) => {
         this.setState({
           cart: response.data,
         });
       })
-      .catch((error) => console.error('Unable to get the selected order', error));
+      .catch((error) => console.error('Unable to get the shopping cart.', error));
   }
 
   componentDidMount() {
-    this.getCart(this.state.selectedOrderId);
+    this.getCart(this.state.userId);
   }
 
   render() {
@@ -51,7 +51,7 @@ class App extends React.Component {
                 <Switch>
                   <Route path='/home' component={Home} />
                   <Route path='/orders' component={Orders} />
-                  <Route path='/products/:id' component={SingleProductView} cart={this.state.cart}  />
+                  <Route path='/products/:id' component={SingleProductView} cart={this.state.cart} />
                   <Route path='/products' component={Products} />
                   <Route path='/cart' component={ShoppingCart} cart={this.state.cart} />
                 </Switch>
