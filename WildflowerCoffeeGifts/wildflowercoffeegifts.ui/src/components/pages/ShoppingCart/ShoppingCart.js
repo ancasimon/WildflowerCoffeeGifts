@@ -1,4 +1,5 @@
 import React from 'react';
+import { Table } from 'reactstrap';
 
 import SingleLineItem from '../../shared/SingleLineItem/SingleLineItem';
 
@@ -10,7 +11,7 @@ class ShoppingCart extends React.Component {
   state = {
     cart: {},
     lineItems: [],
-    userId: 1,
+    userId: 2,
   }
 
   getCart = () => {
@@ -32,17 +33,29 @@ class ShoppingCart extends React.Component {
 
   render() {
     const { cart, lineItems } = this.state;
-    const buildLineItems = lineItems.map((item) => (<SingleLineItem key={item.Id} item={item} />));
+    const buildLineItems = () => lineItems.map((item) => (
+        <SingleLineItem key={item.Id} item={item} />
+    ));
 
     return (
-            <div>
-                <h1>Your Shopping Cart</h1>
-                <h4>Total Price: ${cart.totalPrice}</h4>
-                <h4>Items:</h4>
-                <div>
-                  {buildLineItems}
-                </div>
-            </div>
+      <div>
+          <h1>Your Shopping Cart</h1>
+          <h4>Total Price: ${cart.totalPrice}</h4>
+          <h4>Items:</h4>
+          <div>
+            <Table hover>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Price Per Unit</th>
+                  <th>Quantity</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              {buildLineItems()}
+            </Table>
+          </div>
+      </div>
     );
   }
 }

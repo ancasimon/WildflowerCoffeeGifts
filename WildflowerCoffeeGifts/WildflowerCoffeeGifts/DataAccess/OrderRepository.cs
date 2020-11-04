@@ -34,9 +34,9 @@ namespace WildflowerCoffeeGifts.DataAccess
                                       from ProductOrders po
                                       where po.OrderId = @id";
                 var parameters = new { id = orderId };
-                var orderLineItems = db.Query<ProductOrder>(queryForLineItems, parameters);
+                var orderLineItems = db.Query<ProductOrderWithProductInfo>(queryForLineItems, parameters);
 
-                List<ProductOrder> orderLineItemsList = orderLineItems.ToList();
+                List<ProductOrderWithProductInfo> orderLineItemsList = orderLineItems.ToList();
 
                 // assign the ProductOrder records returned by the query above to the LineItems List property on the order object:
                 item.LineItems.AddRange(orderLineItemsList);
@@ -75,7 +75,7 @@ namespace WildflowerCoffeeGifts.DataAccess
                 var selectedOrder = db.QueryFirstOrDefault<Order>(queryForOrder, parameters);
 
                 // assign the ProductOrder records returned by the first query above to the LineItems List property on the order object:
-                selectedOrder.LineItems = (List<ProductOrder>)orderLineItems;
+                selectedOrder.LineItems = (List<ProductOrderWithProductInfo>)orderLineItems;
                 //push to a new variable!! and return that variable!
                 ordersList.Add(selectedOrder);
             }
@@ -119,7 +119,7 @@ namespace WildflowerCoffeeGifts.DataAccess
             var selectedOrder = db.QueryFirstOrDefault<Order>(queryForOrder, parameters);
 
             // assign the ProductOrder records returned by the first query above to the LineItems List property on the order object:
-            selectedOrder.LineItems = (List<ProductOrder>)orderLineItems;
+            selectedOrder.LineItems = (List<ProductOrderWithProductInfo>)orderLineItems;
 
             return selectedOrder;
         }
@@ -139,14 +139,26 @@ namespace WildflowerCoffeeGifts.DataAccess
             // get the list of ProductOrder records associated with this order it:
             var orderId = selectedOrder.Id;
             var parameterOrderId = new { OrderId = orderId };
-            var queryForLineItems = @"select *
+            var queryForLineItems = @"select po.Id, po.IsActive, po.OrderId, po.ProductId, po.Qty, p.Title, p.Price, p.Price*po.Qty AS Subtotal
                                       from ProductOrders po
+	                                    join Products p
+		                                    on po.ProductId = p.Id
                                       where po.OrderId = @OrderId";
 
-            var orderLineItems = db.Query<ProductOrder>(queryForLineItems, parameterOrderId);
+            var orderLineItems = db.Query<ProductOrderWithProductInfo>(queryForLineItems, parameterOrderId);
+
+            var queryForTotalPrice = @"select SUM(x.Subtotal)
+from (
+select p.Price*po.Qty AS Subtotal                                    
+from ProductOrders po
+join Products p
+on po.ProductId = p.Id
+where po.OrderId = @OrderId) x";
+            var totalPrice = db.QueryFirst<decimal>(queryForTotalPrice, parameterOrderId);
 
             // assign the ProductOrder records returned by the first query above to the LineItems List property on the order object:
-            selectedOrder.LineItems = (List<ProductOrder>)orderLineItems;
+            selectedOrder.LineItems = (List<ProductOrderWithProductInfo>)orderLineItems;
+            selectedOrder.TotalPrice = totalPrice;
 
             return selectedOrder;
         }
