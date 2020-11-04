@@ -45,8 +45,10 @@ class MyNavbar extends React.Component {
             <button className="btn btn-light">Log In</button>
           </NavItem>
           <NavItem>
+          <NavLink tag={RRNavLink} to="/search">
               <input type="text" placeholder="search..." name="search"/>
               <button type="submit"><i class="fa fa-search"></i></button>
+          </NavLink>
             </NavItem>
           </Nav>
         </Collapse>
