@@ -45,10 +45,10 @@ namespace WildflowerCoffeeGifts.Controllers
         }
 
         // method for getting the cart!!!
-        [HttpGet("{userId}")]
+        [HttpGet("cart/{userId}")]
         public IActionResult GetCart(int userId)
         {
-            if (_orderRepo.GetOrderById(userId) == null) return NotFound("We could not find this order. Please enter a valid order ID.");
+            if (_orderRepo.GetCart(userId) == null) return NotFound();
 
             var selectedOrder = _orderRepo.GetCart(userId);
 
