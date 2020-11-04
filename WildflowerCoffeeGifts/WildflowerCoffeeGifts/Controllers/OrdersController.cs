@@ -44,6 +44,17 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(selectedOrder);
         }
 
+        // method for getting the cart!!!
+        [HttpGet("{userId}")]
+        public IActionResult GetCart(int userId)
+        {
+            if (_orderRepo.GetOrderById(userId) == null) return NotFound("We could not find this order. Please enter a valid order ID.");
+
+            var selectedOrder = _orderRepo.GetCart(userId);
+
+            return Ok(selectedOrder);
+        }
+
         [HttpPost]
         public IActionResult CreateOrder(Order newOrder)
         {

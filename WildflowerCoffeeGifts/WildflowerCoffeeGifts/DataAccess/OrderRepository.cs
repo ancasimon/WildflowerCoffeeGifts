@@ -124,6 +124,32 @@ namespace WildflowerCoffeeGifts.DataAccess
             return selectedOrder;
         }
 
+        // DEFINITION OF EXISTING CART: Get current incomplete/pending order for a given user (with related ProductOrder records too)!
+        public Order GetCart(int userId)
+        {
+            using var db = new SqlConnection(_connectionString);
+
+            // get the details of the order id for the userId passed in as a parameter:
+            var parameterUserId = new { userId };
+            var queryForOrder = @"select *
+                                from Orders o
+                                where o.IsCompleted = 0 AND o.UserId = @id";
+            var selectedOrder = db.QueryFirstOrDefault<Order>(queryForOrder, parameterUserId);
+
+            // get the list of ProductOrder records associated with this order it:
+            var parameterOrderId = new { selectedOrder.Id };
+            var queryForLineItems = @"select *
+                                      from ProductOrders po
+                                      where po.OrderId = @id";
+
+            var orderLineItems = db.Query<ProductOrder>(queryForLineItems, parameterOrderId);
+
+            // assign the ProductOrder records returned by the first query above to the LineItems List property on the order object:
+            selectedOrder.LineItems = (List<ProductOrder>)orderLineItems;
+
+            return selectedOrder;
+        }
+
         public Order AddOrder(Order orderToAdd)
         {
             var sqlInsert = @"INSERT INTO [dbo].[Orders]
