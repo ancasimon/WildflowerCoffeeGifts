@@ -48,7 +48,7 @@ namespace WildflowerCoffeeGifts.Controllers
         [HttpGet("cart/{userId}")]
         public IActionResult GetCart(int userId)
         {
-            if (_orderRepo.GetCart(userId) == null) return NotFound();
+            if (_orderRepo.GetCart(userId) == null) return NotFound("This user does not have a shopping cart. Please click Add to Cart on an item to create a shopping cart.");
 
             var selectedOrder = _orderRepo.GetCart(userId);
 

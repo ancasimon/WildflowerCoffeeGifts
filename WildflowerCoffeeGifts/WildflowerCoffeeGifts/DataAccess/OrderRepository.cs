@@ -110,7 +110,7 @@ namespace WildflowerCoffeeGifts.DataAccess
                                       from ProductOrders po
                                       where po.OrderId = @id";
             var parameters = new { id };
-            var orderLineItems = db.Query<ProductOrder>(queryForLineItems, parameters);
+            var orderLineItems = db.Query<ProductOrderWithProductInfo>(queryForLineItems, parameters);
 
             // get the details of the order id passed in as a parameter:
             var queryForOrder = @"select *
@@ -133,9 +133,11 @@ namespace WildflowerCoffeeGifts.DataAccess
             var parameterUserId = new { UserId = userId };
             var queryForOrder = @"select *
                                 from Orders o
-                                where o.IsCompleted = 0 AND o.UserId = @UserId"; //what is on the left side of the equation here is the variable I am declaring - and I am filling it with the data on the right, which is the parameter we are passing in to the method / and the variable is calling that parameter!!
+                                where o.IsCompleted = 0 AND o.UserId = @UserId"; //what is on the left side of the equation here is the variable I am declaring - and I am filling it with the data on the right, which is the parameter we are passing in to the method / and the variable is calling that parameter!!          
             var selectedOrder = db.QueryFirstOrDefault<Order>(queryForOrder, parameterUserId);
 
+            if(selectedOrder != null)
+            {
             // get the list of ProductOrder records associated with this order it:
             var orderId = selectedOrder.Id;
             var parameterOrderId = new { OrderId = orderId };
@@ -159,6 +161,7 @@ where po.OrderId = @OrderId) x";
             // assign the ProductOrder records returned by the first query above to the LineItems List property on the order object:
             selectedOrder.LineItems = (List<ProductOrderWithProductInfo>)orderLineItems;
             selectedOrder.TotalPrice = totalPrice;
+            }
 
             return selectedOrder;
         }
