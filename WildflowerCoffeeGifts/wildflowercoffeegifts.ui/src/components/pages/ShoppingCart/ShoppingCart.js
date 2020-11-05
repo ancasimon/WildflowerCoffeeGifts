@@ -13,7 +13,7 @@ class ShoppingCart extends React.Component {
     cart: {},
     lineItems: [],
     user: {},
-    userId: 2,
+    userId: 1,
   }
 
   getCart = () => {
