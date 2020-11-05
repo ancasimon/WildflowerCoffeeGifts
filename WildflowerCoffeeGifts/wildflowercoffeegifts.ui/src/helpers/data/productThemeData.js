@@ -13,4 +13,10 @@ const getThemeThreeProducts = () => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-export default { GetAllProductThemesByStatus, getThemeThreeProducts };
+const getSingleThemeProducts = (id) => axios.get(`${baseUrl}/products/${id}}`);
+
+export default {
+  GetAllProductThemesByStatus,
+  getThemeThreeProducts,
+  getSingleThemeProducts,
+};
