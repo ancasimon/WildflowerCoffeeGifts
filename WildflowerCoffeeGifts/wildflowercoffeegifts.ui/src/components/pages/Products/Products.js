@@ -8,14 +8,17 @@ import SearchedProducts from '../SearchedProducts/SearchedProducts';
 class Products extends React.Component {
   state = {
     products: [],
-    inputValue: '',
+    search: '',
+    filteredProducts: [],
   };
 
   filterProducts = (e) => {
-    console.error('test', e.target.value);
-    this.setState({
-      inputValue: e.target.value,
-    });
+    console.error(e.target.value);
+    const filter = this.state.search;
+    if (filter !== '') {
+      productsData.getSearchedProducts(filter)
+        .then((response) => { this.setState({ filteredProducts: response }); });
+    }
   }
 
   componentDidMount() {
@@ -29,7 +32,8 @@ class Products extends React.Component {
 
     return (
       <div>
-        <SearchedProducts />
+        <label htmlFor="search">Search Products <i class="fa fa-search"></i></label>
+        <input type="text" name="search" value={this.state.search} onChange={this.filterProducts.bind(this)}/>
       <div className="d-flex flex-wrap">
         {buildProducts}
       </div>

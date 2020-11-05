@@ -1,21 +1,20 @@
 import React from 'react';
+import SingleProduct from '../../shared/SingleProduct/SingleProduct';
 // import { Link } from 'react-router-dom';
+// import productsData from '../../../helpers/data/productsData';
+
 import './SearchedProducts.scss';
 
 class SearchedProducts extends React.Component {
-  state = {
-    search: '',
-  }
-
-  filterProducts = (e) => {
-    this.setState({ search: e.target.value });
-  }
-
   render() {
+    const searches = this.props.filteredProducts;
+    const viewSearches = searches.map((search) => (
+      <SingleProduct/>
+    ));
+
     return (
       <div>
-        <label htmlFor="search">Search Products <i class="fa fa-search"></i></label>
-        <input type="text" name="search" value={this.state.search} onChange={this.filterProducts.bind(this)}/>
+        {viewSearches}
       </div>
     );
   }
