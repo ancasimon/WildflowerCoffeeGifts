@@ -3,12 +3,15 @@ import React from 'react';
 import './SearchedProducts.scss';
 
 class SearchedProducts extends React.Component {
+  state = {
+    inputValue: '',
+  }
+
   render() {
     return (
       <div>
-        <h1>SearchedProducts</h1>
-
-        {/* <Link to={singleProductLink}>Link to Single Product View</Link> */}
+        <i class="fa fa-search"></i>
+        <input type="text" placeholder="search.." name="search"/>
       </div>
     );
   }

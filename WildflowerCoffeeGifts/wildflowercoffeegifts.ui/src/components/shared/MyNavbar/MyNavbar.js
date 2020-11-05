@@ -13,7 +13,6 @@ import {
 class MyNavbar extends React.Component {
   state = {
     isOpen: false,
-    searchedWord: '',
   }
 
   toggle = () => {
@@ -25,7 +24,7 @@ class MyNavbar extends React.Component {
   }
 
   render() {
-    const { isOpen, searchedWord } = this.state;
+    const { isOpen } = this.state;
 
     return (
       <div className="MyNavbar">
@@ -50,10 +49,6 @@ class MyNavbar extends React.Component {
             <button className="btn btn-light">Log In</button>
           </NavItem>
           <NavItem>
-          <NavLink tag={RRNavLink} to="/search">
-              <input type="text" placeholder="search..." name="search" value={searchedWord}/>
-              <button type="submit" onClick={this.searchProducts}><i class="fa fa-search"></i></button>
-          </NavLink>
             </NavItem>
           </Nav>
         </Collapse>

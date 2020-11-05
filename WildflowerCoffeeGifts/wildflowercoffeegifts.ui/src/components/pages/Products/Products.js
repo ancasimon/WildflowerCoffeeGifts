@@ -3,6 +3,7 @@ import React from 'react';
 import './Products.scss';
 import productsData from '../../../helpers/data/productsData';
 import SingleProduct from '../../shared/SingleProduct/SingleProduct';
+import SearchedProducts from '../SearchedProducts/SearchedProducts';
 
 class Products extends React.Component {
   state = { products: [] };
@@ -18,7 +19,10 @@ class Products extends React.Component {
 
     return (
       <div className="d-flex flex-wrap">
+        <SearchedProducts />
+      <div className="d-flex flex-wrap">
         {buildProducts}
+      </div>
       </div>
     );
   }
