@@ -11,7 +11,7 @@ class ShoppingCart extends React.Component {
   state = {
     cart: {},
     lineItems: [],
-    userId: 2,
+    userId: 3,
   }
 
   getCart = () => {
@@ -22,7 +22,7 @@ class ShoppingCart extends React.Component {
           cart: response.data,
           lineItems: response.data.lineItems,
         });
-        console.error('current cart', this.state.cart);
+        // console.error('current cart', this.state.cart);
       })
       .catch((error) => console.error('Unable to get the shopping cart.', error));
   }
@@ -33,28 +33,40 @@ class ShoppingCart extends React.Component {
 
   render() {
     const { cart, lineItems } = this.state;
-    const buildLineItems = () => lineItems.map((item) => (
-        <SingleLineItem key={item.Id} item={item} />
-    ));
+    const buildLineItems = () => {
+      if (lineItems != []) {
+        lineItems.map((item) => (
+      <SingleLineItem key={item.Id} item={item} />
+        ));
+      }
+    };
 
     return (
       <div>
           <h1>Your Shopping Cart</h1>
-          <h4>Total Price: ${cart.totalPrice}</h4>
-          <h4>Items:</h4>
-          <div>
-            <Table hover>
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Price Per Unit</th>
-                  <th>Quantity</th>
-                  <th>Subtotal</th>
-                </tr>
-              </thead>
-              {buildLineItems()}
-            </Table>
-          </div>
+          {
+            { cart }
+              ? <div>
+              <h4>Total Price: ${cart.totalPrice}</h4>
+              <h4>Items:</h4>
+              <div>
+                <Table hover>
+                  <thead>
+                    <tr>
+                      <th>Product</th>
+                      <th>Price Per Unit</th>
+                      <th>Quantity</th>
+                      <th>Subtotal</th>
+                    </tr>
+                  </thead>
+                  {buildLineItems()}
+                </Table>
+              </div>
+              </div>
+              : <div>
+                <p>Please click Add to Cart on an item on the Products page to get started!</p>
+            </div>
+          }
       </div>
     );
   }
