@@ -36,7 +36,7 @@ class SingleProductView extends React.Component {
                 {
                 selectedProduct.isActive
                   ? <div>
-                      <img src="selectedProduct.imageUrl" alt="flower package photo" />
+                      <img src={selectedProduct.imageUrl} alt="flower package photo" className="productImages"/>
                       <h3>Price: ${selectedProduct.price}</h3>
                       <h3>Available Quantity: {selectedProduct.quantityAvailable}</h3>
                       <h4>{selectedProduct.description}</h4>
