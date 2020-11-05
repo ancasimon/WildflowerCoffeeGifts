@@ -14,6 +14,7 @@ const getTwentyProducts = () => new Promise((resolve, reject) => {
 });
 
 const getSingleProduct = (id) => axios.get(`${baseUrl}/products/${id}`);
+
 export default {
   getAllProducts,
   getTwentyProducts,

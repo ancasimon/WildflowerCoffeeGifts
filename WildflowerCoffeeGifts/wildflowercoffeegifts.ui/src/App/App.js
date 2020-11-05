@@ -14,6 +14,8 @@ import Products from '../components/pages/Products/Products';
 import ShoppingCart from '../components/pages/ShoppingCart/ShoppingCart';
 import SingleProductView from '../components/pages/SingleProductView/SingleProductView';
 
+import ordersData from '../helpers/data/ordersData';
+
 import './App.scss';
 
 class App extends React.Component {
@@ -27,10 +29,10 @@ class App extends React.Component {
               <div className="row">
                 <Switch>
                   <Route path='/home' component={Home} />
+                  <Route path='/cart' component={ShoppingCart} />
                   <Route path='/orders' component={Orders} />
                   <Route path='/products/:id' component={SingleProductView} />
                   <Route path='/products' component={Products} />
-                  <Route path='/cart' component={ShoppingCart} />
                 </Switch>
               </div>
             </div>

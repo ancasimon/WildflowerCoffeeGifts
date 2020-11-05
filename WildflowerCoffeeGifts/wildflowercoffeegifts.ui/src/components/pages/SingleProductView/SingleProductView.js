@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ordersData from '../../../helpers/data/ordersData';
+import productOrdersData from '../../../helpers/data/productOrdersData';
 import productsData from '../../../helpers/data/productsData';
 
 import './SingleProductView.scss';
@@ -20,6 +22,26 @@ class SingleProductView extends React.Component {
         console.error('response.data', response);
       })
       .catch((error) => console.error('Unable to get the selected product', error));
+  }
+
+  addToCart = (e) => {
+    e.preventDefault();
+    const { cart } = this.state;
+    if (cart == null) {
+      ordersData.postOrder()
+        .then((response) => {
+          this.setState({
+            cart: response.data,
+          });
+          productOrdersData.postProductOrder();
+          // still wip here!
+          // need to check for the response for the order here / cart is not empty when there is a pending order associated with the user???
+          // need to check if the selected product is already in the cart (loop through line items) - if it is > increment its quantity by 1
+          // need to add error messages when quantity available has been reached ...
+          // need to add to data files: getting an order with line items!! get order for selected user ....
+        })
+        .catch((error) => console.error('Unble to add new order to cart', error));
+    }
   }
 
   componentDidMount() {
