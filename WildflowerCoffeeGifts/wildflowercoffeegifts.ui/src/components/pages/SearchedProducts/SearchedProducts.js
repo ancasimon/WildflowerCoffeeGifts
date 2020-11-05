@@ -4,14 +4,18 @@ import './SearchedProducts.scss';
 
 class SearchedProducts extends React.Component {
   state = {
-    inputValue: '',
+    search: '',
+  }
+
+  filterProducts = (e) => {
+    this.setState({ search: e.target.value });
   }
 
   render() {
     return (
       <div>
-        <i class="fa fa-search"></i>
-        <input type="text" placeholder="search.." name="search"/>
+        <label htmlFor="search">Search Products <i class="fa fa-search"></i></label>
+        <input type="text" name="search" value={this.state.search} onChange={this.filterProducts.bind(this)}/>
       </div>
     );
   }

@@ -6,7 +6,17 @@ import SingleProduct from '../../shared/SingleProduct/SingleProduct';
 import SearchedProducts from '../SearchedProducts/SearchedProducts';
 
 class Products extends React.Component {
-  state = { products: [] };
+  state = {
+    products: [],
+    inputValue: '',
+  };
+
+  filterProducts = (e) => {
+    console.error('test', e.target.value);
+    this.setState({
+      inputValue: e.target.value,
+    });
+  }
 
   componentDidMount() {
     productsData.getAllProducts()
@@ -18,7 +28,7 @@ class Products extends React.Component {
     const buildProducts = products.map((product) => (<SingleProduct key={product.id} product={product}/>));
 
     return (
-      <div className="d-flex flex-wrap">
+      <div>
         <SearchedProducts />
       <div className="d-flex flex-wrap">
         {buildProducts}
