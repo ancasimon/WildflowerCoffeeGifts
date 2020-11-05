@@ -17,7 +17,7 @@ namespace WildflowerCoffeeGifts.DataAccess
         public IEnumerable<ProductTheme> GetAllThemes()
         {
             using var db = new SqlConnection(_connectionString);
-            var sql = "select * from ProductThemes";
+            var sql = "select * from ProductThemes where IsActive =1";
 
             var allThemes = db.Query<ProductTheme>(sql);
 

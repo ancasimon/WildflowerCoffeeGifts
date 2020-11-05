@@ -21,7 +21,6 @@ class MyNavbar extends React.Component {
   }
 
   searchProducts = () => {
-    e.preventDefault();
     console.error();
   }
 

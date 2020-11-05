@@ -6,6 +6,7 @@ using WildflowerCoffeeGifts.Models;
 using Microsoft.Data.SqlClient;
 using Dapper;
 
+
 namespace WildflowerCoffeeGifts.DataAccess
 {
     public class ProductsRepository
@@ -17,14 +18,14 @@ namespace WildflowerCoffeeGifts.DataAccess
         {
             using var db = new SqlConnection(_connectionString);
             var sql = @"select * 
-                       from Products";
+                       from Products
+                        where isActive = 1";
 
             var allProducts = db.Query<Product>(sql);
 
             return allProducts;
         }
 
-<<<<<<< HEAD
         public List<Product> FindAProduct(string searchWord)
         {
             using var db = new SqlConnection(_connectionString);
@@ -39,12 +40,12 @@ namespace WildflowerCoffeeGifts.DataAccess
             return foundProduct.ToList();
         }
 
-=======
          public IEnumerable<Product> GetProductsTopTwenty()
         {
             using var db = new SqlConnection(_connectionString);
             var sql = @"select top 20 * 
                        from Products
+                       where isActive = 1
                        order by DateCreated desc";
 
             var topProducts = db.Query<Product>(sql);
@@ -71,7 +72,7 @@ namespace WildflowerCoffeeGifts.DataAccess
 
             return topthreeProducts;
         }
->>>>>>> main
+
         public Product ViewProductById(int id)
         {
             using var db = new SqlConnection(_connectionString);

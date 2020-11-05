@@ -37,14 +37,6 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(topProducts);
         }
 
-        [HttpGet("TopThree")]
-        public IActionResult GetProductsTopThree()
-        {
-            var threeProducts = _productsRepo.GetProductsTopThree();
-
-            return Ok(threeProducts);
-        }
-
 
         [HttpGet("{id}")]
         public IActionResult ViewSingleProduct(int id)
