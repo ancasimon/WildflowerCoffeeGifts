@@ -6,6 +6,7 @@ using WildflowerCoffeeGifts.Models;
 using Microsoft.Data.SqlClient;
 using Dapper;
 
+
 namespace WildflowerCoffeeGifts.DataAccess
 {
     public class ProductsRepository
@@ -17,7 +18,8 @@ namespace WildflowerCoffeeGifts.DataAccess
         {
             using var db = new SqlConnection(_connectionString);
             var sql = @"select * 
-                       from Products";
+                       from Products
+                        where isActive = 1";
 
             var allProducts = db.Query<Product>(sql);
 
@@ -29,6 +31,7 @@ namespace WildflowerCoffeeGifts.DataAccess
             using var db = new SqlConnection(_connectionString);
             var sql = @"select top 20 * 
                        from Products
+                       where isActive = 1
                        order by DateCreated desc";
 
             var topProducts = db.Query<Product>(sql);
@@ -36,26 +39,7 @@ namespace WildflowerCoffeeGifts.DataAccess
             return topProducts;
         }
 
-        public IEnumerable<Product> GetProductsTopThree()
-        {
-            using var db = new SqlConnection(_connectionString);
-            var sql = @"WITH TopRows AS(
-                        select ProductThemeId,
-	                    Title,
-	                    ROW_NUMBER() OVER(
-	                    PARTITION BY [ProductThemeId]
-	                    Order By [Title] ASC
-	                    )AS [ROW NUMBER]
-                            from Products
-                            )
-                        Select * FROM TopRows
-                        Where TopRows.[ROW NUMBER]<=3";
-
-            var topthreeProducts = db.Query<Product>(sql);
-
-            return topthreeProducts;
-        }
-        public Product ViewProductById(int id)
+            public Product ViewProductById(int id)
         {
             using var db = new SqlConnection(_connectionString);
             var sql = @"select * 
