@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using WildflowerCoffeeGifts.DataAccess;
 using WildflowerCoffeeGifts.Models;
 
@@ -15,10 +16,12 @@ namespace WildflowerCoffeeGifts.Controllers
     {
         ProductOrderRepository _productOrderRepo;
         OrderRepository _orderRepo;
+        ProductOrderWithProductInfoRepository _productOrderWithInfoRepo;
         public ProductOrdersController()
         {
             _productOrderRepo = new ProductOrderRepository();
             _orderRepo = new OrderRepository();
+            _productOrderWithInfoRepo = new ProductOrderWithProductInfoRepository();
         }
 
         [HttpGet]
@@ -62,7 +65,20 @@ namespace WildflowerCoffeeGifts.Controllers
         {
             var updatedLineItem = _productOrderRepo.Update(id, lineItem);
 
-            if(_productOrderRepo.GetSingleItemInOrderById(id) == null)
+            if (_productOrderRepo.GetSingleItemInOrderById(id) == null)
+            {
+                return NotFound("We could not find a line item with this ID. Please try again.");
+            }
+
+            return Ok(updatedLineItem);
+        }
+
+        [HttpPut("withInfo/{id}")]
+        public IActionResult UpdateProductOrderWithInfo(int id, ProductOrderWithProductInfo lineItem)
+        {
+            var updatedLineItem = _productOrderWithInfoRepo.Update(id, lineItem);
+
+            if (_productOrderRepo.GetSingleItemInOrderById(id) == null)
             {
                 return NotFound("We could not find a line item with this ID. Please try again.");
             }

@@ -34,4 +34,5 @@ export default {
   getAllProducts,
   getTwentyProducts,
   getSingleProduct,
+  getThreeProducts,
 };
