@@ -29,10 +29,10 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(allThemes);
         }
 
-        [HttpGet("counttheme")]
-        public IActionResult GetThemebyCount()
+        [HttpGet("topthree")]
+        public IActionResult GetProductsTopThreeAndCount()
         {
-            var countThemes = _countRepo.GetThemebyCount();
+            var countThemes = _countRepo.GetProductsTopThreeAndCount();
 
             return Ok(countThemes);
         }
