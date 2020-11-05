@@ -13,14 +13,20 @@ import {
 class MyNavbar extends React.Component {
   state = {
     isOpen: false,
+    searchedWord: '',
   }
 
   toggle = () => {
     this.setState({ isOpen: !this.state.isOpen });
   }
 
+  searchProducts = () => {
+    e.preventDefault();
+    console.error();
+  }
+
   render() {
-    const { isOpen } = this.state;
+    const { isOpen, searchedWord } = this.state;
 
     return (
       <div className="MyNavbar">
@@ -46,8 +52,8 @@ class MyNavbar extends React.Component {
           </NavItem>
           <NavItem>
           <NavLink tag={RRNavLink} to="/search">
-              <input type="text" placeholder="search..." name="search"/>
-              <button type="submit"><i class="fa fa-search"></i></button>
+              <input type="text" placeholder="search..." name="search" value={searchedWord}/>
+              <button type="submit" onClick={this.searchProducts}><i class="fa fa-search"></i></button>
           </NavLink>
             </NavItem>
           </Nav>
