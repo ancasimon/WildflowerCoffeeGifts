@@ -133,7 +133,7 @@ namespace WildflowerCoffeeGifts.DataAccess
             var parameterUserId = new { UserId = userId };
             var queryForOrder = @"select *
                                 from Orders o
-                                where o.IsCompleted = 0 AND o.UserId = @UserId"; //what is on the left side of the equation here is the variable I am declaring - and I am filling it with the data on the right, which is the parameter we are passing in to the method / and the variable is calling that parameter!!          
+                                where o.IsCompleted = 0 AND o.UserId = @UserId AND o.IsActive=1"; //what is on the left side of the equation here is the variable I am declaring - and I am filling it with the data on the right, which is the parameter we are passing in to the method / and the variable is calling that parameter!!          
             var selectedOrder = db.QueryFirstOrDefault<Order>(queryForOrder, parameterUserId);
 
             if(selectedOrder != null)
@@ -145,7 +145,7 @@ namespace WildflowerCoffeeGifts.DataAccess
                                       from ProductOrders po
 	                                    join Products p
 		                                    on po.ProductId = p.Id
-                                      where po.OrderId = @OrderId";
+                                      where po.OrderId = @OrderId AND po.IsActive=1";
 
             var orderLineItems = db.Query<ProductOrderWithProductInfo>(queryForLineItems, parameterOrderId);
 

@@ -48,15 +48,20 @@ class ShoppingCart extends React.Component {
       .catch((error) => console.error('Unable to get user record.', error));
   }
 
+  buildCartPage = () => {
+    const { userId, cart } = this.state;
+    this.getCart(userId);
+    this.getUser(userId);
+  }
+
   componentDidMount() {
-    this.getCart(this.state.userId);
-    this.getUser(this.state.userId);
+    this.buildCartPage();
   }
 
   render() {
     const { cart, lineItems, user } = this.state;
     const buildLineItems = () => lineItems.map((item) => (
-      <SingleLineItem key={item.Id} item={item} />
+      <SingleLineItem key={item.Id} item={item} buildCartPage={this.buildCartPage} />
     ));
 
     return (
@@ -80,6 +85,7 @@ class ShoppingCart extends React.Component {
                       <th>Price Per Unit</th>
                       <th>Quantity</th>
                       <th>Subtotal</th>
+                      <th>Remove?</th>
                     </tr>
                   </thead>
                   {buildLineItems()}
