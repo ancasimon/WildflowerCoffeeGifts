@@ -14,17 +14,25 @@ namespace WildflowerCoffeeGifts.DataAccess
         static List<ProductCount> productCount = new List<ProductCount>();
 
         const string _connectionString = "Server=localhost;Database=WCG;Trusted_Connection=True";
-        public IEnumerable<ProductCount> GetThemebyCount()
+        public List<ProductCount> GetProductsTopThreeAndCount()
         {
             using var db = new SqlConnection(_connectionString);
-            var sql = @"select distinct(p.Theme), count(p1.productthemeid)as count
-            from ProductThemes p
-            join Products p1 
-            on p.Id = p1.ProductThemeId
-            group by p1.ProductThemeId, p.Theme";
-            var count = db.Query<ProductCount>(sql);
- 
-            return count;
+            var allProducts = db.Query<ProductCount>(@"select distinct(p.ProductThemeId), p1.Theme as [Theme], count(p.id)as count
+                                                        from Products p
+                                                        join ProductThemes p1 
+                                                        on p1.Id = p.ProductThemeId
+                                                        group by p.ProductThemeId, p1.Theme");
+            foreach (var item in allProducts.ToList())
+            {
+                var query = @"Select Top(3)p.Title
+                                from products p
+                                where ProductThemeId = @pthemeid
+                                order by p.Title asc";
+                var parameters = new { pthemeid = item.ProductThemeId };
+                var product = db.Query<ProductCount>(query, parameters).ToList();
+                item.TopThreeProducts = product;
+            }
+            return allProducts.ToList();
         }
     }
 }
