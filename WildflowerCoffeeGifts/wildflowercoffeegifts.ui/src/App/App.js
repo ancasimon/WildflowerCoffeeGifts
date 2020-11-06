@@ -18,6 +18,7 @@ import SearchedProducts from '../components/pages/SearchedProducts/SearchedProdu
 import ordersData from '../helpers/data/ordersData';
 
 import './App.scss';
+import SingleProductTheme from '../components/shared/SingleProductTheme/SingleProductTheme';
 
 class App extends React.Component {
   render() {

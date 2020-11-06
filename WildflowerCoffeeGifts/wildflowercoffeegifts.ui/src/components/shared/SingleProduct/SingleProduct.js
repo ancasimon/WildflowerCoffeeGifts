@@ -8,8 +8,8 @@ class SingleProduct extends React.Component {
     const singleProductLink = `/products/${product.id}`;
     return (
       <div>
-      <div className= 'card'>
-      <div className= 'card-title'>
+      <div className='card'>
+      <div className='card-title'>
         <h4 className= "title mt-3">{product.title}</h4>
        </div>
          <img src={product.imageUrl} className= "card-img-top" alt="product"/>
