@@ -17,6 +17,7 @@ import SingleProductView from '../components/pages/SingleProductView/SingleProdu
 import ordersData from '../helpers/data/ordersData';
 
 import './App.scss';
+import SingleProductTheme from '../components/shared/SingleProductTheme/SingleProductTheme';
 
 class App extends React.Component {
   render() {
