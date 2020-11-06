@@ -9,18 +9,17 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
+import SearchBar from '../SearchBar/SearchBar';
 
 class MyNavbar extends React.Component {
   state = {
     isOpen: false,
+    search: '',
+    filteredProducts: [],
   }
 
   toggle = () => {
     this.setState({ isOpen: !this.state.isOpen });
-  }
-
-  searchProducts = () => {
-    console.error();
   }
 
   render() {
@@ -48,8 +47,9 @@ class MyNavbar extends React.Component {
           <NavItem className="NavItem">
             <button className="btn btn-light">Log In</button>
           </NavItem>
-          <NavItem>
-            </NavItem>
+          <NavItem tag={RRNavLink} to="/search">
+            <SearchBar/>
+          </NavItem>
           </Nav>
         </Collapse>
       </Navbar>
