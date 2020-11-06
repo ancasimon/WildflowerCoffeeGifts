@@ -5,9 +5,17 @@
 
 .card {
   width: 18rem;
+  margin: 1%;
+ height: 600px;
+ text-align:center ;
 }
 
 .card-img-top {
   height: 16rem;
-  object-fit: cover;
+  object-fit: contain;
+}
+.card-title {
+  height: 100px;
+  text-transform: uppercase; 
+  font-style: italic ;
 }

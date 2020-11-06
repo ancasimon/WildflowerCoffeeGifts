@@ -33,6 +33,7 @@ namespace WildflowerCoffeeGifts.Controllers
         public IActionResult GetProductsTopThreeAndCount()
         {
             var countThemes = _countRepo.GetProductsTopThreeAndCount();
+            if (countThemes == null) return NotFound("Item Not Available");
 
             return Ok(countThemes);
         }
