@@ -19,7 +19,6 @@ class MyNavbar extends React.Component {
   filterProducts = (e) => {
     e.preventDefault();
     this.setState({ searchInput: e.target.value });
-    console.error(e.target.value);
   }
 
   toggle = () => {

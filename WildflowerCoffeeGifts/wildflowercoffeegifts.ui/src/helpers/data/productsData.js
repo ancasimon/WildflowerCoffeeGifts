@@ -17,10 +17,11 @@ const getSearchedProducts = (searchWord) => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/products/search:${searchWord}`)
     .then((response) => {
       const products = response.data;
-      console.error(response);
+      console.error(products);
+      console.error(searchWord);
       resolve(products);
     })
-    .catch((error) => reject(error));
+    .catch((error) => reject(error, 'error from getSeachedProducts'));
 });
 
 const getThreeProducts = () => new Promise((resolve, reject) => {
