@@ -17,6 +17,7 @@ const getSearchedProducts = (searchWord) => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/products/search:${searchWord}`)
     .then((response) => {
       const products = response.data;
+      console.error(response);
       resolve(products);
     })
     .catch((error) => reject(error));

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink as RRNavLink } from 'react-router-dom';
+import { NavLink as RRNavLink, Link } from 'react-router-dom';
 import {
   Collapse,
   Navbar,
@@ -13,10 +13,10 @@ import {
 class MyNavbar extends React.Component {
   state = {
     isOpen: false,
-    searchInput: '',
+    searchInput: 'sport',
   }
 
-  setSearchValue = (e) => {
+  filterProducts = (e) => {
     e.preventDefault();
     this.setState({ searchInput: e.target.value });
     console.error(e.target.value);
@@ -28,8 +28,10 @@ class MyNavbar extends React.Component {
 
   render() {
     const { isOpen } = this.state;
-    const searchInput = this.state.searchValue;
-    const wordSearched = `/products/search/:${searchInput}`;
+
+    const searchWord = this.state.searchInput;
+    const wordSearched = `/products/search:${searchWord}`;
+
     return (
       <div className="MyNavbar">
       <Navbar className="navbar-dark bg-dark" expand="md">
@@ -53,10 +55,8 @@ class MyNavbar extends React.Component {
             <button className="btn btn-light">Log In</button>
           </NavItem>
           <form>
-            <NavItem className="NavItem">
               <input type="text" placeholder="Search Products" name="search" onChange={this.filterProducts}/>
-              <NavLink to={wordSearched} value={this.state.searchInput}><button><i className="fa fa-search"></i></button></NavLink>
-            </NavItem>
+              <Link to={wordSearched} value={this.state.searchInput}><button><i className="fa fa-search"></i></button></Link>
           </form>
           </Nav>
         </Collapse>

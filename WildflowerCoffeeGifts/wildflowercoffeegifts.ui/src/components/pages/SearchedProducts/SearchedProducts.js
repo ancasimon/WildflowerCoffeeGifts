@@ -11,7 +11,7 @@ class SearchedProducts extends React.Component {
 
   searchResults = () => {
     const input = this.props.match.params.keyword;
-    console.error(input, 'input');
+    console.error('input', input);
     productsData.getSearchedProducts(input)
       .then((productsReturnedFromSearch) => this.setState({ productsReturnedFromSearch }))
       .catch((err) => console.error('We are unable to find anything with this search! Try again.', err));
