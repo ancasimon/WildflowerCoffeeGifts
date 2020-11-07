@@ -5,7 +5,6 @@ import './SingleProductTheme.scss';
 class SingleProductTheme extends React.Component {
   render() {
     const { theme } = this.props;
-    const singleProductLink = '/products';
     return (
       <div className='SingleProductTheme'>
         <li className= "list-group-item m-3">
@@ -14,9 +13,9 @@ class SingleProductTheme extends React.Component {
            <h3 className = 'mr-auto mt-1'> ({theme.count})</h3>
            </div>
           <div className="text-left">
-      <Link to ={singleProductLink}><h5>{theme.topThreeProducts[0].title}</h5></Link>
-      <Link to ={singleProductLink}><h5>{theme.topThreeProducts[1].title}</h5></Link>
-      <Link to ={singleProductLink}><h5>{theme.topThreeProducts[2].title}</h5></Link>
+      <Link to ={`/products/${theme.topThreeProducts[0].id}`}><h5>{theme.topThreeProducts[0].title}</h5></Link>
+      <Link to ={`/products/${theme.topThreeProducts[1].id}`}><h5>{theme.topThreeProducts[1].title}</h5></Link>
+      <Link to ={`/products/${theme.topThreeProducts[2].id}`}><h5>{theme.topThreeProducts[2].title}</h5></Link>
      </div>
      </li>
      </div>

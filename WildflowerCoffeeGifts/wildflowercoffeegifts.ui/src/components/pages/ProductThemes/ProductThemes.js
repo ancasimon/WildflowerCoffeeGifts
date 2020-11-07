@@ -8,7 +8,6 @@ class ProductThemes extends React.Component {
   componentDidMount() {
     productThemeData.getThemeThreeProducts()
       .then((themes) => {
-        console.log('theme', themes);
         this.setState({ themes });
       });
   }
