@@ -14,10 +14,10 @@ const getTwentyProducts = () => new Promise((resolve, reject) => {
 });
 
 const getSearchedProducts = (searchWord) => new Promise((resolve, reject) => {
-  axios.get(`${baseUrl}/products/search:${searchWord}`)
+  axios.get(`${baseUrl}/products/search/${searchWord}`)
     .then((response) => {
       const products = response.data;
-      console.error(products);
+      console.error(response);
       console.error(searchWord);
       resolve(products);
     })

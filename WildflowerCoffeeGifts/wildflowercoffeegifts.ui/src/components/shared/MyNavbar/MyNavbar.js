@@ -9,16 +9,20 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
+import SearchedProducts from '../../pages/SearchedProducts/SearchedProducts';
+// import productsData from '../../../helpers/data/productsData';
 
 class MyNavbar extends React.Component {
   state = {
     isOpen: false,
-    searchInput: 'sport',
+    searchInput: '',
+    // wordSearched: `/products/search/${this.searchInput}`,
   }
 
   filterProducts = (e) => {
     e.preventDefault();
     this.setState({ searchInput: e.target.value });
+    console.error(this.state.searchInput);
   }
 
   toggle = () => {
@@ -29,7 +33,7 @@ class MyNavbar extends React.Component {
     const { isOpen } = this.state;
 
     const searchWord = this.state.searchInput;
-    const wordSearched = `/products/search:${searchWord}`;
+    const wordSearched = `/products/search/${searchWord}`;
 
     return (
       <div className="MyNavbar">
@@ -54,8 +58,8 @@ class MyNavbar extends React.Component {
             <button className="btn btn-light">Log In</button>
           </NavItem>
           <form>
-              <input type="text" placeholder="Search Products" name="search" onChange={this.filterProducts}/>
-              <Link to={wordSearched} value={this.state.searchInput}><button><i className="fa fa-search"></i></button></Link>
+              <input type="text" placeholder="Search Products" name="search" value={this.state.searchInput} onChange={this.filterProducts}/>
+              <Link to={wordSearched} searchInput={this.state.searchInput}><button><i className="fa fa-search"></i></button></Link>
           </form>
           </Nav>
         </Collapse>

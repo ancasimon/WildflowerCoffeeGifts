@@ -34,8 +34,8 @@ class App extends React.Component {
                   <Route path='/cart' component={ShoppingCart} />
                   <Route path='/orders' component={Orders} />
                   <Route path='/products/:id' component={SingleProductView} />
+                  <Route path='/products/search/:searchWord' exact component={SearchedProducts} />
                   <Route path='/products' component={Products} />
-                  <Route path='/products/search/:searchWord' component={SearchedProducts} />
                 </Switch>
               </div>
             </div>
