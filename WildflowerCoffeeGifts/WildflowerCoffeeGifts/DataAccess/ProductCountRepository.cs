@@ -24,7 +24,7 @@ namespace WildflowerCoffeeGifts.DataAccess
                                                         group by p.ProductThemeId, p1.Theme");
             foreach (var item in allProducts.ToList())
             {
-                var query = @"Select Top(3)p.Title
+                var query = @"Select Top(3)p.Title, p.id
                                 from products p
                                 where ProductThemeId = @pthemeid
                                 order by p.Title asc";
