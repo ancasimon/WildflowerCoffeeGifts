@@ -13,6 +13,7 @@ import Orders from '../components/pages/Orders/Orders';
 import Products from '../components/pages/Products/Products';
 import ShoppingCart from '../components/pages/ShoppingCart/ShoppingCart';
 import SingleProductView from '../components/pages/SingleProductView/SingleProductView';
+import SearchedProducts from '../components/pages/SearchedProducts/SearchedProducts';
 
 import ordersData from '../helpers/data/ordersData';
 
@@ -32,6 +33,7 @@ class App extends React.Component {
                   <Route path='/home' component={Home} />
                   <Route path='/cart' component={ShoppingCart} />
                   <Route path='/orders' component={Orders} />
+                  <Route path='/products/search/:searchWord' component={SearchedProducts} />
                   <Route path='/products/:id' component={SingleProductView} />
                   <Route path='/products' component={Products} />
                 </Switch>

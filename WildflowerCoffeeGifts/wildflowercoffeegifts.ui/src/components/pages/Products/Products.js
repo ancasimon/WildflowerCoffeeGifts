@@ -5,7 +5,9 @@ import productsData from '../../../helpers/data/productsData';
 import SingleProduct from '../../shared/SingleProduct/SingleProduct';
 
 class Products extends React.Component {
-  state = { products: [] };
+  state = {
+    products: [],
+  };
 
   componentDidMount() {
     productsData.getAllProducts()

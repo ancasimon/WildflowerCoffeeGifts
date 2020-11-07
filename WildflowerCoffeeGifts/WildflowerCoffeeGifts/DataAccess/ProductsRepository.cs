@@ -26,6 +26,20 @@ namespace WildflowerCoffeeGifts.DataAccess
             return allProducts;
         }
 
+        public List<Product> FindAProduct(string searchWord)
+        {
+            using var db = new SqlConnection(_connectionString);
+            var sql = @"select *
+                        from Products
+                        where Title like '%' + @searchWrd + '%'";
+
+            var parameters = new { searchWrd = searchWord };
+
+            var foundProduct = db.Query<Product>(sql, parameters);
+
+            return foundProduct.ToList();
+        }
+
          public IEnumerable<Product> GetProductsTopTwenty()
         {
             using var db = new SqlConnection(_connectionString);
@@ -39,7 +53,27 @@ namespace WildflowerCoffeeGifts.DataAccess
             return topProducts;
         }
 
-            public Product ViewProductById(int id)
+        public IEnumerable<Product> GetProductsTopThree()
+        {
+            using var db = new SqlConnection(_connectionString);
+            var sql = @"WITH TopRows AS(
+                        select ProductThemeId,
+	                    Title,
+	                    ROW_NUMBER() OVER(
+	                    PARTITION BY [ProductThemeId]
+	                    Order By [Title] ASC
+	                    )AS [ROW NUMBER]
+                            from Products
+                            )
+                        Select * FROM TopRows
+                        Where TopRows.[ROW NUMBER]<=3";
+
+            var topthreeProducts = db.Query<Product>(sql);
+
+            return topthreeProducts;
+        }
+
+        public Product ViewProductById(int id)
         {
             using var db = new SqlConnection(_connectionString);
             var sql = @"select * 

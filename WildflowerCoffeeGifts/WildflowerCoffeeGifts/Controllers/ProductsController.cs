@@ -49,6 +49,19 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(singleProduct);
         }
 
+        [HttpGet("search/{searchWord}")]
+        public IActionResult SearchProducts(string searchWord)
+        {
+            var searchProducts = _productsRepo.FindAProduct(searchWord);
+
+            if (searchProducts == null)
+            {
+                return NotFound("We don't have a record of anything with this search result! Try something different!");
+            } 
+            return Ok(searchProducts);
+
+        }
+
         [HttpGet("bystatus/{isActive}")]
         public IActionResult GetProductsByStatus(bool isActive)
         {
