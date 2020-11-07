@@ -33,8 +33,8 @@ class App extends React.Component {
                   <Route path='/home' component={Home} />
                   <Route path='/cart' component={ShoppingCart} />
                   <Route path='/orders' component={Orders} />
+                  <Route path='/products/search/:searchWord' component={SearchedProducts} />
                   <Route path='/products/:id' component={SingleProductView} />
-                  <Route path='/products/search/:searchWord' exact component={SearchedProducts} />
                   <Route path='/products' component={Products} />
                 </Switch>
               </div>

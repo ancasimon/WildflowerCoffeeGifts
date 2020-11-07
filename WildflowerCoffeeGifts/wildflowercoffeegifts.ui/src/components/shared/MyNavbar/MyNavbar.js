@@ -22,7 +22,6 @@ class MyNavbar extends React.Component {
   filterProducts = (e) => {
     e.preventDefault();
     this.setState({ searchInput: e.target.value });
-    console.error(this.state.searchInput);
   }
 
   toggle = () => {
@@ -58,8 +57,8 @@ class MyNavbar extends React.Component {
             <button className="btn btn-light">Log In</button>
           </NavItem>
           <form>
-              <input type="text" placeholder="Search Products" name="search" value={this.state.searchInput} onChange={this.filterProducts}/>
-              <Link to={wordSearched} searchInput={this.state.searchInput}><button><i className="fa fa-search"></i></button></Link>
+              <input onChange={this.filterProducts} type="text" placeholder="Search Products" name="search" value={this.state.searchInput}/>
+              <Link to={wordSearched} searchinput={this.state.searchInput}><button><i className="fa fa-search"></i></button></Link>
           </form>
           </Nav>
         </Collapse>

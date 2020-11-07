@@ -4,6 +4,7 @@ import SingleProduct from '../../shared/SingleProduct/SingleProduct';
 import productsData from '../../../helpers/data/productsData';
 
 import './SearchedProducts.scss';
+import SingleProductView from '../SingleProductView/SingleProductView';
 
 class SearchedProducts extends React.Component {
   state = {
@@ -15,10 +16,7 @@ class SearchedProducts extends React.Component {
   }
 
   filterAllProducts = () => {
-    // e.preventDefault();
-    // this.setState({ searchInput: e.target.value.substr(0, 20) });
     const searchInput = this.props.match.params.searchWord;
-    console.error('in searched componenet', searchInput);
     productsData.getSearchedProducts(searchInput)
       .then((productsReturnedFromSearch) => {
         this.setState({ productsReturnedFromSearch });
@@ -30,14 +28,19 @@ class SearchedProducts extends React.Component {
     this.filterAllProducts();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.productsReturnedFromSearch !== this.state.productsReturnedFromSearch) {
+      this.filterAllProducts();
+    }
+  }
+
   render() {
     const { productsReturnedFromSearch } = this.state;
-    console.error('test', this.state.productsReturnedFromSearch);
     const results = productsReturnedFromSearch.map((p) => (
-      <SingleProduct key={p.id} p={p}/>
+      <SingleProduct key={p.id} product={p}/>
     ));
     return (
-      <div>
+      <div className="d-flex flex-wrap">
         {results}
       </div>
     );
