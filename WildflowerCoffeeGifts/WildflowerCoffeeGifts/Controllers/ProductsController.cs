@@ -49,7 +49,7 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(singleProduct);
         }
 
-        [HttpGet("search/:{searchWord}")]
+        [HttpGet("search/{searchWord}")]
         public IActionResult SearchProducts(string searchWord)
         {
             var searchProducts = _productsRepo.FindAProduct(searchWord);
