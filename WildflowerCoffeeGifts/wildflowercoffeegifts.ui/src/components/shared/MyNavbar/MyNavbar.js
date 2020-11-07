@@ -9,13 +9,17 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
-import SearchBar from '../SearchBar/SearchBar';
 
 class MyNavbar extends React.Component {
   state = {
     isOpen: false,
-    search: '',
-    filteredProducts: [],
+    searchInput: '',
+  }
+
+  setSearchValue = (e) => {
+    e.preventDefault();
+    this.setState({ searchInput: e.target.value });
+    console.error(e.target.value);
   }
 
   toggle = () => {
@@ -24,7 +28,8 @@ class MyNavbar extends React.Component {
 
   render() {
     const { isOpen } = this.state;
-
+    const searchInput = this.state.searchValue;
+    const wordSearched = `/products/search/:${searchInput}`;
     return (
       <div className="MyNavbar">
       <Navbar className="navbar-dark bg-dark" expand="md">
@@ -47,9 +52,12 @@ class MyNavbar extends React.Component {
           <NavItem className="NavItem">
             <button className="btn btn-light">Log In</button>
           </NavItem>
-          <NavItem tag={RRNavLink} to="/search">
-            <SearchBar/>
-          </NavItem>
+          <form>
+            <NavItem className="NavItem">
+              <input type="text" placeholder="Search Products" name="search" onChange={this.filterProducts}/>
+              <NavLink to={wordSearched} value={this.state.searchInput}><button><i className="fa fa-search"></i></button></NavLink>
+            </NavItem>
+          </form>
           </Nav>
         </Collapse>
       </Navbar>

@@ -47,7 +47,7 @@ class SingleLineItem extends React.Component {
               <td>${item.price}</td>
               <td>{item.qty}</td>
               <td>${item.subtotal}</td>
-              <td><i class="fas fa-trash-alt" onClick={this.inactivateLineItem}></i></td>
+              <td><i className="fas fa-trash-alt" onClick={this.inactivateLineItem}></i></td>
           </tr>
         </tbody>
     );
