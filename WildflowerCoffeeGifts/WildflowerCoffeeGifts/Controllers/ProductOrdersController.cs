@@ -52,13 +52,13 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(allItemsInSingleOrder);
         }
 
-        [HttpPost]
-        public IActionResult CreateProductOrder(ProductOrder newLineItem)
-        {
-            var brandNewProductOrder = _productOrderRepo.AddProductOrder(newLineItem);
+        //[HttpPost]
+        //public IActionResult CreateProductOrder(ProductOrder newLineItem)
+        //{
+        //    var brandNewProductOrder = _productOrderRepo.AddProductOrder(newLineItem);
 
-            return Created($"/api/lineitems/{newLineItem.Id}", brandNewProductOrder);
-        }
+        //    return Created($"/api/lineitems/{newLineItem.Id}", brandNewProductOrder);
+        //}
 
         [HttpPut("{id}")]
         public IActionResult UpdateProductOrder(int id, ProductOrder lineItem)
@@ -84,6 +84,14 @@ namespace WildflowerCoffeeGifts.Controllers
             }
 
             return Ok(updatedLineItem);
+        }
+
+        [HttpPost]
+        public IActionResult CreateProductOrderWIthInfo(ProductOrderWithProductInfo newLineItem)
+        {
+            var brandNewProductOrder = _productOrderWithInfoRepo.AddLineItem(newLineItem);
+
+            return Created($"/api/lineitems/{newLineItem.Id}", brandNewProductOrder);
         }
     }
 }

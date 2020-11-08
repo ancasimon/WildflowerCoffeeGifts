@@ -62,7 +62,7 @@ namespace WildflowerCoffeeGifts.DataAccess
                                             ,[IsActive])
                                     Output inserted.Id
                                     VALUES
-                                        (@productId, @orderId, @qty, @isACtive)";
+                                        (@productId, @orderId, @qty, @isActive)";
             using var db = new SqlConnection(_connectionString);
 
             var newId = db.ExecuteScalar<int>(sqlInsert, newLineItem);

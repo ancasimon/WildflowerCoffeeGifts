@@ -41,5 +41,27 @@ namespace WildflowerCoffeeGifts.DataAccess
 
             return updatedLineItem;
         }
+
+        public ProductOrderWithProductInfo AddLineItem(ProductOrderWithProductInfo newLineItem)
+        {
+            var sqlInsert = @"INSERT INTO [dbo].[ProductOrders]
+                                            ([ProductId]
+                                            ,[OrderId]
+                                            ,[Qty]
+                                            ,[IsActive])
+                                    Output inserted.Id
+                                    VALUES
+                                        (@productId, @orderId, @qty, @isActive)";
+            using var db = new SqlConnection(_connectionString);
+
+            var newId = db.ExecuteScalar<int>(sqlInsert, newLineItem);
+
+            var sqlGetLineItem = "select * from ProductOrders where Id = @id";
+            var parameters = new { id = newId };
+
+            var newProductOrder = db.QueryFirstOrDefault<ProductOrderWithProductInfo>(sqlGetLineItem, parameters);
+
+            return newProductOrder;
+        }
     }
 }
