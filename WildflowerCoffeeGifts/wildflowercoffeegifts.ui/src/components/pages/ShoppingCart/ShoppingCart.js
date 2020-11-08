@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 import SingleLineItem from '../../shared/SingleLineItem/SingleLineItem';
 
@@ -14,7 +15,7 @@ class ShoppingCart extends React.Component {
     cart: {},
     lineItems: [],
     user: {},
-    userId: 6,
+    userId: 5,
   }
 
   getUser = () => {
@@ -65,19 +66,19 @@ class ShoppingCart extends React.Component {
     // first, we create the new payment option - a placeholder record for the data the user will provide before finalizing the order!
     const newPaymentType = {
       paymentOption: 'NewOptionNeedsUpdates',
-      userId: 6, // we will replace this with a the userID of the logged in user!!
+      userId: this.state.userId, // we will replace this with a the userID of the logged-in user!!
       accountNo: 0,
       expirationMonth: 0,
       expirationYear: 0,
       isActive: true,
     };
-    // then we use the ID of the payment option to populate the paymentTypeId field on the new order:
+    // then we use the ID of the payment option we just created to populate the paymentTypeId field on the new order:
     paymentTypesData.postPaymentType(newPaymentType)
       .then((paymentResponse) => {
         const newPaymentTypeId = paymentResponse.data.id;
         console.error('new payment type', paymentResponse);
         const newOrder = {
-          userId: 6, // we will replace this with a the userID of the logged in user!!
+          userId: this.state.userId, // we will replace this with a the userID of the logged in user!!
           isCompleted: false,
           totalPrice: 0,
           paymentTypeId: newPaymentTypeId,
@@ -132,6 +133,7 @@ class ShoppingCart extends React.Component {
                   {buildLineItems()}
                 </Table>
               </div>
+              <Link to='/products'>Continue Shopping</Link>
               </div>
           }
       </div>
