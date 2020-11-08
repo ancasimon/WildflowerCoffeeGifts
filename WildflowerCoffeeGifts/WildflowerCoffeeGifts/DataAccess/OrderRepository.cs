@@ -148,20 +148,26 @@ namespace WildflowerCoffeeGifts.DataAccess
                                       where po.OrderId = @OrderId AND po.IsActive=1";
 
             var orderLineItems = db.Query<ProductOrderWithProductInfo>(queryForLineItems, parameterOrderId);
+            // assign the ProductOrder records returned by the first query above to the LineItems List property on the order object:
+            selectedOrder.LineItems = (List<ProductOrderWithProductInfo>)orderLineItems;
 
-            var queryForTotalPrice = @"select SUM(x.Subtotal)
+            if (selectedOrder.LineItems.Count == 0)
+            {
+                selectedOrder.TotalPrice = 0;
+            } 
+            else
+            {
+                var queryForTotalPrice = @"select SUM(x.Subtotal)
 from (
 select p.Price*po.Qty AS Subtotal                                    
 from ProductOrders po
 join Products p
 on po.ProductId = p.Id
 where po.OrderId = @OrderId) x";
-            var totalPrice = db.QueryFirst<decimal>(queryForTotalPrice, parameterOrderId);
-
-            // assign the ProductOrder records returned by the first query above to the LineItems List property on the order object:
-            selectedOrder.LineItems = (List<ProductOrderWithProductInfo>)orderLineItems;
-            selectedOrder.TotalPrice = totalPrice;
+                var totalPrice = db.QueryFirst<decimal>(queryForTotalPrice, parameterOrderId);
+                selectedOrder.TotalPrice = totalPrice;
             }
+          }
 
             return selectedOrder;
         }
