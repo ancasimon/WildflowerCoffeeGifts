@@ -16,8 +16,8 @@ class ProductThemes extends React.Component {
     const { themes } = this.state;
     const buildProductThemes = themes.map((theme) => (<SingleProductTheme key={theme.id} theme={theme}/>));
     return (
-  <div className="d-flex flex-wrap">
-    {buildProductThemes}
+      <div className="category d-flex flex-wrap">
+   {buildProductThemes}
   </div>
     );
   }

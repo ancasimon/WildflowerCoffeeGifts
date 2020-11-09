@@ -13,6 +13,13 @@
 .card-img-top {
   height: 16rem;
   object-fit: contain;
+  overflow: hidden;
+  transition: all 1.5s ease;
+}
+
+.card-img-top:hover{
+  transform: scale(1.5);
+  overflow: hidden;
 }
 .card-title {
   height: 100px;

@@ -7,18 +7,14 @@ class SingleProductTheme extends React.Component {
     const { theme } = this.props;
     return (
       <div className='SingleProductTheme'>
-        <div className="container">
-        <li className= "list-group-item">
+         <li className= "list-group-item">
           <div>
            <h2 className="theme-name">{theme.theme} ({theme.count})</h2>
           </div>
-          <div>
       <Link to ={`/products/${theme.topThreeProducts[0].id}`}><h5>{theme.topThreeProducts[0].title}</h5></Link>
       <Link to ={`/products/${theme.topThreeProducts[1].id}`}><h5>{theme.topThreeProducts[1].title}</h5></Link>
       <Link to ={`/products/${theme.topThreeProducts[2].id}`}><h5>{theme.topThreeProducts[2].title}</h5></Link>
-     </div>
-     </li>
-     </div>
+      </li>
      </div>
     );
   }
