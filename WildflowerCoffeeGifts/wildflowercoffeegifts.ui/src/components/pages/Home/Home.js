@@ -25,7 +25,7 @@ class Home extends React.Component {
         <div className="d-flex flex-wrap">
           {buildTwentyProducts}
         </div>
-    <div>
+    <div className="container">
       <h1>Product Themes</h1>
         <ProductThemes/>
       </div>
