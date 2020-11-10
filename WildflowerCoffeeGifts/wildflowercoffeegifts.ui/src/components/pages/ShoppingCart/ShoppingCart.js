@@ -15,7 +15,7 @@ class ShoppingCart extends React.Component {
     cart: {},
     lineItems: [],
     user: {},
-    userId: 15,
+    userId: 5,
   }
 
   getUser = () => {
@@ -65,7 +65,7 @@ class ShoppingCart extends React.Component {
     const { cart, userId } = this.state;
     // first, we create the new payment option - a placeholder record for the data the user will provide before finalizing the order!
     const newPaymentType = {
-      paymentOption: 'NewOptionNeedsUpdates',
+      paymentOption: 'Please add a payment type.',
       userId: this.state.userId, // we will replace this with a the userID of the logged-in user!!
       accountNo: 0,
       expirationMonth: 0,
