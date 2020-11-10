@@ -13,7 +13,7 @@ class SingleProductView extends React.Component {
   state = {
     selectedProduct: {},
     selectedProductId: this.props.match.params.id, // we may need to move this to props when we do the product cards and pass down the id of the card selected ...
-    userId: 5,
+    userId: 17,
     cart: {},
     lineItems: [],
   }
@@ -61,16 +61,27 @@ class SingleProductView extends React.Component {
       selectedProductId,
     } = this.state;
     let newPaymentTypeId = 0;
+    let newOrder = {};
     console.error('is cart null??', cart);
     if (cart == null) {
       // first, we check if we already have a payment type for the user on record - and get the latest payment type for this user:
       paymentTypesData.getLatestPaymentTypeForUser(this.state.userId)
         .then((latestPaymentResponse) => {
-          console.error('latest payment', latestPaymentResponse);
           // if we do have one or more payment types, we pick the one we have or the latest:
-          if (latestPaymentResponse.status === 200) {
+          if (latestPaymentResponse.status == 200) {
             newPaymentTypeId = latestPaymentResponse.data.id;
-          } else if (latestPaymentResponse.status === 404) {
+            console.error('latest payment', latestPaymentResponse);
+            newOrder = {
+              userId: this.state.userId, // we will replace this with a the userID of the logged in user!!
+              isCompleted: false,
+              totalPrice: 0,
+              paymentTypeId: newPaymentTypeId,
+              purchaseDate: new Date(),
+              // purchaseDate: new Date().toISOString().slice(0, 19).replace('T', ' '),
+              deliveryAddress: '',
+              isActive: true,
+            };
+          } else if (latestPaymentResponse.status == 204) {
             // if we do NOT have a payment type on record for the user, then we create one:
             // we create the new payment option - a placeholder record for the data the user will provide before finalizing the order!
             const newPaymentType = {
@@ -87,17 +98,17 @@ class SingleProductView extends React.Component {
               .then((paymentResponse) => {
                 newPaymentTypeId = paymentResponse.data.id;
                 console.error('new payment type', paymentResponse);
+                newOrder = {
+                  userId: this.state.userId, // we will replace this with the userID of the logged in user!!
+                  isCompleted: false,
+                  totalPrice: 0,
+                  paymentTypeId: newPaymentTypeId,
+                  purchaseDate: new Date(),
+                  deliveryAddress: '',
+                  isActive: true,
+                };
               });
           }
-          const newOrder = {
-            userId: this.state.userId, // we will replace this with a the userID of the logged in user!!
-            isCompleted: false,
-            totalPrice: 0,
-            paymentTypeId: newPaymentTypeId,
-            purchaseDate: new Date(),
-            deliveryAddress: '',
-            isActive: true,
-          };
           ordersData.postOrder(newOrder)
             .then((orderResponse) => {
               this.setState({
@@ -132,15 +143,9 @@ class SingleProductView extends React.Component {
         })
         .catch((error) => console.error('Unable to create the new shopping cart.', error));
       console.error('created cart order');
-      // productOrdersData.postProductOrder()
-      //   .then((productOrderResponse) => )
-      // still wip here!
-      // need to check for the response for the order here / cart is not empty when there is a pending order associated with the user???
       // need to check if the selected product is already in the cart (loop through line items) - if it is > increment its quantity by 1
       // need to add error messages when quantity available has been reached ...
       // need to add to data files: getting an order with line items!! get order for selected user ....
-    // })
-    // .catch((error) => console.error('Unble to add new order to cart', error));
     }
   }
 

@@ -41,7 +41,7 @@ namespace WildflowerCoffeeGifts.Controllers
         public IActionResult GetLatestPaymentTypeForUser(int userId)
         {
             var latestPaymentTypeForUser = _paymentTypeRepo.GetLatestPaymentTypeForUser(userId);
-            if (latestPaymentTypeForUser == null) return NotFound("We could not find this payment type on your record.");
+            if (latestPaymentTypeForUser == null) return NoContent();
 
             return Ok(latestPaymentTypeForUser);
         }
