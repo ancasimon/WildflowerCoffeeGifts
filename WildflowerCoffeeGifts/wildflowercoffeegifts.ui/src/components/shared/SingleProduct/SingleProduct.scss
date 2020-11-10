@@ -6,14 +6,15 @@
 .card {
   width: 250px;
   margin: 5%;
- height: 400px;
+ height: 350px;
  text-align:center;
  justify-content: space-between;
  box-shadow: 1px cornsilk;
 }
 
 .card-img-top {
-  height: 250px;
+  height: 175px;
+  width: 100%;
   object-fit: contain;
   overflow: hidden;
   //transition: all 1.5s ease;
