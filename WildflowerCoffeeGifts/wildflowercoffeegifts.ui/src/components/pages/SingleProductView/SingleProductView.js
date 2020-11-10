@@ -66,7 +66,7 @@ class SingleProductView extends React.Component {
                       <h4 className="product-title">{selectedProduct.title}</h4>
                       <StarRating key={selectedProduct.id}></StarRating>
                       <p className="desc">{selectedProduct.description}</p>
-                      <p className="price">USD: ${selectedProduct.price}.00</p>
+                      <p className="price">PRICE: ${selectedProduct.price}.00</p>
                       <p><b>Available Quantity:</b> {selectedProduct.quantityAvailable}</p>
                       <p><b>Product Theme:</b> {selectedProduct.productThemeName}</p>
                       <p><b>Coffee Mug:</b> {selectedProduct.coffeeMugName}</p>
