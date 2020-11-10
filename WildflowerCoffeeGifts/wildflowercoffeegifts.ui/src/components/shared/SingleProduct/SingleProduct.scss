@@ -4,25 +4,34 @@
 
 
 .card {
-  width: 18rem;
-  margin: 1%;
- height: 600px;
- text-align:center ;
+  width: 250px;
+  margin: 5%;
+ height: 400px;
+ text-align:center;
+ justify-content: space-between;
+ box-shadow: 1px cornsilk;
 }
 
 .card-img-top {
-  height: 16rem;
+  height: 250px;
   object-fit: contain;
   overflow: hidden;
-  transition: all 1.5s ease;
+  //transition: all 1.5s ease;
 }
 
 .card-img-top:hover{
-  transform: scale(1.5);
+  //transform: scale(1.5);
   overflow: hidden;
 }
 .card-title {
   height: 100px;
   text-transform: uppercase; 
   font-style: italic ;
+  font-size: 1px;
+  position: absolute;
+  
+  .card-body{
+    position: absolute;
+  }
+  
 }
