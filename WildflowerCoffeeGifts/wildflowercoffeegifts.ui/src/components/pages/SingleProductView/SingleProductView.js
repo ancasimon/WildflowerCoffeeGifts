@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import moment from 'moment';
+
 import ShoppingCart from '../ShoppingCart/ShoppingCart';
 import ordersData from '../../../helpers/data/ordersData';
 import productOrdersData from '../../../helpers/data/productOrdersData';
@@ -13,7 +15,7 @@ class SingleProductView extends React.Component {
   state = {
     selectedProduct: {},
     selectedProductId: this.props.match.params.id, // we may need to move this to props when we do the product cards and pass down the id of the card selected ...
-    userId: 17,
+    userId: 5,
     cart: {},
     lineItems: [],
   }
@@ -76,11 +78,12 @@ class SingleProductView extends React.Component {
               isCompleted: false,
               totalPrice: 0,
               paymentTypeId: newPaymentTypeId,
-              purchaseDate: new Date(),
+              // purchaseDate: new Date(),
               // purchaseDate: new Date().toISOString().slice(0, 19).replace('T', ' '),
-              deliveryAddress: '',
+              deliveryAddress: 'Please enter an address.',
               isActive: true,
             };
+            console.error('new order object', newOrder);
           } else if (latestPaymentResponse.status == 204) {
             // if we do NOT have a payment type on record for the user, then we create one:
             // we create the new payment option - a placeholder record for the data the user will provide before finalizing the order!
@@ -103,8 +106,7 @@ class SingleProductView extends React.Component {
                   isCompleted: false,
                   totalPrice: 0,
                   paymentTypeId: newPaymentTypeId,
-                  purchaseDate: new Date(),
-                  deliveryAddress: '',
+                  deliveryAddress: 'Please enter an address.',
                   isActive: true,
                 };
               });

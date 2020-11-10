@@ -172,6 +172,8 @@ where po.OrderId = @OrderId) x";
             return selectedOrder;
         }
 
+        // deleted from below:                                                 ,[PurchaseDate] 
+
         public Order AddOrder(Order orderToAdd)
         {
             var sqlInsert = @"INSERT INTO [dbo].[Orders]
@@ -179,12 +181,11 @@ where po.OrderId = @OrderId) x";
                                                 ,[IsCompleted]
                                                 ,[TotalPrice]
                                                 ,[PaymentTypeId]
-                                                ,[PurchaseDate]
                                                 ,[DeliveryAddress]
                                                 ,[IsActive])
                                             Output inserted.Id
                                             VALUES
-                                            (@userId, @isCompleted, @totalPrice, @paymentTypeId, @purchaseDate, @deliveryAddress, @isActive)";
+                                            (@userId, @isCompleted, @totalPrice, @paymentTypeId, @deliveryAddress, @isActive)";
             using var db = new SqlConnection(_connectionString);
             var newId = db.ExecuteScalar<int>(sqlInsert, orderToAdd);
 
