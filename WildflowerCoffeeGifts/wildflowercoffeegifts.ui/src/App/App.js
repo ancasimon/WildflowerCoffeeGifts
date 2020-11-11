@@ -30,12 +30,12 @@ class App extends React.Component {
             <div className="container">
               <div className="row">
                 <Switch>
-                  <Route path='/home' component={Home} />
                   <Route path='/cart' component={ShoppingCart} />
                   <Route path='/orders' component={Orders} />
                   <Route path='/products/search/:searchWord' component={SearchedProducts} />
                   <Route path='/products/:id' component={SingleProductView} />
                   <Route path='/products' component={Products} />
+                  <Route path='' component={Home} />
                 </Switch>
               </div>
             </div>
