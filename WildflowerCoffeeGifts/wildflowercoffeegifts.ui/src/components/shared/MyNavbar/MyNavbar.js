@@ -40,24 +40,26 @@ class MyNavbar extends React.Component {
         <div className="wfc">
           <NavbarBrand tag={RRNavLink} to="/home" className='ml-3' >Wildflower Coffee Gifts🌼</NavbarBrand>
         </div>
-        <NavbarToggler onClick={this.toggle} />
+        <NavbarToggler className='toggleButton' onClick={this.toggle}>
+          <p className='m-auto p-1'><i class="fas fa-bars"></i></p>
+          </NavbarToggler>
         <Collapse isOpen={isOpen} navbar>
         <Nav className="ml-auto NavList" navbar>
           <NavItem className="NavItem">
-            <NavLink tag={RRNavLink} to="/products">Products</NavLink>
+            <NavLink tag={RRNavLink} to="/products" className='listItems'>Products</NavLink>
           </NavItem>
           <NavItem className="NavItem">
-            <NavLink tag={RRNavLink} to="/orders">Orders</NavLink>
+            <NavLink tag={RRNavLink} to="/orders" className='listItems'>Orders</NavLink>
           </NavItem>
           <NavItem className="NavItem">
-            <NavLink tag={RRNavLink} to="/cart">Cart</NavLink>
+            <NavLink tag={RRNavLink} to="/cart" className='listItems'>Cart</NavLink>
           </NavItem>
           <NavItem className="NavItem">
-            <button className="btn btn-light">Log In</button>
+            <button className='logInButton'>Log In</button>
           </NavItem>
           <form className='searchbar'>
               <input className='searchInput' onChange={this.filterProducts} type="text" placeholder="Search Products" name="search" value={this.state.searchInput}/>
-              <Link className='searchButton' to={wordSearched} searchinput={this.state.searchInput}><i className="fa fa-search"></i></Link>
+              <Link className='searchButton' to={wordSearched} searchinput={this.state.searchInput} className='listItems'><i className="fa fa-search"></i></Link>
           </form>
           </Nav>
         </Collapse>

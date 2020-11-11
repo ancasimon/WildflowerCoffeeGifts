@@ -1,10 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Petit+Formal+Script&display=swap');
 
 .active {
-    color: black;
-    .active:hover{
-        color: black !important;
-    }    
+    color: black;  
+}
+
+.active:hover {
+    color: rgb(36, 36, 36);
+}
+
+.listItems {
+    color: rgb(235, 219, 219);
+}
+
+.listItems:hover {
+    color: rgb(231, 206, 206)
 }
 
 .MyNavbar {
@@ -31,6 +40,14 @@
     background-color: rgb(235, 219, 219);
 }
 
+.toggleButton:hover {
+    background-color: rgb(231, 206, 206)
+}
+
+.wfc:hover {
+    background-color: rgb(231, 206, 206)
+}
+
 .searchbar {
     .searchInput {
 
@@ -39,4 +56,19 @@
     .searchButton {
 
     }
+}
+
+.toggleButton {
+   background-color:  rgb(235, 219, 219);
+   border: #963858 solid 2px;
+   border-radius: 5px;
+   color: black;
+}
+
+.logInButton {
+    background-color: #4d0019;
+    color: rgb(235, 219, 219);
+    border: none;
+    margin-left: -4px;
+    margin-top: 7px;
 }
