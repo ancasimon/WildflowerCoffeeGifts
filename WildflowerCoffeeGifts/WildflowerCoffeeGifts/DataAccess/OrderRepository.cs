@@ -172,7 +172,7 @@ where po.OrderId = @OrderId) x";
             return selectedOrder;
         }
 
-        // deleted from below:                                                 ,[PurchaseDate] 
+        // deleted from below:  ,[PurchaseDate] 
 
         public Order AddOrder(Order orderToAdd)
         {
@@ -191,6 +191,72 @@ where po.OrderId = @OrderId) x";
 
             var sqlGetOrder = "select * from Orders where Id = @id";
             var parameters = new { id = newId };
+            var newOrder = db.QueryFirstOrDefault<Order>(sqlGetOrder, parameters);
+
+            return newOrder;
+        }
+
+
+        // created a new method that gets the latest payment type record for the user -and if none is available, then it creates a default payment type - and then creates an order for that user, using that payment type:
+        public Order CreateShoppingCart(int userId)
+        {
+            using var db = new SqlConnection(_connectionString);
+            // get the latest payment type for the user:
+            var parameterUserId = new { userId };
+            var queryForLatestPaymentType = @"select *
+                                            from PaymentTypes
+                                            where UserId = @userId and IsActive = 1";
+            var latestPayment = db.QueryFirstOrDefault<PaymentType>(queryForLatestPaymentType, parameterUserId);
+            if (latestPayment == null)
+            {
+                var createDefaultPaymentType = @"INSERT INTO [dbo].[PaymentTypes]
+                                                                    ([PaymentOption],
+                                                                     [UserId],
+                                                                     [AccountNo],
+                                                                     [ExpirationYear],
+                                                                     [ExpirationMonth],
+                                                                     [IsActive])
+                                                Output inserted.Id
+                                                VALUES 
+                                                    ('Please specify a payment type.',
+                                                    @userId,
+                                                    '',
+                                                    '',
+                                                    '',
+                                                    '1')";
+
+                var newPaymentTypeId = db.ExecuteScalar<int>(createDefaultPaymentType, parameterUserId);
+
+                var getPaymentType = @"select *
+                                   from PaymentTypes
+                                   where Id = @id";
+
+                var parameterForNewPaymentType = new { id = newPaymentTypeId };
+
+                var newPaymentType = db.QueryFirstOrDefault<PaymentType>(getPaymentType, parameterForNewPaymentType);
+
+                latestPayment = newPaymentType;
+            }
+
+            var latestPaymentTypeId = latestPayment.Id;
+
+            // create the new order for the cart:
+            var createOrder = @"INSERT INTO [dbo].[Orders]
+                                               ([UserId]
+                                                ,[IsCompleted]
+                                                ,[TotalPrice]
+                                                ,[PaymentTypeId]
+                                                ,[DeliveryAddress]
+                                                ,[IsActive])
+                                            Output inserted.Id
+                                            VALUES
+                                            (@userId, 0, 0, @latestPaymentTypeId, 'Please enter an address.', 1)";
+
+            var parametersForNewOrder = new { userId, latestPaymentTypeId };
+            var newOrderId = db.ExecuteScalar<int>(createOrder, parametersForNewOrder);
+
+            var sqlGetOrder = "select * from Orders where Id = @id";
+            var parameters = new { id = newOrderId };
             var newOrder = db.QueryFirstOrDefault<Order>(sqlGetOrder, parameters);
 
             return newOrder;

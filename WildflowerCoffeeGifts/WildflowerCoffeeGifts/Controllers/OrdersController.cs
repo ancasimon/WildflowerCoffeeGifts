@@ -55,6 +55,15 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(selectedOrder);
         }
 
+        // writing a new method here to create a shopping cart order:
+        [HttpPost("cart/{userId}")]
+        public IActionResult CreateShoppingCart(int userId)
+        {
+            var newCart = _orderRepo.CreateShoppingCart(userId);
+            return Created($"/api/orders/cart/{newCart.Id}", newCart);
+        }
+
+
         [HttpPost]
         public IActionResult CreateOrder(Order newOrder)
         {
