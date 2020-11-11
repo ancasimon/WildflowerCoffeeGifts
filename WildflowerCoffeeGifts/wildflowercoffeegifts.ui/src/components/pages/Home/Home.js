@@ -21,14 +21,22 @@ class Home extends React.Component {
 
     return (
       <div>
-        <h1> Latest Products</h1>
-        <div className="d-flex flex-wrap">
-          {buildTwentyProducts}
+         <div className="jumbotron">
+          <div className="jumbotronText">
+            <h1 className="greeting">Thank you for visiting us at Wildflower Coffee Gifts!</h1>
+            <h2 className='aboutUs'>We are a locally owned floral shop offering gifts for any occasion in reusable coffee mugs!</h2>
+          </div>
         </div>
-        <div>
-      <h1>Product Themes</h1>
-       <ProductThemes/>
-      </div>
+        <div className='homeContent'>
+         <h1> Latest Products</h1>
+          <div className="d-flex flex-wrap">
+            {buildTwentyProducts}
+          </div>
+          <div>
+          <h1>Product Themes</h1>
+            <ProductThemes/>
+          </div>
+        </div>
       </div>
     );
   }
