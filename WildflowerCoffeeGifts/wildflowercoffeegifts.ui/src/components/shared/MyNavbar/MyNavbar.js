@@ -9,8 +9,8 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
-import SearchedProducts from '../../pages/SearchedProducts/SearchedProducts';
-// import productsData from '../../../helpers/data/productsData';
+
+import './MyNavbar.scss';
 
 class MyNavbar extends React.Component {
   state = {
@@ -36,14 +36,13 @@ class MyNavbar extends React.Component {
 
     return (
       <div className="MyNavbar">
-      <Navbar className="navbar-dark bg-dark" expand="md">
-        <NavbarBrand href="/">Wildflower Coffee Gifts</NavbarBrand>
+      <Navbar expand="md">
+        <div className="wfc">
+          <NavbarBrand tag={RRNavLink} to="/home" className='ml-3' >Wildflower Coffee Gifts🌼</NavbarBrand>
+        </div>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={isOpen} navbar>
         <Nav className="ml-auto NavList" navbar>
-          <NavItem className="NavItem">
-            <NavLink tag={RRNavLink} to="/home">Home</NavLink>
-          </NavItem>
           <NavItem className="NavItem">
             <NavLink tag={RRNavLink} to="/products">Products</NavLink>
           </NavItem>
@@ -56,9 +55,9 @@ class MyNavbar extends React.Component {
           <NavItem className="NavItem">
             <button className="btn btn-light">Log In</button>
           </NavItem>
-          <form>
-              <input onChange={this.filterProducts} type="text" placeholder="Search Products" name="search" value={this.state.searchInput}/>
-              <Link to={wordSearched} searchinput={this.state.searchInput}><button><i className="fa fa-search"></i></button></Link>
+          <form className='searchbar'>
+              <input className='searchInput' onChange={this.filterProducts} type="text" placeholder="Search Products" name="search" value={this.state.searchInput}/>
+              <Link className='searchButton' to={wordSearched} searchinput={this.state.searchInput}><i className="fa fa-search"></i></Link>
           </form>
           </Nav>
         </Collapse>

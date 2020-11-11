@@ -1,3 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Petit+Formal+Script&display=swap');
+
+.active {
+    color: black;
+    .active:hover{
+        color: black !important;
+    }    
+}
+
+.MyNavbar {
+    background-color: #4d0019;
+    color: black !important;
+    .MyNavbar:hover{
+        color: black !important;
+    }    
+}
+
 .NavItem {
     margin: 0;
     padding: 0;
@@ -5,4 +22,21 @@
 
 .NavList {
     list-style-type: none;
+}
+
+.wfc {
+    font-family: 'Petit Formal Script', cursive;
+    border: 1.5px solid  #963858;
+    border-radius: 25px;
+    background-color: rgb(235, 219, 219);
+}
+
+.searchbar {
+    .searchInput {
+
+    }
+
+    .searchButton {
+
+    }
 }
