@@ -39,6 +39,21 @@ namespace WildflowerCoffeeGifts.DataAccess
             return singlePaymentType;
         }
 
+        // Anca: Adding a method to get the latest payment type for a given user:
+        public PaymentType GetLatestPaymentTypeForUser(int userId)
+        {
+            using var db = new SqlConnection(_connectionString);
+            var sqlForLatestPaymentTypeForUser = @"select top(1) *
+                                                  from PaymentTypes
+                                                  where UserId = @userId AND IsActive = 1
+                                                  order by Id desc";
+            var parameterForUserId = new { userId };
+
+            var latestPaymentTypeForUser = db.QueryFirstOrDefault<PaymentType>(sqlForLatestPaymentTypeForUser, parameterForUserId);
+
+            return latestPaymentTypeForUser;
+        }
+
         public IEnumerable<PaymentType> GetPaymentTypesByStatus(bool isActive)
         {
             using var db = new SqlConnection(_connectionString);

@@ -7,4 +7,11 @@ const getCart = (userId) => axios.get(`${baseUrl}/orders/cart/${userId}`);
 
 const postOrder = (newOrder) => axios.post(`${baseUrl}/orders`, newOrder);
 
-export default { getSingleOrder, postOrder, getCart };
+const createCart = (userId) => axios.post(`${baseUrl}/orders/cart/${userId}`, userId);
+
+export default {
+  getSingleOrder,
+  postOrder,
+  getCart,
+  createCart,
+};

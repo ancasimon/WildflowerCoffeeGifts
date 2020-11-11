@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+import ShoppingCart from '../ShoppingCart/ShoppingCart';
 import ordersData from '../../../helpers/data/ordersData';
 import productOrdersData from '../../../helpers/data/productOrdersData';
+import paymentTypesData from '../../../helpers/data/paymentTypesData';
 import productsData from '../../../helpers/data/productsData';
 
 import './SingleProductView.scss';
@@ -10,6 +13,10 @@ class SingleProductView extends React.Component {
   state = {
     selectedProduct: {},
     selectedProductId: this.props.match.params.id, // we may need to move this to props when we do the product cards and pass down the id of the card selected ...
+    userId: 5,
+    cart: {},
+    lineItems: [],
+    qty: 1,
   }
 
   buildSingleView = () => {
@@ -18,35 +25,76 @@ class SingleProductView extends React.Component {
       .then((response) => {
         this.setState({
           selectedProduct: response.data,
+          selectedProductId: response.data.id,
         });
-        console.error('response.data', response);
+        console.error('product response.data', response);
       })
       .catch((error) => console.error('Unable to get the selected product', error));
   }
 
-  addToCart = (e) => {
-    e.preventDefault();
-    const { cart } = this.state;
-    if (cart == null) {
-      ordersData.postOrder()
-        .then((response) => {
+  getCart = () => {
+    const { cart, userId, qty } = this.state;
+    ordersData.getCart(userId)
+      .then((response) => {
+        if (response.status == 200) {
           this.setState({
             cart: response.data,
+            lineItems: response.data.lineItems,
           });
-          productOrdersData.postProductOrder();
-          // still wip here!
-          // need to check for the response for the order here / cart is not empty when there is a pending order associated with the user???
-          // need to check if the selected product is already in the cart (loop through line items) - if it is > increment its quantity by 1
-          // need to add error messages when quantity available has been reached ...
-          // need to add to data files: getting an order with line items!! get order for selected user ....
+        } else {
+          this.setState({
+            cart: null,
+            lineItems: [],
+          });
+        }
+      })
+      .catch((error) => console.error('Unable to get the shopping cart.', error));
+  }
+
+  addToCart = (e) => {
+    e.preventDefault();
+    const {
+      cart,
+      userId,
+      selectedProduct,
+      selectedProductId,
+    } = this.state;
+    if (cart == null) {
+      ordersData.createCart(userId)
+        .then((newOrderResponse) => {
+          this.setState({
+            cart: newOrderResponse.data,
+            lineItems: [],
+          });
+          const orderId = newOrderResponse.data.id;
+          const productId = this.state.selectedProductId;
+          const newProductOrder = {
+            productId,
+            orderId,
+            qty: 1,
+            isActive: true,
+            title: '',
+            price: 0,
+            subtotal: 0,
+          };
+          productOrdersData.postProductOrder(newProductOrder)
+            .then((productOrderResponse) => {
+              const brandNewLineItem = productOrderResponse.data;
+              const currentCart = this.state.cart;
+              currentCart.lineItems.push(productOrderResponse.data);
+              this.setState({ cart: currentCart });
+              this.props.history.push('/cart');
+              console.error('final order with new line item', this.state.cart);
+            });
         })
-        .catch((error) => console.error('Unble to add new order to cart', error));
+        .catch((error) => console.error('Unable to create the new shopping cart.', error));
     }
   }
 
   componentDidMount() {
     const { selectedProductId } = this.state;
     this.buildSingleView(selectedProductId);
+    this.getCart();
   }
 
   render() {
@@ -72,7 +120,7 @@ class SingleProductView extends React.Component {
                       <p><b>Flower Arrangement:</b> {selectedProduct.flowerArrName}</p>
                        <label><b>Quantity:</b></label>
                        <input className="qty-input" type="text" value="1"/>
-                      <button className="cart">Add to Cart</button>
+                      <button className="cart" type="submit" className="btn" onClick={this.addToCart}>Add to Cart</button>
                     </div>
                     </div>
                     </div>

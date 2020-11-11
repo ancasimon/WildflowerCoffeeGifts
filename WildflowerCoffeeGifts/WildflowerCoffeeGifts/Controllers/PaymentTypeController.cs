@@ -36,6 +36,16 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(singlePayment);
         }
 
+        // Anca: Adding a method to get the latest payment type added for a user:
+        [HttpGet("latest/{userId}")]
+        public IActionResult GetLatestPaymentTypeForUser(int userId)
+        {
+            var latestPaymentTypeForUser = _paymentTypeRepo.GetLatestPaymentTypeForUser(userId);
+            if (latestPaymentTypeForUser == null) return NoContent();
+
+            return Ok(latestPaymentTypeForUser);
+        }
+
         [HttpGet("bystatus/{isActive}")]
         public IActionResult GetPaymentTypesByStatus(bool isActive)
         {

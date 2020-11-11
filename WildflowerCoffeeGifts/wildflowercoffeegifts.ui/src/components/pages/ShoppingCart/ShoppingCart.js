@@ -1,9 +1,11 @@
 import React from 'react';
 import { Table } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 import SingleLineItem from '../../shared/SingleLineItem/SingleLineItem';
 
 import ordersData from '../../../helpers/data/ordersData';
+import paymentTypesData from '../../../helpers/data/paymentTypesData';
 import usersData from '../../../helpers/data/usersData';
 
 import './ShoppingCart.scss';
@@ -13,7 +15,18 @@ class ShoppingCart extends React.Component {
     cart: {},
     lineItems: [],
     user: {},
-    userId: 1,
+    userId: 5,
+  }
+
+  getUser = () => {
+    const { userId } = this.state;
+    usersData.getSingleUser(userId)
+      .then((response) => {
+        this.setState({
+          user: response.data,
+        });
+      })
+      .catch((error) => console.error('Unable to get user record.', error));
   }
 
   getCart = () => {
@@ -37,17 +50,6 @@ class ShoppingCart extends React.Component {
       .catch((error) => console.error('Unable to get the shopping cart.', error));
   }
 
-  getUser = () => {
-    const { userId } = this.state;
-    usersData.getSingleUser(userId)
-      .then((response) => {
-        this.setState({
-          user: response.data,
-        });
-      })
-      .catch((error) => console.error('Unable to get user record.', error));
-  }
-
   buildCartPage = () => {
     const { userId, cart } = this.state;
     this.getCart(userId);
@@ -56,6 +58,22 @@ class ShoppingCart extends React.Component {
 
   componentDidMount() {
     this.buildCartPage();
+  }
+
+  createCart = (e) => {
+    e.preventDefault();
+    const {
+      cart,
+      userId,
+    } = this.state;
+    ordersData.createCart(userId)
+      .then((newOrderResponse) => {
+        this.setState({
+          cart: newOrderResponse.data,
+          lineItems: [],
+        });
+      })
+      .catch((error) => console.error('Unable to create the new shopping cart.', error));
   }
 
   render() {
@@ -72,7 +90,8 @@ class ShoppingCart extends React.Component {
             (cart === null)
               ? <div>
               <p>Your cart is empty!</p>
-              <p>Please go to the Products page and click Add to Cart on an item to get started!</p>
+              <p>Click Start Shopping below to get started!</p>
+              <button type="submit" className="btn" onClick={this.createCart}>Start Shopping</button>
           </div>
               : <div>
               <h4>Total Price: ${cart.totalPrice}</h4>
@@ -91,6 +110,7 @@ class ShoppingCart extends React.Component {
                   {buildLineItems()}
                 </Table>
               </div>
+              <Link to='/products'>Continue Shopping</Link>
               </div>
           }
       </div>
