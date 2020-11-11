@@ -86,6 +86,17 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(updatedLineItem);
         }
 
+        // new method to update the product order quantity if it already exists in an order / in the cart:
+        [HttpPut("{productId}/{orderId}/{qty}")]
+        public IActionResult UpdateProductOrderQuantityInCart(int productId, int orderId, int qty)
+        {
+            var lineItem =_productOrderRepo.Update(productId, orderId, qty);
+            if(_productOrderRepo.GetLineItemByProductAndOrder(productId, orderId) == null)
+            {
+                _productOrderRepo.AddProductOrder()
+            }
+        }
+
         [HttpPost]
         public IActionResult CreateProductOrderWIthInfo(ProductOrderWithProductInfo newLineItem)
         {

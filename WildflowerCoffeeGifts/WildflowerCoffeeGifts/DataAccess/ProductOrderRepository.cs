@@ -53,6 +53,39 @@ namespace WildflowerCoffeeGifts.DataAccess
             return selectedItemInOrder;
         }
 
+        public ProductOrder GetLineItemByProductAndOrder(int productId, int orderId)
+        {
+            using var db = new SqlConnection(_connectionString);
+            var sqlQueryToFindLineItem = "select * from ProductOrders where productId = @productId AND orderId=@orderId AND IsActive = 1";
+            var parametersToFindLineItem = new { productId, orderId };
+            var selectedLineItem = db.QueryFirstOrDefault<ProductOrder>(sqlQueryToFindLineItem, parametersToFindLineItem);
+            return selectedLineItem;
+        }
+
+        //Anca: Added an Add method that takes in the parameters rather than the whole object:
+        public ProductOrder AddProductOrderWithProductAndOrderIds(int productId, int orderId)
+        {
+            var sqlInsertToCreateNewLineItem = @"INSERT INTO [dbo].[ProductOrders]
+                                            ([ProductId]
+                                            ,[OrderId]
+                                            ,[Qty]
+                                            ,[IsActive])
+                                    Output inserted.Id
+                                    VALUES
+                                        (@productId, @orderId, 1, 1)";
+            using var db = new SqlConnection(_connectionString);
+            var parametersForNewLineItem = new { productId, orderId };
+
+            var newId = db.ExecuteScalar<int>(sqlInsertToCreateNewLineItem, parametersForNewLineItem);
+
+            var sqlGetLineItem = "select * from ProductOrders where Id = @id";
+            var parameterForLineItemId = new { id };
+            var newProductOrder = db.QueryFirstOrDefault<ProductOrder>(sqlGetLineItem, parameterForLineItemId);
+
+            return newProductOrder;
+        }
+
+
         public ProductOrder AddProductOrder(ProductOrder newLineItem)
         {
             var sqlInsert = @"INSERT INTO [dbo].[ProductOrders]
@@ -76,6 +109,32 @@ namespace WildflowerCoffeeGifts.DataAccess
         }
 
         public ProductOrder Update(int id, ProductOrder lineItem)
+        {
+            var sqlUpdate = @"UPDATE [dbo].[ProductOrders]
+                                    SET [ProductId] = @productId
+                                        ,[OrderId] = @orderId
+                                        ,[Qty] = @qty
+                                        ,[IsActive] = @isActive
+                                    OUTPUT INSERTED.*
+                                    WHERE Id = @id";
+            using var db = new SqlConnection(_connectionString);
+
+            var parameters = new
+            {
+                lineItem.ProductId,
+                lineItem.OrderId,
+                lineItem.Qty,
+                lineItem.IsActive,
+                id
+            };
+
+            var updatedLineItem = db.QueryFirstOrDefault<ProductOrder>(sqlUpdate, parameters);
+
+            return updatedLineItem;
+        }
+
+        // overloading the update method to use the productId and orderId and quantity as parameters:
+        public ProductOrder Update(int productId, int orderInt, int qty, int isActive)
         {
             var sqlUpdate = @"UPDATE [dbo].[ProductOrders]
                                     SET [ProductId] = @productId
