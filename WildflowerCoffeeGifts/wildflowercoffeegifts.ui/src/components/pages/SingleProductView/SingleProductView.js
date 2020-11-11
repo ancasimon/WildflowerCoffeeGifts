@@ -16,7 +16,7 @@ class SingleProductView extends React.Component {
     userId: 5,
     cart: {},
     lineItems: [],
-    qty: 1,
+    productQuantity: 1,
   }
 
   buildSingleView = () => {
@@ -26,6 +26,7 @@ class SingleProductView extends React.Component {
         this.setState({
           selectedProduct: response.data,
           selectedProductId: response.data.id,
+          productQuantity: 1,
         });
         console.error('product response.data', response);
       })
@@ -51,6 +52,11 @@ class SingleProductView extends React.Component {
       .catch((error) => console.error('Unable to get the shopping cart.', error));
   }
 
+  changeProductQuantity = (e) => {
+    e.preventDefault();
+    this.setState({ productQuantity: e.target.value * 1 });
+  }
+
   addToCart = (e) => {
     e.preventDefault();
     const {
@@ -58,6 +64,7 @@ class SingleProductView extends React.Component {
       userId,
       selectedProduct,
       selectedProductId,
+      productQuantity,
     } = this.state;
     if (cart == null) {
       ordersData.createCart(userId)
@@ -71,7 +78,7 @@ class SingleProductView extends React.Component {
           const newProductOrder = {
             productId,
             orderId,
-            qty: 1,
+            qty: productQuantity,
             isActive: true,
             title: '',
             price: 0,
@@ -88,6 +95,29 @@ class SingleProductView extends React.Component {
             });
         })
         .catch((error) => console.error('Unable to create the new shopping cart.', error));
+    } else {
+      const orderId = cart.id;
+      const productId = this.state.selectedProductId;
+      const newProductOrder = {
+        productId,
+        orderId,
+        qty: productQuantity,
+        isActive: true,
+        title: '',
+        price: 0,
+        subtotal: 0,
+      };
+      console.error('new productOrder object', newProductOrder);
+      productOrdersData.postProductOrder(newProductOrder)
+        .then((productOrderResponse) => {
+          const brandNewLineItem = productOrderResponse.data;
+          const currentCart = this.state.cart;
+          currentCart.lineItems.push(productOrderResponse.data);
+          this.setState({ cart: currentCart });
+          this.props.history.push('/cart');
+          console.error('final order with new line item', this.state.cart);
+        })
+        .catch((error) => console.error('Unable to create the new line item for this product.', error));
     }
   }
 
@@ -98,7 +128,7 @@ class SingleProductView extends React.Component {
   }
 
   render() {
-    const { selectedProduct } = this.state;
+    const { selectedProduct, productQuantity } = this.state;
 
     return (
             <div>
@@ -118,8 +148,8 @@ class SingleProductView extends React.Component {
                       <p><b>Product Theme:</b> {selectedProduct.productThemeName}</p>
                       <p><b>Coffee Mug:</b> {selectedProduct.coffeeMugName}</p>
                       <p><b>Flower Arrangement:</b> {selectedProduct.flowerArrName}</p>
-                       <label><b>Quantity:</b></label>
-                       <input className="qty-input" type="text" value="1"/>
+                      <label htmlFor="product-quantity"><b>Quantity:</b></label>
+                      <input id="product-quantity" className="qty-input" type="number" value={productQuantity} onChange={this.changeProductQuantity} />
                       <button className="cart" type="submit" className="btn" onClick={this.addToCart}>Add to Cart</button>
                     </div>
                     </div>
