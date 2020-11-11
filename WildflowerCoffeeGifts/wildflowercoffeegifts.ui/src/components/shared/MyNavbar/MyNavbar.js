@@ -58,8 +58,8 @@ class MyNavbar extends React.Component {
             <button className='logInButton'>Log In</button>
           </NavItem>
           <form className='searchbar'>
-              <input className='searchInput' onChange={this.filterProducts} type="text" placeholder="Search Products" name="search" value={this.state.searchInput}/>
-              <Link className='searchButton' to={wordSearched} searchinput={this.state.searchInput} className='listItems'><i className="fa fa-search"></i></Link>
+              <input className='searchInput mr-2' onChange={this.filterProducts} type="text" placeholder="Search Products" name="search" value={this.state.searchInput}/>
+              <Link className='searchButton listItems' to={wordSearched} searchinput={this.state.searchInput}><i className="fa fa-search"></i></Link>
           </form>
           </Nav>
         </Collapse>
