@@ -83,6 +83,7 @@ class SingleProductView extends React.Component {
               const currentCart = this.state.cart;
               currentCart.lineItems.push(productOrderResponse.data);
               this.setState({ cart: currentCart });
+              this.props.history.push('/cart');
               console.error('final order with new line item', this.state.cart);
             });
         })
