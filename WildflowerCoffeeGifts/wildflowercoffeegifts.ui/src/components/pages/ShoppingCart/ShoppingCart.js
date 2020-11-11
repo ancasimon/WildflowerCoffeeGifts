@@ -16,8 +16,6 @@ class ShoppingCart extends React.Component {
     lineItems: [],
     user: {},
     userId: 5,
-    // newPaymentTypeId: 0,
-    // newOrder: {},
   }
 
   getUser = () => {
@@ -67,8 +65,6 @@ class ShoppingCart extends React.Component {
     const {
       cart,
       userId,
-      // newPaymentTypeId,
-      // newOrder,
     } = this.state;
     ordersData.createCart(userId)
       .then((newOrderResponse) => {
@@ -78,60 +74,6 @@ class ShoppingCart extends React.Component {
         });
       })
       .catch((error) => console.error('Unable to create the new shopping cart.', error));
-    console.error('creating new cart order!!!');
-    // first, we check if we already have a payment type for the user on record - and get the latest payment type for this user:
-    // paymentTypesData.getLatestPaymentTypeForUser(this.state.userId)
-    //   .then((latestPaymentResponse) => {
-    //     // if we do have one or more payment types, we pick the one we have or the latest:
-    //     if (latestPaymentResponse.status == 200) {
-    //       this.setState({ newPaymentTypeId: latestPaymentResponse.data.id });
-    //       console.error('latest payment', latestPaymentResponse);
-    //       // newOrder = {
-    //       //   userId: this.state.userId, // we will replace this with a the userID of the logged in user!!
-    //       //   isCompleted: false,
-    //       //   totalPrice: 0,
-    //       //   paymentTypeId: this.state.newPaymentTypeId,
-    //       //   deliveryAddress: 'Please enter an address.',
-    //       //   isActive: true,
-    //       // };
-    //     } else if (latestPaymentResponse.status == 204) {
-    //       // if we do NOT have a payment type on record for the user, then we create one:
-    //       // we create the new payment option - a placeholder record for the data the user will provide before finalizing the order!
-    //       const newPaymentType = {
-    //         paymentOption: 'Please add a payment type.',
-    //         userId: this.state.userId, // we will replace this with the userID of the logged-in user!!
-    //         accountNo: 0,
-    //         expirationMonth: 0,
-    //         expirationYear: 0,
-    //         isActive: true,
-    //       };
-    //       console.error('new payment option', newPaymentType);
-    //       // then we use the ID of the payment option we just created to populate the paymentTypeId field on the new order:
-    //       paymentTypesData.postPaymentType(newPaymentType)
-    //         .then((paymentResponse) => {
-    //           this.setState({ newPaymentTypeId: paymentResponse.data.id });
-    //           console.error('new payment type', paymentResponse);
-    //         });
-    //     }
-    //     newOrder = {
-    //       userId: this.state.userId, // we will replace this with the userID of the logged in user!!
-    //       isCompleted: false,
-    //       totalPrice: 0,
-    //       paymentTypeId: this.state.newPaymentTypeId,
-    //       deliveryAddress: 'Please enter an address.',
-    //       isActive: true,
-    //     };
-    //     ordersData.postOrder(newOrder)
-    //       .then((orderResponse) => {
-    //         this.setState({
-    //           cart: orderResponse.data,
-    //           lineItems: [],
-    //         });
-    //         console.error('response', orderResponse);
-    //         console.error('current cart', this.state.cart);
-    //       });
-    //   })
-    //   .catch((error) => console.error('Unable to create the new shopping cart.', error));
   }
 
   render() {

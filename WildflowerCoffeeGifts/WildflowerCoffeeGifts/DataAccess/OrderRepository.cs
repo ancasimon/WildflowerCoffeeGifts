@@ -172,8 +172,7 @@ where po.OrderId = @OrderId) x";
             return selectedOrder;
         }
 
-        // deleted from below:  ,[PurchaseDate] 
-
+        // deleted from below:  ,[PurchaseDate] - we set it up to get set by default in the database to use current date
         public Order AddOrder(Order orderToAdd)
         {
             var sqlInsert = @"INSERT INTO [dbo].[Orders]
