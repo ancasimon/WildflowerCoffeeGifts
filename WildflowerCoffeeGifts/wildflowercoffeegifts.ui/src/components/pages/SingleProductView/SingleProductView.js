@@ -102,24 +102,32 @@ class SingleProductView extends React.Component {
 
     return (
             <div>
-                <h1>{selectedProduct.title}</h1>
+                  <Link to='/products' className="return-back"><i className="fas fa-backward"></i>  Back To Products</Link>
                 {
                 selectedProduct.isActive
-                  ? <div>
+                  ? <div className="container view">
+                    <div className="row">
+                    <div className= "col-5">
                       <img src={selectedProduct.imageUrl} alt="flower package photo" className="productImages"/>
-                      <h3>Price: ${selectedProduct.price}</h3>
-                      <h3>Available Quantity: {selectedProduct.quantityAvailable}</h3>
-                      <h4>{selectedProduct.description}</h4>
-                      <h6>Product Theme: {selectedProduct.productThemeName}</h6>
-                      <h6>Coffee Mug: {selectedProduct.coffeeMugName}</h6>
-                      <h6>Flower Arrangement: {selectedProduct.flowerArrName}</h6>
-                      <button type="submit" className="btn" onClick={this.addToCart}>Add to Cart</button>
+                      </div>
+                      <div className="col-7">
+                      <h4 className="product-title">{selectedProduct.title}</h4>
+                      <p className="desc">{selectedProduct.description}</p>
+                      <p className="price">PRICE: ${selectedProduct.price}.00</p>
+                      <p><b>Available Quantity:</b> {selectedProduct.quantityAvailable}</p>
+                      <p><b>Product Theme:</b> {selectedProduct.productThemeName}</p>
+                      <p><b>Coffee Mug:</b> {selectedProduct.coffeeMugName}</p>
+                      <p><b>Flower Arrangement:</b> {selectedProduct.flowerArrName}</p>
+                       <label><b>Quantity:</b></label>
+                       <input className="qty-input" type="text" value="1"/>
+                      <button className="cart" type="submit" className="btn" onClick={this.addToCart}>Add to Cart</button>
+                    </div>
+                    </div>
                     </div>
                   : <div>
                       <p>This product is no longer available. Please select a different product. Thank you for your understanding!</p>
                     </div>
                 }
-               <Link to='/products'>Back to Products</Link>
             </div>
     );
   }
