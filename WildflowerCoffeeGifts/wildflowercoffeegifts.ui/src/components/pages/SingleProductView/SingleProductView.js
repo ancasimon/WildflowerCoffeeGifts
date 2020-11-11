@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import ordersData from '../../../helpers/data/ordersData';
 import productOrdersData from '../../../helpers/data/productOrdersData';
 import productsData from '../../../helpers/data/productsData';
-// import StarRating from '../StarRating/StarRating';
 
 import './SingleProductView.scss';
 
