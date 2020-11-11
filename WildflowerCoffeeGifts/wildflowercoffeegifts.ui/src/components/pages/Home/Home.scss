@@ -37,13 +37,14 @@
     height: 90vh;
   }
   .homeContent {
-    margin-top: 540px;
+    margin-top: 640px;
   }
 }
 
 @media (min-width: 768px) {
   .jumbotron {
     height: 91vh;
+    padding-bottom:30px;
   }
   .homeContent {
     margin-top: 590px;
@@ -53,6 +54,7 @@
 @media (min-width: 900px) {
   .jumbotron {
     height: 90vh;
+    padding-bottom:30px;
   }
   .homeContent {
     margin-top: 525px;
@@ -62,9 +64,10 @@
 @media (min-width: 1200px) {
   .jumbotron {
     height: 90vh;
+    padding-bottom:30px;
   }
   .homeContent {
-    margin-top: 535px;
+    margin-top: 635px;
   }
 }
 

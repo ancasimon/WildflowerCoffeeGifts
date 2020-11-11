@@ -18,10 +18,6 @@
 
 .MyNavbar {
     background-color: #4d0019;
-    color: black !important;
-    .MyNavbar:hover{
-        color: black !important;
-    }    
 }
 
 .NavItem {
@@ -38,6 +34,7 @@
     border: 1.5px solid  #963858;
     border-radius: 25px;
     background-color: rgb(235, 219, 219);
+    color: black;
 }
 
 .toggleButton:hover {
@@ -48,16 +45,13 @@
     background-color: rgb(231, 206, 206)
 }
 
-.searchbar {
-    .searchInput {
-        border-radius: 5px;
-        height: 35px;
-    }
 
-    .searchButton {
-
-    }
+.searchInput {
+    border: 1.5px solid  #963858;
+    border-radius: 5px;
+    height: 35px;
 }
+
 
 .toggleButton {
    background-color:  rgb(235, 219, 219);

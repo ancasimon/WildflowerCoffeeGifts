@@ -38,7 +38,7 @@ class MyNavbar extends React.Component {
       <div className="MyNavbar">
       <Navbar expand="md">
         <div className="wfc">
-          <NavbarBrand tag={RRNavLink} to="/home" className='ml-3' >Wildflower Coffee Gifts🌼</NavbarBrand>
+          <NavbarBrand tag={RRNavLink} to="/home" className='ml-3 active' >Wildflower Coffee Gifts🌼</NavbarBrand>
         </div>
         <NavbarToggler className='toggleButton' onClick={this.toggle}>
           <p className='m-auto p-1'><i class="fas fa-bars"></i></p>
