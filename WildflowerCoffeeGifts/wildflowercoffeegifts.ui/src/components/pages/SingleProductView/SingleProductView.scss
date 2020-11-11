@@ -2,7 +2,8 @@
 .container{
     margin-top: 100px;
     width: 1800px;
-    align-content: center;      
+    align-content: center; 
+    // box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.2);     
 }
 
 .productImages {
@@ -11,8 +12,16 @@
   margin-bottom: 5px;
   object-fit: cover;
   box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.2);
+  transition: all 1.5s ease;
+  overflow: hidden;
 
 }
+
+// .productImages:hover{
+//  transform: scale(1.1);
+//  overflow: hidden;
+ 
+// }
 
 .price {
     color: #FE980F;
@@ -40,6 +49,7 @@
 .desc{
     font-style: italic;
     text-transform: uppercase;
+    font-size: 20px;
 }
 
 .product-title{
@@ -48,6 +58,8 @@
     padding-top: 20px;
     font-style: italic;
 }
- .backbtn{
+ .return-back{
      color: black;
+     font-weight: bolder;
+     font-size:26px;
  }

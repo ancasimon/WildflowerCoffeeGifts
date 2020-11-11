@@ -55,6 +55,7 @@ class SingleProductView extends React.Component {
 
     return (
             <div>
+                  <Link to='/products' className="return-back"><i className="fas fa-backward"></i>  Back To Products</Link>
                 {
                 selectedProduct.isActive
                   ? <div className="container">
@@ -64,7 +65,6 @@ class SingleProductView extends React.Component {
                       </div>
                       <div className="col-7">
                       <h4 className="product-title">{selectedProduct.title}</h4>
-                      <StarRating key={selectedProduct.id}></StarRating>
                       <p className="desc">{selectedProduct.description}</p>
                       <p className="price">PRICE: ${selectedProduct.price}.00</p>
                       <p><b>Available Quantity:</b> {selectedProduct.quantityAvailable}</p>
@@ -81,7 +81,6 @@ class SingleProductView extends React.Component {
                       <p>This product is no longer available. Please select a different product. Thank you for your understanding!</p>
                     </div>
                 }
-               <Link to='/products' className="backbtn">Back to Products</Link>
             </div>
     );
   }
