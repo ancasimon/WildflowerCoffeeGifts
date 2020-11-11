@@ -9,8 +9,8 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
-import SearchedProducts from '../../pages/SearchedProducts/SearchedProducts';
-// import productsData from '../../../helpers/data/productsData';
+
+import './MyNavbar.scss';
 
 class MyNavbar extends React.Component {
   state = {
@@ -36,29 +36,30 @@ class MyNavbar extends React.Component {
 
     return (
       <div className="MyNavbar">
-      <Navbar className="navbar-dark bg-dark" expand="md">
-        <NavbarBrand href="/">Wildflower Coffee Gifts</NavbarBrand>
-        <NavbarToggler onClick={this.toggle} />
+      <Navbar expand="md">
+        <div className="wfc">
+          <NavbarBrand tag={RRNavLink} to="/home" className='ml-3 active' >Wildflower Coffee Gifts🌼</NavbarBrand>
+        </div>
+        <NavbarToggler className='toggleButton' onClick={this.toggle}>
+          <p className='m-auto p-1'><i class="fas fa-bars"></i></p>
+          </NavbarToggler>
         <Collapse isOpen={isOpen} navbar>
         <Nav className="ml-auto NavList" navbar>
           <NavItem className="NavItem">
-            <NavLink tag={RRNavLink} to="/home">Home</NavLink>
+            <NavLink tag={RRNavLink} to="/products" className='listItems'>Products</NavLink>
           </NavItem>
           <NavItem className="NavItem">
-            <NavLink tag={RRNavLink} to="/products">Products</NavLink>
+            <NavLink tag={RRNavLink} to="/orders" className='listItems'>Orders</NavLink>
           </NavItem>
           <NavItem className="NavItem">
-            <NavLink tag={RRNavLink} to="/orders">Orders</NavLink>
+            <NavLink tag={RRNavLink} to="/cart" className='listItems'>Cart</NavLink>
           </NavItem>
           <NavItem className="NavItem">
-            <NavLink tag={RRNavLink} to="/cart">Cart</NavLink>
+            <button className='logInButton'>Log In</button>
           </NavItem>
-          <NavItem className="NavItem">
-            <button className="btn btn-light">Log In</button>
-          </NavItem>
-          <form>
-              <input onChange={this.filterProducts} type="text" placeholder="Search Products" name="search" value={this.state.searchInput}/>
-              <Link to={wordSearched} searchinput={this.state.searchInput}><button><i className="fa fa-search"></i></button></Link>
+          <form className='searchbar'>
+              <input className='searchInput mr-2' onChange={this.filterProducts} type="text" placeholder="Search Products" name="search" value={this.state.searchInput}/>
+              <Link className='searchButton listItems' to={wordSearched} searchinput={this.state.searchInput}><i className="fa fa-search"></i></Link>
           </form>
           </Nav>
         </Collapse>

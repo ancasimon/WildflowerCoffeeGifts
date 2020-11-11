@@ -1,3 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Petit+Formal+Script&display=swap');
+
+.active {
+    color: black;  
+}
+
+.active:hover {
+    color: rgb(36, 36, 36);
+}
+
+.listItems {
+    color: rgb(235, 219, 219);
+}
+
+.listItems:hover {
+    color: rgb(231, 206, 206)
+}
+
+.MyNavbar {
+    background-color: #4d0019;
+}
+
 .NavItem {
     margin: 0;
     padding: 0;
@@ -5,4 +27,43 @@
 
 .NavList {
     list-style-type: none;
+}
+
+.wfc {
+    font-family: 'Petit Formal Script', cursive;
+    border: 1.5px solid  #963858;
+    border-radius: 25px;
+    background-color: rgb(235, 219, 219);
+    color: black;
+}
+
+.toggleButton:hover {
+    background-color: rgb(231, 206, 206)
+}
+
+.wfc:hover {
+    background-color: rgb(231, 206, 206)
+}
+
+
+.searchInput {
+    border: 1.5px solid  #963858;
+    border-radius: 5px;
+    height: 35px;
+}
+
+
+.toggleButton {
+   background-color:  rgb(235, 219, 219);
+   border: #963858 solid 2px;
+   border-radius: 5px;
+   color: black;
+}
+
+.logInButton {
+    background-color: #4d0019;
+    color: rgb(235, 219, 219);
+    border: none;
+    margin-left: -4px;
+    margin-top: 7px;
 }
