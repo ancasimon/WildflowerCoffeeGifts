@@ -55,6 +55,9 @@ class MyNavbar extends React.Component {
             <NavLink tag={RRNavLink} to="/cart" className='listItems'>Cart</NavLink>
           </NavItem>
           <NavItem className="NavItem">
+            <NavLink tag={RRNavLink} to="/login" className='listItems'>Login</NavLink>
+          </NavItem>
+          <NavItem className="NavItem">
             <button className='logInButton'>Log In</button>
           </NavItem>
           <form className='searchbar'>

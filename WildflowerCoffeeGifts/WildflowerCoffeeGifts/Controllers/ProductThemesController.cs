@@ -6,11 +6,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WildflowerCoffeeGifts.DataAccess;
 using WildflowerCoffeeGifts.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WildflowerCoffeeGifts.Controllers
 {
     [Route("api/themes")]
     [ApiController]
+    [Authorize]
+    // [AllowAnonymous] add this to any method that does not require auth
     public class ProductThemesController : ControllerBase
     {
         ProductCountRepository _countRepo;
