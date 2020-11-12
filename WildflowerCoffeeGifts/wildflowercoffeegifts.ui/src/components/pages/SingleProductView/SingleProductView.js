@@ -13,10 +13,12 @@ class SingleProductView extends React.Component {
   state = {
     selectedProduct: {},
     selectedProductId: this.props.match.params.id, // we may need to move this to props when we do the product cards and pass down the id of the card selected ...
-    userId: 9,
+    userId: 10,
     cart: {},
     lineItems: [],
     productQuantity: 1,
+    previousQuantity: 0,
+    newProductQuantity: 0,
     productInCart: false,
   }
 
@@ -34,25 +36,17 @@ class SingleProductView extends React.Component {
       .catch((error) => console.error('Unable to get the selected product', error));
   }
 
-  // checkIfProductAlreadyInCart = () => {
-  //   const productsArray = [];
-  //   const {
-  //     cart,
-  //     lineItems,
-  //     productId,
-  //     productInCart,
-  //   } = this.state;
-  //   cart.lineItems.map((eachItem) => productsArray.push(eachItem.productId));
-  //   if (productsArray.includes(productId)) {
-  //     this.setState({ productInCart: true });
-  //     console.error('array of prods in order', productsArray);
-  //     console.error('FOR REAL - is prod in cart??', productInCart);
-  //   }
-  //   return productInCart;
-  // }
-
   getCart = () => {
-    const { cart, userId, qty } = this.state;
+    const {
+      cart,
+      userId,
+      lineItems,
+      selectedProductId,
+      productInCart,
+      productQuantity,
+      newProductQuantity,
+      previousQuantity,
+    } = this.state;
     ordersData.getCart(userId)
       .then((response) => {
         if (response.status == 200) {
@@ -60,6 +54,15 @@ class SingleProductView extends React.Component {
             cart: response.data,
             lineItems: response.data.lineItems,
           });
+          console.error('did we get cart??', this.state.lineItems);
+          for (let i = 0; i < this.state.lineItems.length; i += 1) {
+            if (this.state.lineItems[i].productId === this.state.selectedProductId) {
+              this.setState({ previousQuantity: this.state.lineItems[i].qty });
+              this.setState({ productInCart: true });
+              console.error('state of prodincart', this.state.productInCart);
+              console.error('state of previous prodQty', this.state.previousQuantity);
+            }
+          }
         } else {
           this.setState({
             cart: null,
@@ -70,9 +73,22 @@ class SingleProductView extends React.Component {
       .catch((error) => console.error('Unable to get the shopping cart.', error));
   }
 
+  componentDidMount() {
+    const {
+      cart,
+      lineItems,
+      selectedProductId,
+      productInCart,
+      productQuantity,
+      newProductQuantity,
+    } = this.state;
+    this.buildSingleView(selectedProductId);
+    this.getCart();
+  }
+
   changeProductQuantity = (e) => {
     e.preventDefault();
-    this.setState({ productQuantity: e.target.value * 1 });
+    this.setState({ productQuantity: e.target.value * 1, newProductQuantity: this.state.previousQuantity + (e.target.value * 1) });
   }
 
   addToCart = (e) => {
@@ -84,7 +100,9 @@ class SingleProductView extends React.Component {
       selectedProductId,
       productQuantity,
       productInCart,
+      newProductQuantity,
     } = this.state;
+    console.error('state of new prodQty', this.state.newProductQuantity);
     if (cart == null) {
       ordersData.createCart(userId)
         .then((newOrderResponse) => {
@@ -118,24 +136,17 @@ class SingleProductView extends React.Component {
     } else {
       const orderId = cart.id;
       const productId = this.state.selectedProductId;
-      // const newBool = this.checkIfProductAlreadyInCart();
-      // const selectedLineItem = {};
-      // console.error('new bool', newBool);
-      // if (productInCart == true) {
-      for (let i = 0; i < cart.lineItems.length; i += 1) {
-        if (cart.lineItems[i].productId === productId) {
-          const newQuantity = this.state.productQuantity + cart.lineItems[i].qty;
-          productOrdersData.updateProductOrderBasedOnProductAndOrderIds(productId, orderId, newQuantity)
-            .then((updatedLineItemResponse) => {
-              console.error('line item updated based on product and order ids', updatedLineItemResponse);
-              this.setState({ productInCart: true });
-              console.error('true prodInCart value??', productInCart);
-              this.props.history.push('/cart');
-            })
-            .catch((error) => console.error('Could not update quantity for this line item.', error));
-        }
-      }
-      if (productInCart == false) {
+      const newQuantity = this.state.newProductQuantity;
+      if (this.state.productInCart == true) {
+        productOrdersData.updateProductOrderBasedOnProductAndOrderIds(productId, orderId, newQuantity)
+          .then((updatedLineItemResponse) => {
+            console.error('line item updated based on product and order ids', updatedLineItemResponse);
+            this.setState({ productInCart: true });
+            console.error('true prodInCart value??', productInCart);
+            this.props.history.push('/cart');
+          })
+          .catch((error) => console.error('Could not update quantity for this line item.', error));
+      } else if (productInCart == false) {
         productOrdersData.postProductOrderBasedOnProductAndOrderIds(productId, orderId, productQuantity)
           .then((newLineItemResponse) => {
             console.error('created a brand new line!', newLineItemResponse);
@@ -143,49 +154,7 @@ class SingleProductView extends React.Component {
           })
           .catch((error) => console.error('Could not create a new line item!', error));
       }
-
-      // selectedLineItem = cart.lineItems[i];
-      // console.error('selected lineitem', selectedLineItem);
-      // productOrdersData.updateProductOrder(selectedLineItem.id, selectedLineItem)
-      //   .then((lineItemUpdateResponse) => {
-      //     console.error('prodOrdrec update', lineItemUpdateResponse);
-      //     this.props.history.push('/cart');
-      //   })
-      //   .catch((error) => console.error('Unable to update the quantity for this product.', error));
-      // console.error('is this prd in cart already?', this.state.productInCart);
-      // break;
-      //     }
-      //   }
-      // }
-      // } else {
-    // const newProductOrder = {
-    //   productId,
-    //   orderId,
-    //   qty: this.state.productQuantity,
-    //   isActive: true,
-    //   title: '',
-    //   price: 0,
-    //   subtotal: 0,
-    // };
-    // console.error('new productOrder object', newProductOrder);
-    // productOrdersData.postProductOrder(newProductOrder)
-    //   .then((productOrderResponse) => {
-    //     const brandNewLineItem = productOrderResponse.data;
-    //     const currentCart = this.state.cart;
-    //     currentCart.lineItems.push(productOrderResponse.data);
-    //     this.setState({ cart: currentCart });
-    //     this.props.history.push('/cart');
-    //     console.error('final order with new line item', this.state.cart);
-    //   })
-    //   .catch((error) => console.error('Unable to create the new line item for this product.', error));
-    // }
     }
-  }
-
-  componentDidMount() {
-    const { selectedProductId } = this.state;
-    this.buildSingleView(selectedProductId);
-    this.getCart();
   }
 
   render() {
