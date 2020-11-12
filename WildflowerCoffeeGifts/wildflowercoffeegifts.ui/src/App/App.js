@@ -30,6 +30,7 @@ class App extends React.Component {
             <div className="container">
               <div className="row">
                 <Switch>
+                <Route path='/cart' component={ShoppingCart} />
                   <Route path='/cart' component={ShoppingCart} />
                   <Route path='/orders' component={Orders} />
                   <Route path='/products/search/:searchWord' component={SearchedProducts} />
