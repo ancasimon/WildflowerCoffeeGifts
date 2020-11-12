@@ -1,4 +1,33 @@
 .SingleProductTheme {
   list-style: none;
   border: none;
+  
+}
+.list-group-item {
+  color: black;
+  border: none;
+  justify-content: space-between;
+  align-items: stretch;
+}
+.categorylink{
+  
+  color: black;
+}
+
+
+.categoryparagraph{
+  color: black;
+  font-size: 14px;
+  display: flex;
+  align-content: stretch;
+  justify-content: left;
+ 
+}
+.theme-name{
+  display: flex;
+  justify-content: flex-start;
+  font-size: 20px;
+  font-weight: bolder;
+  
+  
 }
