@@ -63,7 +63,7 @@ namespace WildflowerCoffeeGifts.DataAccess
         }
 
         //Anca: Added an Add method that takes in the parameters rather than the whole object:
-        public ProductOrder AddProductOrderWithProductAndOrderIds(int productId, int orderId)
+        public ProductOrder AddProductOrderWithProductAndOrderIds(int productId, int orderId, int qty)
         {
             var sqlInsertToCreateNewLineItem = @"INSERT INTO [dbo].[ProductOrders]
                                             ([ProductId]
@@ -72,15 +72,21 @@ namespace WildflowerCoffeeGifts.DataAccess
                                             ,[IsActive])
                                     Output inserted.Id
                                     VALUES
-                                        (@productId, @orderId, 1, 1)";
+                                        (@productId, @orderId, @qty, 1)";
             using var db = new SqlConnection(_connectionString);
-            var parametersForNewLineItem = new { productId, orderId };
+            var parametersForNewLineItem = new { productId, orderId, qty };
 
             var newId = db.ExecuteScalar<int>(sqlInsertToCreateNewLineItem, parametersForNewLineItem);
+            //var newId
+
+            //var sqlGetLineItem = "select * from ProductOrders where productId = @productid AND orderId = @orderId";
+            //var newProductOrder = db.QueryFirstOrDefault<ProductOrder>(sqlGetLineItem, parametersForNewLineItem);
 
             var sqlGetLineItem = "select * from ProductOrders where Id = @id";
-            var parameterForLineItemId = new { id };
-            var newProductOrder = db.QueryFirstOrDefault<ProductOrder>(sqlGetLineItem, parameterForLineItemId);
+            var parameters = new { id = newId };
+
+            var newProductOrder = db.QueryFirstOrDefault<ProductOrder>(sqlGetLineItem, parameters);
+
 
             return newProductOrder;
         }
@@ -134,24 +140,22 @@ namespace WildflowerCoffeeGifts.DataAccess
         }
 
         // overloading the update method to use the productId and orderId and quantity as parameters:
-        public ProductOrder Update(int productId, int orderInt, int qty, int isActive)
+        public ProductOrder Update(int productId, int orderId, int qty)
         {
             var sqlUpdate = @"UPDATE [dbo].[ProductOrders]
                                     SET [ProductId] = @productId
                                         ,[OrderId] = @orderId
                                         ,[Qty] = @qty
-                                        ,[IsActive] = @isActive
+                                        ,[IsActive] = 1
                                     OUTPUT INSERTED.*
-                                    WHERE Id = @id";
+                                    WHERE productId = @productId AND orderId = @orderId";
             using var db = new SqlConnection(_connectionString);
 
             var parameters = new
             {
-                lineItem.ProductId,
-                lineItem.OrderId,
-                lineItem.Qty,
-                lineItem.IsActive,
-                id
+                productId,
+                orderId,
+                qty,
             };
 
             var updatedLineItem = db.QueryFirstOrDefault<ProductOrder>(sqlUpdate, parameters);

@@ -34,22 +34,22 @@ class SingleProductView extends React.Component {
       .catch((error) => console.error('Unable to get the selected product', error));
   }
 
-  checkIfProductAlreadyInCart = () => {
-    const productsArray = [];
-    const {
-      cart,
-      lineItems,
-      productId,
-      productInCart,
-    } = this.state;
-    cart.lineItems.map((eachItem) => productsArray.push(eachItem.productId));
-    if (productsArray.includes(productId)) {
-      this.setState({ productInCart: true });
-      console.error('array of prods in order', productsArray);
-      console.error('FOR REAL - is prod in cart??', productInCart);
-    }
-    return productInCart;
-  }
+  // checkIfProductAlreadyInCart = () => {
+  //   const productsArray = [];
+  //   const {
+  //     cart,
+  //     lineItems,
+  //     productId,
+  //     productInCart,
+  //   } = this.state;
+  //   cart.lineItems.map((eachItem) => productsArray.push(eachItem.productId));
+  //   if (productsArray.includes(productId)) {
+  //     this.setState({ productInCart: true });
+  //     console.error('array of prods in order', productsArray);
+  //     console.error('FOR REAL - is prod in cart??', productInCart);
+  //   }
+  //   return productInCart;
+  // }
 
   getCart = () => {
     const { cart, userId, qty } = this.state;
@@ -118,46 +118,67 @@ class SingleProductView extends React.Component {
     } else {
       const orderId = cart.id;
       const productId = this.state.selectedProductId;
-      const newBool = this.checkIfProductAlreadyInCart();
-      const selectedLineItem = {};
-      console.error('new bool', newBool);
-      if (productInCart == true) {
-        for (let i = 0; i < cart.lineItems.length; i += 1) {
-          if (cart.lineItems[i].productId === productId) {
-            selectedLineItem = cart.lineItems[i];
-            console.error('selected lineitem', selectedLineItem);
-            productOrdersData.updateProductOrder(selectedLineItem.id, selectedLineItem)
-              .then((lineItemUpdateResponse) => {
-                console.error('prodOrdrec update', lineItemUpdateResponse);
-                this.props.history.push('/cart');
-              })
-              .catch((error) => console.error('Unable to update the quantity for this product.', error));
-            console.error('is this prd in cart already?', this.state.productInCart);
-            break;
-          }
+      // const newBool = this.checkIfProductAlreadyInCart();
+      // const selectedLineItem = {};
+      // console.error('new bool', newBool);
+      // if (productInCart == true) {
+      for (let i = 0; i < cart.lineItems.length; i += 1) {
+        if (cart.lineItems[i].productId === productId) {
+          const newQuantity = this.state.productQuantity + cart.lineItems[i].qty;
+          productOrdersData.updateProductOrderBasedOnProductAndOrderIds(productId, orderId, newQuantity)
+            .then((updatedLineItemResponse) => {
+              console.error('line item updated based on product and order ids', updatedLineItemResponse);
+              this.setState({ productInCart: true });
+              console.error('true prodInCart value??', productInCart);
+              this.props.history.push('/cart');
+            })
+            .catch((error) => console.error('Could not update quantity for this line item.', error));
         }
-      } else {
-        const newProductOrder = {
-          productId,
-          orderId,
-          qty: this.state.productQuantity,
-          isActive: true,
-          title: '',
-          price: 0,
-          subtotal: 0,
-        };
-        console.error('new productOrder object', newProductOrder);
-        productOrdersData.postProductOrder(newProductOrder)
-          .then((productOrderResponse) => {
-            const brandNewLineItem = productOrderResponse.data;
-            const currentCart = this.state.cart;
-            currentCart.lineItems.push(productOrderResponse.data);
-            this.setState({ cart: currentCart });
-            this.props.history.push('/cart');
-            console.error('final order with new line item', this.state.cart);
-          })
-          .catch((error) => console.error('Unable to create the new line item for this product.', error));
       }
+      if (productInCart == false) {
+        productOrdersData.postProductOrderBasedOnProductAndOrderIds(productId, orderId, productQuantity)
+          .then((newLineItemResponse) => {
+            console.error('created a brand new line!', newLineItemResponse);
+            this.props.history.push('/cart');
+          })
+          .catch((error) => console.error('Could not create a new line item!', error));
+      }
+
+      // selectedLineItem = cart.lineItems[i];
+      // console.error('selected lineitem', selectedLineItem);
+      // productOrdersData.updateProductOrder(selectedLineItem.id, selectedLineItem)
+      //   .then((lineItemUpdateResponse) => {
+      //     console.error('prodOrdrec update', lineItemUpdateResponse);
+      //     this.props.history.push('/cart');
+      //   })
+      //   .catch((error) => console.error('Unable to update the quantity for this product.', error));
+      // console.error('is this prd in cart already?', this.state.productInCart);
+      // break;
+      //     }
+      //   }
+      // }
+      // } else {
+    // const newProductOrder = {
+    //   productId,
+    //   orderId,
+    //   qty: this.state.productQuantity,
+    //   isActive: true,
+    //   title: '',
+    //   price: 0,
+    //   subtotal: 0,
+    // };
+    // console.error('new productOrder object', newProductOrder);
+    // productOrdersData.postProductOrder(newProductOrder)
+    //   .then((productOrderResponse) => {
+    //     const brandNewLineItem = productOrderResponse.data;
+    //     const currentCart = this.state.cart;
+    //     currentCart.lineItems.push(productOrderResponse.data);
+    //     this.setState({ cart: currentCart });
+    //     this.props.history.push('/cart');
+    //     console.error('final order with new line item', this.state.cart);
+    //   })
+    //   .catch((error) => console.error('Unable to create the new line item for this product.', error));
+    // }
     }
   }
 
