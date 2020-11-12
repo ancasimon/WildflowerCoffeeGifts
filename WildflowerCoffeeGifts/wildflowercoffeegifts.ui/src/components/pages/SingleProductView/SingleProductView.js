@@ -13,7 +13,7 @@ class SingleProductView extends React.Component {
   state = {
     selectedProduct: {},
     selectedProductId: this.props.match.params.id, // we may need to move this to props when we do the product cards and pass down the id of the card selected ...
-    userId: 10,
+    userId: 11,
     cart: {},
     lineItems: [],
     productQuantity: 1,
@@ -31,7 +31,6 @@ class SingleProductView extends React.Component {
           selectedProductId: response.data.id,
           productQuantity: 1,
         });
-        console.error('product response.data', response);
       })
       .catch((error) => console.error('Unable to get the selected product', error));
   }
@@ -54,13 +53,10 @@ class SingleProductView extends React.Component {
             cart: response.data,
             lineItems: response.data.lineItems,
           });
-          console.error('did we get cart??', this.state.lineItems);
           for (let i = 0; i < this.state.lineItems.length; i += 1) {
             if (this.state.lineItems[i].productId === this.state.selectedProductId) {
               this.setState({ previousQuantity: this.state.lineItems[i].qty });
               this.setState({ productInCart: true });
-              console.error('state of prodincart', this.state.productInCart);
-              console.error('state of previous prodQty', this.state.previousQuantity);
             }
           }
         } else {
@@ -75,12 +71,7 @@ class SingleProductView extends React.Component {
 
   componentDidMount() {
     const {
-      cart,
-      lineItems,
       selectedProductId,
-      productInCart,
-      productQuantity,
-      newProductQuantity,
     } = this.state;
     this.buildSingleView(selectedProductId);
     this.getCart();
@@ -102,7 +93,6 @@ class SingleProductView extends React.Component {
       productInCart,
       newProductQuantity,
     } = this.state;
-    console.error('state of new prodQty', this.state.newProductQuantity);
     if (cart == null) {
       ordersData.createCart(userId)
         .then((newOrderResponse) => {
@@ -128,7 +118,6 @@ class SingleProductView extends React.Component {
               currentCart.lineItems.push(productOrderResponse.data);
               this.setState({ cart: currentCart });
               this.props.history.push('/cart');
-              console.error('final order with new line item IN NO CART SCENARIO', this.state.cart);
             });
         })
         .catch((error) => console.error('Unable to create the new shopping cart.', error));
@@ -140,16 +129,13 @@ class SingleProductView extends React.Component {
       if (this.state.productInCart == true) {
         productOrdersData.updateProductOrderBasedOnProductAndOrderIds(productId, orderId, newQuantity)
           .then((updatedLineItemResponse) => {
-            console.error('line item updated based on product and order ids', updatedLineItemResponse);
             this.setState({ productInCart: true });
-            console.error('true prodInCart value??', productInCart);
             this.props.history.push('/cart');
           })
           .catch((error) => console.error('Could not update quantity for this line item.', error));
       } else if (productInCart == false) {
         productOrdersData.postProductOrderBasedOnProductAndOrderIds(productId, orderId, productQuantity)
           .then((newLineItemResponse) => {
-            console.error('created a brand new line!', newLineItemResponse);
             this.props.history.push('/cart');
           })
           .catch((error) => console.error('Could not create a new line item!', error));
