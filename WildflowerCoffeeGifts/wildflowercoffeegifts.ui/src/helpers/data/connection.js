@@ -1,8 +1,8 @@
-import firebase from 'firebase';
-import constants from '../constants.json';
+import firebase from 'firebase/app';
+import firebaseConfig from '../apiKeys.json';
 
 const firebaseApp = () => {
-  firebase.initializeApp(constants.firebaseConfig);
+  firebase.initializeApp(firebaseConfig.firebaseKeys);
 };
 
 export default firebaseApp;

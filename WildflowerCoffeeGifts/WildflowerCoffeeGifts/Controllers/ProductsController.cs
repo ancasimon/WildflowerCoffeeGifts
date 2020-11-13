@@ -10,11 +10,15 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WildflowerCoffeeGifts.Controllers
 {
+    public abstract class FirebaseEnabledController : ControllerBase
+    {
+        protected string UserId => User.FindFirst(x => x.Type == "user_id").Value;
+    }
     [Route("api/products")]
     [ApiController]
     [Authorize]
     // [AllowAnonymous] add this to any method that does not require auth
-    public class ProductsController : ControllerBase
+    public class ProductsController : FirebaseEnabledController
     {
         ProductsRepository _productsRepo;
         ProductWithRelatedDataRepository _productsWithRelatedDataRepo;
@@ -25,6 +29,7 @@ namespace WildflowerCoffeeGifts.Controllers
         }
 
         [HttpGet]
+        //[AllowAnonymous]
         public IActionResult GetAllProducts()
         {
             var allProducts = _productsRepo.GetProducts();

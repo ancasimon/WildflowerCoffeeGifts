@@ -83,7 +83,7 @@ class Login extends React.Component {
               <div className="col-sm-12">
                 <button
                   type="submit"
-                  className="btn btn-default col-xs-12"
+                  className="btn btn-primary col-xs-12"
                   onClick={this.loginClickEvent}
                 >
                   Login
