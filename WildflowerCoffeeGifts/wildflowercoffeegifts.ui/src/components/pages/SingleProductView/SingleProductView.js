@@ -20,6 +20,8 @@ class SingleProductView extends React.Component {
     previousQuantityInCart: 0,
     newproductQuantityForCart: 0,
     productInCart: false,
+    relatedLineItemId: 0,
+    relatedLineItem: {},
   }
 
   buildSingleView = () => {
@@ -45,6 +47,8 @@ class SingleProductView extends React.Component {
       productQuantityOnSingleView,
       newproductQuantityForCart,
       previousQuantityInCart,
+      relatedLineItemId,
+      relatedLineItem,
     } = this.state;
     ordersData.getCart(userId)
       .then((orderResponse) => {
@@ -58,10 +62,10 @@ class SingleProductView extends React.Component {
             if (orderResponse.data.lineItems[i].productId == this.state.selectedProductId) {
               this.setState({ previousQuantityInCart: orderResponse.data.lineItems[i].qty });
               this.setState({ productInCart: true });
+              this.setState({ relatedLineItemId: orderResponse.data.lineItems[i].id });
+              this.setState({ relatedLineItem: orderResponse.data.lineItems[i] });
             }
           }
-          console.error('prev qty in cart after getting cart!!!', this.state.previousQuantityInCart);
-          console.error('prod in cart y or n', this.state.productInCart);
         } else {
           this.setState({
             cart: null,
@@ -106,6 +110,8 @@ class SingleProductView extends React.Component {
       productQuantityOnSingleView,
       productInCart,
       newProductQuantityForCart,
+      relatedLineItemId,
+      relatedLineItem,
     } = this.state;
     if (cart == null) {
       ordersData.createCart(userId)
@@ -139,13 +145,28 @@ class SingleProductView extends React.Component {
     } else {
       const orderId = cart.id;
       const productId = this.state.selectedProductId;
+      const isActive = this.state.relatedLineItem;
       this.setState({ newProductQuantityForCart: this.state.productQuantityOnSingleView + this.state.previousQuantityInCart });
+      const updatedProductOrder = {
+        productId: this.state.relatedLineItem.productId,
+        orderId: this.state.relatedLineItem.orderId,
+        qty: (this.state.productQuantityOnSingleView + this.state.previousQuantityInCart),
+        isActive: this.state.relatedLineItem.isActive,
+        // title: '',
+        // price: 0,
+        // subtotal: 0,
+      };
       if (this.state.productInCart == true) {
-        productOrdersData.updateProductOrderBasedOnProductAndOrderIds(productId, orderId, (this.state.productQuantityOnSingleView + this.state.previousQuantityInCart))
+        productOrdersData.updateProductOrder(this.state.relatedLineItemId, updatedProductOrder)
           .then((updatedLineItemResponse) => {
-            this.setState({ productInCart: true });
+            // this.setState({ productInCart: true });
             this.props.history.push('/cart');
           })
+        // productOrdersData.updateProductOrderBasedOnProductAndOrderIds(productId, orderId, (this.state.productQuantityOnSingleView + this.state.previousQuantityInCart))
+        //   .then((updatedLineItemResponse) => {
+        //     this.setState({ productInCart: true });
+        //     this.props.history.push('/cart');
+        //   })
           .catch((error) => console.error('Could not update quantity for this line item.', error));
       } else if (productInCart == false) {
         productOrdersData.postProductOrderBasedOnProductAndOrderIds(productId, orderId, this.state.productQuantityOnSingleView)
