@@ -5,7 +5,7 @@ dist/
 .firebase/
 .DS_Store
 build/
-../../apiKeys.json
+apiKeys.json
 # dependencies
 /node_modules
 /.pnp

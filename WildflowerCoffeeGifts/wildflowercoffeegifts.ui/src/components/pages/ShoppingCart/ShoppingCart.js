@@ -30,7 +30,7 @@ class ShoppingCart extends React.Component {
   }
 
   getCart = () => {
-    const { cart, userId } = this.state;
+    const { cart, userId, lineItems } = this.state;
     ordersData.getCart(userId)
       .then((response) => {
         if (response.status == 200) {
