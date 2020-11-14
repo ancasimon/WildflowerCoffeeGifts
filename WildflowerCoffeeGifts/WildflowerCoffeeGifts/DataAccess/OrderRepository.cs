@@ -163,7 +163,7 @@ select p.Price*po.Qty AS Subtotal
 from ProductOrders po
 join Products p
 on po.ProductId = p.Id
-where po.OrderId = @OrderId) x";
+where po.OrderId = @OrderId AND po.IsActive=1) x";
                 var totalPrice = db.QueryFirst<decimal>(queryForTotalPrice, parameterOrderId);
                 selectedOrder.TotalPrice = totalPrice;
             }
@@ -222,7 +222,7 @@ where po.OrderId = @OrderId) x";
                                                     '',
                                                     '',
                                                     '',
-                                                    '1')";
+                                                    1)";
 
                 var newPaymentTypeId = db.ExecuteScalar<int>(createDefaultPaymentType, parameterUserId);
 
