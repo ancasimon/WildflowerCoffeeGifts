@@ -95,9 +95,6 @@ class SingleProductView extends React.Component {
       newproductQuantityForCart,
     } = this.state;
     this.setState({ productQuantityOnSingleView: e.target.value * 1, newproductQuantityForCart: (this.state.previousQuantityInCart + (e.target.value * 1)) });
-    // console.error('prev qty in cart AFTER change', previousQuantityInCart);
-    // console.error('curr qty for product', newproductQuantityForCart);
-    // console.error('what user typed in for qty', productQuantityOnSingleView);
   }
 
   addToCart = (e) => {
