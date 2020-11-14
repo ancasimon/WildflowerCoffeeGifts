@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'reactstrap';
+import { CarouselControl, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 import SingleLineItem from '../../shared/SingleLineItem/SingleLineItem';
@@ -15,7 +15,7 @@ class ShoppingCart extends React.Component {
     cart: {},
     lineItems: [],
     user: {},
-    userId: 12,
+    userId: 1,
     paymentTypeId: 0,
     selectedPaymentType: {},
   }
@@ -113,83 +113,231 @@ class ShoppingCart extends React.Component {
           {
             (cart === null)
               ? <div>
-              <p>Your cart is empty!</p>
-              <p>Click Start Shopping below to get started!</p>
-              <button type='submit' className='btn' onClick={this.createCart}>Start Shopping</button>
-          </div>
+                  <p>Your cart is empty!</p>
+                  <p>Click Start Shopping below to get started!</p>
+                  <button type='submit' className='btn' onClick={this.createCart}>Start Shopping</button>
+                </div>
               : <div>
-              <h4>Total Price: ${cart.totalPrice}</h4>
-              <h4>Items:</h4>
-              <div>
-                <Table hover>
-                  <thead>
-                    <tr>
-                      <th>Product</th>
-                      <th>Price Per Unit</th>
-                      <th>Quantity</th>
-                      <th>Subtotal</th>
-                      <th>Remove?</th>
-                    </tr>
-                  </thead>
-                  {buildLineItems()}
-                </Table>
-              </div>
-              <Link to='/products'>Continue Shopping</Link>
-              </div>
+                  <h4>Total Price: ${cart.totalPrice}</h4>
+                  <h4>Items:</h4>
+                  <div>
+                    <Table hover>
+                      <thead>
+                        <tr>
+                          <th>Product</th>
+                          <th>Price Per Unit</th>
+                          <th>Quantity</th>
+                          <th>Subtotal</th>
+                          <th>Remove?</th>
+                        </tr>
+                      </thead>
+                      {buildLineItems()}
+                    </Table>
+                  </div>
+                  <div className="p-3">
+                    <Link to='/products'>Continue Shopping</Link>
+                  </div>
+                </div>
           }
           <div>
-            <h2>Payment Details</h2>
-            <form>
-              <div class='form-group'>
-                <label for='exampleFormControlInput1'>Email address</label>
-                <input type='email' class='form-control' id='exampleFormControlInput1' placeholder='name@example.com' />
+            <div>
+              <h2>Delivery Information</h2>
+                <form>
+                  <div class='form-group'>
+                    <label for='recipientEmail'>Recipient Email Address</label>
+                    <input type='email' class='form-control' id='recipientEmail' placeholder='Please enter the email address of the recipient.' />
+                  </div>
+                  <div class='form-group'>
+                    <label for='recipientPhone'>Recipient Phone Number</label>
+                    <input type='text' class='form-control' id='recipientPhone' placeholder='Please enter a phone number for the recipient.' />
+                  </div>
+                  <div class='form-group'>
+                    <label for='recipientFirstName'>First Name</label>
+                    <input class='form-control' type='text' id='recipientFirstName' placeholder='Please enter the first name of the recipient.' />
+                  </div>
+                  <div class='form-group'>
+                    <label for='recipientLastName'>Last Name</label>
+                    <input class='form-control' type='text' id='recipientLastName' placeholder='Please enter the last name of the recipient.' />
+                  </div>
+                  <div class='form-group'>
+                    <label for='recipientAddress'>Delivery Address</label>
+                    <textarea class='form-control' id='recipientAddress' rows='2' placeholder={cart.deliveryAddress} value={cart.deliveryAddress}></textarea>
+                  </div>
+                  <div class='form-group'>
+                    <label for='recipientCity'>Delivery City</label>
+                    <input class='form-control' type='text' id='recipientCity' placeholder='Please enter delivery city.' />
+                  </div>
+                  <div class='form-group'>
+                    <label for='recipientState'>Delivery State</label>
+                    <select class='form-control' id='recipientState'>
+                      <option value="AL">Alabama</option>
+                      <option value="AK">Alaska</option>
+                      <option value="AZ">Arizona</option>
+                      <option value="AR">Arkansas</option>
+                      <option value="CA">California</option>
+                      <option value="CO">Colorado</option>
+                      <option value="CT">Connecticut</option>
+                      <option value="DE">Delaware</option>
+                      <option value="DC">District Of Columbia</option>
+                      <option value="FL">Florida</option>
+                      <option value="GA">Georgia</option>
+                      <option value="HI">Hawaii</option>
+                      <option value="ID">Idaho</option>
+                      <option value="IL">Illinois</option>
+                      <option value="IN">Indiana</option>
+                      <option value="IA">Iowa</option>
+                      <option value="KS">Kansas</option>
+                      <option value="KY">Kentucky</option>
+                      <option value="LA">Louisiana</option>
+                      <option value="ME">Maine</option>
+                      <option value="MD">Maryland</option>
+                      <option value="MA">Massachusetts</option>
+                      <option value="MI">Michigan</option>
+                      <option value="MN">Minnesota</option>
+                      <option value="MS">Mississippi</option>
+                      <option value="MO">Missouri</option>
+                      <option value="MT">Montana</option>
+                      <option value="NE">Nebraska</option>
+                      <option value="NV">Nevada</option>
+                      <option value="NH">New Hampshire</option>
+                      <option value="NJ">New Jersey</option>
+                      <option value="NM">New Mexico</option>
+                      <option value="NY">New York</option>
+                      <option value="NC">North Carolina</option>
+                      <option value="ND">North Dakota</option>
+                      <option value="OH">Ohio</option>
+                      <option value="OK">Oklahoma</option>
+                      <option value="OR">Oregon</option>
+                      <option value="PA">Pennsylvania</option>
+                      <option value="RI">Rhode Island</option>
+                      <option value="SC">South Carolina</option>
+                      <option value="SD">South Dakota</option>
+                      <option value="TN">Tennessee</option>
+                      <option value="TX">Texas</option>
+                      <option value="UT">Utah</option>
+                      <option value="VT">Vermont</option>
+                      <option value="VA">Virginia</option>
+                      <option value="WA">Washington</option>
+                      <option value="WV">West Virginia</option>
+                      <option value="WI">Wisconsin</option>
+                      <option value="WY">Wyoming</option>
+                    </select>
+                  </div>
+                </form>
               </div>
-              <div class='form-group'>
-                <label for='exampleFormControlInput1'>Phone Number</label>
-                <input type='text' class='form-control' id='exampleFormControlInput1' placeholder='name@example.com' />
-              </div>
-              <div class='form-group'>
-                <label for='exampleFormControlInput1'>First Name</label>
-                <input class='form-control' type='text' placeholder={'Readonly input here...'} readonly />
-              </div>
-              <div class='form-group'>
-                <label for='exampleFormControlInput1'>Last Name</label>
-                <input class='form-control' type='text' placeholder={'Readonly input here...'} readonly />
-              </div>
-              <div class='form-group'>
-                <label for='exampleFormControlTextarea1'>Adress 1</label>
-                <textarea class='form-control' id='exampleFormControlTextarea1' rows='2'></textarea>
-              </div>
-              <div class='form-group'>
-                <label for='exampleFormControlTextarea1'>Adress 2</label>
-                <textarea class='form-control' id='exampleFormControlTextarea1' rows='2'></textarea>
-              </div>
-              <div class='form-group'>
-                <label for='exampleFormControlInput1'>City</label>
-                <input class='form-control' type='text' placeholder={'Readonly input here...'} readonly />
-              </div>
-              <div class='form-group'>
-                <label for='exampleFormControlSelect1'>State</label>
-                <select class='form-control' id='exampleFormControlSelect1'>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
-              </div>
-              <div class='form-group'>
-                <label for='exampleFormControlSelect2'>Example multiple select</label>
-                <select multiple class='form-control' id='exampleFormControlSelect2'>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
-              </div>
-            </form>
+              <div>
+                <h2>Billing Information</h2>
+                <form>
+                <div class='form-group'>
+                    <label for='userEmail'>Email</label>
+                    <input type='email' class='form-control' id='userEmail' placeholder='Please enter your email address.' />
+                  </div>
+                  <div class='form-group'>
+                    <label for='userPhone'>Phone Number</label>
+                    <input type='text' class='form-control' id='userPhone' placeholder={'Please enter your phone number.'} />
+                  </div>
+                  <div class='form-group'>
+                    <label for='userFirstName'>First Name</label>
+                    <input class='form-control' type='text' id='userFirstName' placeholder={'Readonly input here...'} readonly />
+                  </div>
+                  <div class='form-group'>
+                    <label for='userLastName'>Last Name</label>
+                    <input class='form-control' type='text' id='userLastName' placeholder={'Readonly input here...'} readonly />
+                  </div>
+                  <div class='form-group'>
+                    <label for='userAddress'>Billing Address</label>
+                    <textarea class='form-control' id='userAddress' rows='2'></textarea>
+                  </div>
+                  <div class='form-group'>
+                    <label for='userCity'>Billing City</label>
+                    <input class='form-control' type='text' id='userCity' placeholder={'Readonly input here...'} readonly />
+                  </div>
+                  <div class='form-group'>
+                    <label for='userState'>Billing State</label>
+                    <select class='form-control' id='userState'>
+                    <option value="AL">Alabama</option>
+                      <option value="AK">Alaska</option>
+                      <option value="AZ">Arizona</option>
+                      <option value="AR">Arkansas</option>
+                      <option value="CA">California</option>
+                      <option value="CO">Colorado</option>
+                      <option value="CT">Connecticut</option>
+                      <option value="DE">Delaware</option>
+                      <option value="DC">District Of Columbia</option>
+                      <option value="FL">Florida</option>
+                      <option value="GA">Georgia</option>
+                      <option value="HI">Hawaii</option>
+                      <option value="ID">Idaho</option>
+                      <option value="IL">Illinois</option>
+                      <option value="IN">Indiana</option>
+                      <option value="IA">Iowa</option>
+                      <option value="KS">Kansas</option>
+                      <option value="KY">Kentucky</option>
+                      <option value="LA">Louisiana</option>
+                      <option value="ME">Maine</option>
+                      <option value="MD">Maryland</option>
+                      <option value="MA">Massachusetts</option>
+                      <option value="MI">Michigan</option>
+                      <option value="MN">Minnesota</option>
+                      <option value="MS">Mississippi</option>
+                      <option value="MO">Missouri</option>
+                      <option value="MT">Montana</option>
+                      <option value="NE">Nebraska</option>
+                      <option value="NV">Nevada</option>
+                      <option value="NH">New Hampshire</option>
+                      <option value="NJ">New Jersey</option>
+                      <option value="NM">New Mexico</option>
+                      <option value="NY">New York</option>
+                      <option value="NC">North Carolina</option>
+                      <option value="ND">North Dakota</option>
+                      <option value="OH">Ohio</option>
+                      <option value="OK">Oklahoma</option>
+                      <option value="OR">Oregon</option>
+                      <option value="PA">Pennsylvania</option>
+                      <option value="RI">Rhode Island</option>
+                      <option value="SC">South Carolina</option>
+                      <option value="SD">South Dakota</option>
+                      <option value="TN">Tennessee</option>
+                      <option value="TX">Texas</option>
+                      <option value="UT">Utah</option>
+                      <option value="VT">Vermont</option>
+                      <option value="VA">Virginia</option>
+                      <option value="WA">Washington</option>
+                      <option value="WV">West Virginia</option>
+                      <option value="WI">Wisconsin</option>
+                      <option value="WY">Wyoming</option>
+                    </select>
+                  </div>
+                  </form>
+                </div>
+                <div>
+                  <h2>Payment Information</h2>
+                  <button type='submit' className='btn'>Select Another Payment Option</button>
+                  <form>
+                  <div class='form-group'>
+                    <label for='paymentOption'>Payment Type</label>
+                    <input type='text' class='form-control' id='paymentOption' placeholder={selectedPaymentType.paymentOption} value={selectedPaymentType.paymentOption} readonly />
+                  </div>
+                  <div class='form-group'>
+                    <label for='paymentAccountNumber'>Account Number</label>
+                    <input type='text' class='form-control' id='paymentAccountNumber' placeholder={selectedPaymentType.accountNo} value={selectedPaymentType.accountNo} readonly />
+                  </div>
+                  <div class='form-group'>
+                    <label for='paymentExpMonth'>Expiration Month</label>
+                    <input class='form-control' type='text' id='paymentExpMonth' placeholder={selectedPaymentType.expirationMonth} value={selectedPaymentType.expirationMonth} readonly />
+                  </div>
+                  <div class='form-group'>
+                    <label for='paymentExpYear'>Expiration Year</label>
+                    <input class='form-control' type='text' id='paymentExpYear' placeholder={selectedPaymentType.expirationYear} value={selectedPaymentType.expirationYear} readonly />
+                  </div>
+                  <div class='form-group'>
+                    <label for='paymentCcv'>CCV</label>
+                    <input class='form-control' id='text' id='paymentCcv' placeholder={selectedPaymentType.ccv} value={selectedPaymentType.ccv} readonly ></input>
+                  </div>
+                </form>
+            </div>
           </div>
+          <button type='submit' className='btn'>Place Order</button>
       </div>
     );
   }
