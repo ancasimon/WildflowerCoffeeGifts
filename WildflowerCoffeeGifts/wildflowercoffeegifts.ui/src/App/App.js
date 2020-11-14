@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-
 import {
   BrowserRouter,
   Route,
   Redirect,
   Switch,
 } from 'react-router-dom';
+import fbConnection from '../helpers/data/connection';
+import Login from '../components/pages/Login/Login';
 
 import Home from '../components/pages/Home/Home';
 import MyNavbar from '../components/shared/MyNavbar/MyNavbar';
@@ -14,10 +15,10 @@ import Products from '../components/pages/Products/Products';
 import ShoppingCart from '../components/pages/ShoppingCart/ShoppingCart';
 import SingleProductView from '../components/pages/SingleProductView/SingleProductView';
 import SearchedProducts from '../components/pages/SearchedProducts/SearchedProducts';
-
-import ordersData from '../helpers/data/ordersData';
-
+// import ordersData from '../helpers/data/ordersData';
 import './App.scss';
+
+fbConnection();
 
 class App extends React.Component {
   render() {
@@ -29,12 +30,13 @@ class App extends React.Component {
             <div className="container">
               <div className="row">
                 <Switch>
+                 <Route path='/login' component={Login}></Route>
                   <Route path='/cart' component={ShoppingCart} />
                   <Route path='/orders' component={Orders} />
                   <Route path='/products/search/:searchWord' component={SearchedProducts} />
                   <Route path='/products/:id' component={SingleProductView} />
                   <Route path='/products' component={Products} />
-                  <Route path='' component={Home} />
+                  <Route path='/' component={Home} />
                 </Switch>
               </div>
             </div>

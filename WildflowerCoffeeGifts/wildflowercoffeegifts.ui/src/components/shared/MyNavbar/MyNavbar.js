@@ -45,7 +45,7 @@ class MyNavbar extends React.Component {
           </NavbarToggler>
         <Collapse isOpen={isOpen} navbar>
         <Nav className="ml-auto NavList" navbar>
-          <NavItem className="NavItem">
+           <NavItem className="NavItem">
             <NavLink tag={RRNavLink} to="/products" className='listItems'>Products</NavLink>
           </NavItem>
           <NavItem className="NavItem">
@@ -55,9 +55,9 @@ class MyNavbar extends React.Component {
             <NavLink tag={RRNavLink} to="/cart" className='listItems'>Cart</NavLink>
           </NavItem>
           <NavItem className="NavItem">
-            <button className='logInButton'>Log In</button>
+            <NavLink tag={RRNavLink} to="/login" className='listItems'>Log In</NavLink>
           </NavItem>
-          <form className='searchbar'>
+           <form className='searchbar'>
               <input className='searchInput mr-2' onChange={this.filterProducts} type="text" placeholder="Search Products" name="search" value={this.state.searchInput}/>
               <Link className='searchButton listItems' to={wordSearched} searchinput={this.state.searchInput}><i className="fa fa-search"></i></Link>
           </form>
