@@ -15,7 +15,7 @@ class ShoppingCart extends React.Component {
     cart: {},
     lineItems: [],
     user: {},
-    userId: 11,
+    userId: 12,
   }
 
   getUser = () => {

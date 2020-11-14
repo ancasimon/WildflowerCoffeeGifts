@@ -13,12 +13,12 @@ class SingleProductView extends React.Component {
   state = {
     selectedProduct: {},
     selectedProductId: this.props.match.params.id, // we may need to move this to props when we do the product cards and pass down the id of the card selected ...
-    userId: 11,
+    userId: 12,
     cart: {},
     lineItems: [],
-    productQuantity: 1,
-    previousQuantity: 0,
-    newProductQuantity: 0,
+    productQuantityOnSingleView: 1,
+    previousQuantityInCart: 0,
+    newproductQuantityForCart: 0,
     productInCart: false,
   }
 
@@ -29,7 +29,7 @@ class SingleProductView extends React.Component {
         this.setState({
           selectedProduct: response.data,
           selectedProductId: response.data.id,
-          productQuantity: 1,
+          productQuantityOnSingleView: 1,
         });
       })
       .catch((error) => console.error('Unable to get the selected product', error));
@@ -42,9 +42,9 @@ class SingleProductView extends React.Component {
       lineItems,
       selectedProductId,
       productInCart,
-      productQuantity,
-      newProductQuantity,
-      previousQuantity,
+      productQuantityOnSingleView,
+      newproductQuantityForCart,
+      previousQuantityInCart,
     } = this.state;
     ordersData.getCart(userId)
       .then((response) => {
@@ -53,12 +53,15 @@ class SingleProductView extends React.Component {
             cart: response.data,
             lineItems: response.data.lineItems,
           });
+          console.error('line items', this.state.lineItems[0]);
           for (let i = 0; i < this.state.lineItems.length; i += 1) {
-            if (this.state.lineItems[i].productId === this.state.selectedProductId) {
-              this.setState({ previousQuantity: this.state.lineItems[i].qty });
+            if (this.state.lineItems[i].productId == this.state.selectedProductId) {
+              this.setState({ previousQuantityInCart: this.state.lineItems[i].qty });
               this.setState({ productInCart: true });
             }
           }
+          console.error('prev qty in cart after getting cart!!!', this.state.previousQuantityInCart);
+          console.error('prod in cart y or n', this.state.productInCart);
         } else {
           this.setState({
             cart: null,
@@ -72,14 +75,29 @@ class SingleProductView extends React.Component {
   componentDidMount() {
     const {
       selectedProductId,
+      userId,
+      productQuantityOnSingleView,
+      previousQuantityInCart,
+      newproductQuantityForCart,
+      productInCart,
     } = this.state;
     this.buildSingleView(selectedProductId);
-    this.getCart();
+    this.getCart(userId);
+    console.error('prev qty in cart in compodidmount!!', this.state.previousQuantityInCart);
+    console.error('prod in cart y or n', this.state.productInCart);
   }
 
-  changeProductQuantity = (e) => {
+  changeproductQuantityOnSingleView = (e) => {
     e.preventDefault();
-    this.setState({ productQuantity: e.target.value * 1, newProductQuantity: this.state.previousQuantity + (e.target.value * 1) });
+    const {
+      productQuantityOnSingleView,
+      previousQuantityInCart,
+      newproductQuantityForCart,
+    } = this.state;
+    this.setState({ productQuantityOnSingleView: e.target.value * 1, newproductQuantityForCart: (this.state.previousQuantityInCart + (e.target.value * 1)) });
+    // console.error('prev qty in cart AFTER change', previousQuantityInCart);
+    // console.error('curr qty for product', newproductQuantityForCart);
+    // console.error('what user typed in for qty', productQuantityOnSingleView);
   }
 
   addToCart = (e) => {
@@ -89,9 +107,9 @@ class SingleProductView extends React.Component {
       userId,
       selectedProduct,
       selectedProductId,
-      productQuantity,
+      productQuantityOnSingleView,
       productInCart,
-      newProductQuantity,
+      newproductQuantityForCart,
     } = this.state;
     if (cart == null) {
       ordersData.createCart(userId)
@@ -105,7 +123,7 @@ class SingleProductView extends React.Component {
           const newProductOrder = {
             productId,
             orderId,
-            qty: productQuantity,
+            qty: this.state.productQuantityOnSingleView,
             isActive: true,
             title: '',
             price: 0,
@@ -125,16 +143,16 @@ class SingleProductView extends React.Component {
     } else {
       const orderId = cart.id;
       const productId = this.state.selectedProductId;
-      const newQuantity = this.state.newProductQuantity;
+      const newQuantity = this.state.newproductQuantityForCart;
       if (this.state.productInCart == true) {
-        productOrdersData.updateProductOrderBasedOnProductAndOrderIds(productId, orderId, newQuantity)
+        productOrdersData.updateProductOrderBasedOnProductAndOrderIds(productId, orderId, this.state.newproductQuantityForCart)
           .then((updatedLineItemResponse) => {
             this.setState({ productInCart: true });
             this.props.history.push('/cart');
           })
           .catch((error) => console.error('Could not update quantity for this line item.', error));
       } else if (productInCart == false) {
-        productOrdersData.postProductOrderBasedOnProductAndOrderIds(productId, orderId, productQuantity)
+        productOrdersData.postProductOrderBasedOnProductAndOrderIds(productId, orderId, this.state.productQuantityOnSingleView)
           .then((newLineItemResponse) => {
             this.props.history.push('/cart');
           })
@@ -144,7 +162,7 @@ class SingleProductView extends React.Component {
   }
 
   render() {
-    const { selectedProduct, productQuantity } = this.state;
+    const { selectedProduct, productQuantityOnSingleView } = this.state;
 
     return (
             <div>
@@ -165,7 +183,7 @@ class SingleProductView extends React.Component {
                       <p><b>Coffee Mug:</b> {selectedProduct.coffeeMugName}</p>
                       <p><b>Flower Arrangement:</b> {selectedProduct.flowerArrName}</p>
                       <label htmlFor="product-quantity"><b>Quantity:</b></label>
-                      <input id="product-quantity" className="qty-input" type="text" value={productQuantity} onChange={this.changeProductQuantity} />
+                      <input id="product-quantity" className="qty-input" type="text" value={productQuantityOnSingleView} onChange={this.changeproductQuantityOnSingleView} />
                       <button className="cart" type="submit" className="btn" onClick={this.addToCart}>Add to Cart</button>
                     </div>
                     </div>
