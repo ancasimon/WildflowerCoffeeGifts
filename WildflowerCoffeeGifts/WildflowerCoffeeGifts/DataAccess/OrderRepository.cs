@@ -222,7 +222,7 @@ where po.OrderId = @OrderId AND po.IsActive=1) x";
                                                     '',
                                                     '',
                                                     '',
-                                                    '1')";
+                                                    1)";
 
                 var newPaymentTypeId = db.ExecuteScalar<int>(createDefaultPaymentType, parameterUserId);
 

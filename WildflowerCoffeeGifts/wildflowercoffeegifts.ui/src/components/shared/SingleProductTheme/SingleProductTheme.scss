@@ -1,4 +1,30 @@
-.SingleProductTheme {
-  list-style: none;
-  border: none;
+.SingleProductTheme{
+  color:black !important;
+  font-weight: bold;
+ 
+  }
+.form-box{
+  min-width: 200px !important;
+  color: black;
+  font-weight: bolder; 
+  box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.2);
+}
+.theme-name{
+  min-width: 500px !important;
+  color: black !important;
+   //font-weight: bolder !important;
+  font-size: 18px !important;
+}
+
+.select-box{
+  min-width: 150px;
+  color: black !important;
+  font-weight: bolder;
+}
+
+.product-item{
+  color:black !important;
+}
+Link{
+  color:black !important;
 }

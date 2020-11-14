@@ -39,6 +39,7 @@ class ShoppingCart extends React.Component {
       paymentTypeId,
       selectedPaymentType,
     } = this.state;
+
     ordersData.getCart(userId)
       .then((response) => {
         if (response.status == 200) {
