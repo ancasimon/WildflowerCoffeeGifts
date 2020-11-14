@@ -6,7 +6,6 @@ dist/
 .DS_Store
 build/
 apiKeys.json
-
 # dependencies
 /node_modules
 /.pnp
