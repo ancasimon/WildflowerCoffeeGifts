@@ -37,7 +37,10 @@ const loginUser = (user) =>
     // save the token to the session storage
       .then((token) => sessionStorage.setItem('token', token));
   });
-const logoutUser = () => firebase.auth().signOut();
+const logoutUser = () => {
+  sessionStorage.removeItem('token');
+  return firebase.auth().signOut();
+};
 
 const getUid = () => firebase.auth().currentUser.uid;
 
