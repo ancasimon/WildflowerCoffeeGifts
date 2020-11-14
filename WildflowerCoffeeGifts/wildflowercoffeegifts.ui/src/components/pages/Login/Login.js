@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import './Login.scss';
 
 import authRequests from '../../../helpers/data/authData';
@@ -22,6 +22,19 @@ class Login extends React.Component {
       })
       .catch((error) => {
         console.error('there was an error in registering', error);
+      });
+  };
+
+  logoutClickEvent = (e) => {
+    const { user } = this.state;
+    e.preventDefault();
+    authRequests
+      .logoutUser(user)
+      .then(() => {
+        this.props.history.push('/home');
+      })
+      .catch((error) => {
+        console.error('there was an error logging out', error);
       });
   };
 
@@ -78,10 +91,21 @@ class Login extends React.Component {
               <div className="col-sm-12">
                 <button
                   type="submit"
-                  className="btn btn-primary col-xs-12"
+                  className="btn btn-success col-xs-12"
                   onClick={this.loginClickEvent}
                 >
                   Login
+                </button>
+              </div>
+            </div>
+            <div className="form-group">
+              <div className="col-sm-12">
+                <button
+                  type="submit"
+                  className="btn btn-primary col-xs-12"
+                  onClick={this.logoutClickEvent}
+                >
+                  LogOut
                 </button>
               </div>
             </div>
