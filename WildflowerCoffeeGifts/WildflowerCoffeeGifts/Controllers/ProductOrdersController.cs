@@ -7,11 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using WildflowerCoffeeGifts.DataAccess;
 using WildflowerCoffeeGifts.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WildflowerCoffeeGifts.Controllers
 {
     [Route("api/lineitems")]
     [ApiController]
+    [Authorize]
+    // [AllowAnonymous] add this to any method that does not require auth
     public class ProductOrdersController : ControllerBase
     {
         ProductOrderRepository _productOrderRepo;
@@ -84,6 +87,29 @@ namespace WildflowerCoffeeGifts.Controllers
             }
 
             return Ok(updatedLineItem);
+        }
+        
+        // new method to update the product order quantity if it already exists in an order / in the cart or to create it if not:
+        [HttpPut("{productId}/{orderId}/{qty}")]
+        public IActionResult UpdateProductOrderQuantityInCart(int productId, int orderId, int qty)
+        {
+            var lineItem = _productOrderRepo.Update(productId, orderId, qty);
+
+            if (_productOrderRepo.GetLineItemByProductAndOrder(productId, orderId) == null)
+            {
+                return NotFound("We could not find a line item with this productID and this orderID. Please try again.");
+            }
+
+            return Ok(lineItem);
+        }
+
+        //new method to post a ProductOrder based on productId and orderId:
+        [HttpPost("{productId}/{orderId}/{qty}")]
+        public IActionResult CreateProductOrderBasedOnProductAndOrderIds(int productId, int orderId, int qty)
+        {
+            var newLineItem = _productOrderRepo.AddProductOrderWithProductAndOrderIds(productId, orderId, qty);
+
+            return Created($"/api/lineitems/{newLineItem.Id}", newLineItem);
         }
 
         [HttpPost]
