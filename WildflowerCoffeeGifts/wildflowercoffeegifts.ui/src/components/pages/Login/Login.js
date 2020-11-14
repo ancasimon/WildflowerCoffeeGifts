@@ -18,7 +18,7 @@ class Login extends React.Component {
     authRequests
       .loginUser(user)
       .then(() => {
-        this.props.history.push('/users');
+        this.props.history.push('/home');
       })
       .catch((error) => {
         console.error('there was an error in registering', error);
@@ -72,11 +72,6 @@ class Login extends React.Component {
                   value={user.password}
                   onChange={this.passwordChange}
                 />
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="col-sm-12 text-center">
-                <Link to="/register">Need to Register?</Link>
               </div>
             </div>
             <div className="form-group">
