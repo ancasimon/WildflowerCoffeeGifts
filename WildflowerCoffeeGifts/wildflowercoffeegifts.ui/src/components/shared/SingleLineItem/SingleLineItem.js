@@ -18,9 +18,9 @@ class SingleLineItem extends React.Component {
 
   inactivateLineItem = (e) => {
     e.preventDefault();
-    console.error('deleting line item', this. props);
+    console.error('deleting line item', this.props);
     const { selectedLineItemId } = this.state;
-    console.error('new id', selectedLineItemId);
+    console.error('id to delete', selectedLineItemId);
     const updatedLineItem = {
       id: this.props.item.id,
       productId: this.props.item.productId,
