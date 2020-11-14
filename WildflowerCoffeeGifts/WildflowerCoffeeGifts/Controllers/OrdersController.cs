@@ -85,5 +85,13 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(updatedOrder);
         }
 
+        [HttpGet("history")]
+        public IActionResult GetAllProductOrderDetails()
+        {
+            var orderDetails = _orderRepo.AdminViewOfPlacedOrders();
+
+            return Ok(orderDetails);
+        }
+
     }
 }

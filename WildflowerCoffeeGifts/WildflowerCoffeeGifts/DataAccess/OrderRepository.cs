@@ -158,12 +158,12 @@ namespace WildflowerCoffeeGifts.DataAccess
             else
             {
                 var queryForTotalPrice = @"select SUM(x.Subtotal)
-from (
-select p.Price*po.Qty AS Subtotal                                    
-from ProductOrders po
-join Products p
-on po.ProductId = p.Id
-where po.OrderId = @OrderId) x";
+                                           from (
+                                           select p.Price*po.Qty AS Subtotal                                    
+                                           from ProductOrders po
+                                           join Products p
+                                           on po.ProductId = p.Id
+                                           where po.OrderId = @OrderId) x";
                 var totalPrice = db.QueryFirst<decimal>(queryForTotalPrice, parameterOrderId);
                 selectedOrder.TotalPrice = totalPrice;
             }
@@ -288,6 +288,20 @@ where po.OrderId = @OrderId) x";
             var updatedOrder = db.QueryFirstOrDefault<Order>(sqlUpdate, parameters);
 
             return updatedOrder;
+        }
+
+        public Order AdminViewOfPlacedOrders()
+        {
+            using var db = new SqlConnection(_connectionString);
+
+
+            var sqlForOrder = @"select *
+                               from Orders";
+
+
+            var placedOrderDetails = db.QueryFirstOrDefault<Order>(sqlForOrder);
+
+            return placedOrderDetails;
         }
     }
 }
