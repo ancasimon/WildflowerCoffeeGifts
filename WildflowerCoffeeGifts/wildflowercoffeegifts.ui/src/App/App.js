@@ -31,7 +31,7 @@ class App extends React.Component {
               <div className="row">
                 <Switch>
                   <Route path='/cart' component={ShoppingCart} />
-                  <Route path='/orders' component={Orders} />
+                  <Route path='/orders/history' component={Orders} />
                   <Route path='/products/search/:searchWord' component={SearchedProducts} />
                   <Route path='/products/:id' component={SingleProductView} />
                   <Route path='/products' component={Products} />
