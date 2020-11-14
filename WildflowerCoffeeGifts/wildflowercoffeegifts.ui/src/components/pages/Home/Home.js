@@ -33,7 +33,7 @@ class Home extends React.Component {
             {buildTwentyProducts}
           </div>
           <div>
-          <h1 className="text-center">Product Themes</h1>
+          <h4 className="ml-auto">PRODUCT CATEGORIES</h4>
             <ProductThemes/>
           </div>
         </div>
