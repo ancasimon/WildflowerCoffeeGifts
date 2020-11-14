@@ -114,7 +114,7 @@ class ShoppingCart extends React.Component {
               ? <div>
               <p>Your cart is empty!</p>
               <p>Click Start Shopping below to get started!</p>
-              <button type="submit" className="btn" onClick={this.createCart}>Start Shopping</button>
+              <button type='submit' className='btn' onClick={this.createCart}>Start Shopping</button>
           </div>
               : <div>
               <h4>Total Price: ${cart.totalPrice}</h4>
@@ -139,13 +139,37 @@ class ShoppingCart extends React.Component {
           <div>
             <h2>Payment Details</h2>
             <form>
-              <div class="form-group">
-                <label for="exampleFormControlInput1">Email address</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" />
+              <div class='form-group'>
+                <label for='exampleFormControlInput1'>Email address</label>
+                <input type='email' class='form-control' id='exampleFormControlInput1' placeholder='name@example.com' />
               </div>
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Example select</label>
-                <select class="form-control" id="exampleFormControlSelect1">
+              <div class='form-group'>
+                <label for='exampleFormControlInput1'>Phone Number</label>
+                <input type='text' class='form-control' id='exampleFormControlInput1' placeholder='name@example.com' />
+              </div>
+              <div class='form-group'>
+                <label for='exampleFormControlInput1'>First Name</label>
+                <input class='form-control' type='text' placeholder={'Readonly input here...'} readonly />
+              </div>
+              <div class='form-group'>
+                <label for='exampleFormControlInput1'>Last Name</label>
+                <input class='form-control' type='text' placeholder={'Readonly input here...'} readonly />
+              </div>
+              <div class='form-group'>
+                <label for='exampleFormControlTextarea1'>Adress 1</label>
+                <textarea class='form-control' id='exampleFormControlTextarea1' rows='2'></textarea>
+              </div>
+              <div class='form-group'>
+                <label for='exampleFormControlTextarea1'>Adress 2</label>
+                <textarea class='form-control' id='exampleFormControlTextarea1' rows='2'></textarea>
+              </div>
+              <div class='form-group'>
+                <label for='exampleFormControlInput1'>City</label>
+                <input class='form-control' type='text' placeholder={'Readonly input here...'} readonly />
+              </div>
+              <div class='form-group'>
+                <label for='exampleFormControlSelect1'>State</label>
+                <select class='form-control' id='exampleFormControlSelect1'>
                   <option>1</option>
                   <option>2</option>
                   <option>3</option>
@@ -153,19 +177,15 @@ class ShoppingCart extends React.Component {
                   <option>5</option>
                 </select>
               </div>
-              <div class="form-group">
-                <label for="exampleFormControlSelect2">Example multiple select</label>
-                <select multiple class="form-control" id="exampleFormControlSelect2">
+              <div class='form-group'>
+                <label for='exampleFormControlSelect2'>Example multiple select</label>
+                <select multiple class='form-control' id='exampleFormControlSelect2'>
                   <option>1</option>
                   <option>2</option>
                   <option>3</option>
                   <option>4</option>
                   <option>5</option>
                 </select>
-              </div>
-              <div class="form-group">
-                <label for="exampleFormControlTextarea1">Example textarea</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
               </div>
             </form>
           </div>
