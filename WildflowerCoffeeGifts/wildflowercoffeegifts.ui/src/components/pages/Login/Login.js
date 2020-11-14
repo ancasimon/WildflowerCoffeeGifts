@@ -14,7 +14,6 @@ class Login extends React.Component {
 
   loginClickEvent = (e) => {
     const { user } = this.state;
-    console.error('login', user);
     e.preventDefault();
     authRequests
       .loginUser(user)
@@ -28,7 +27,6 @@ class Login extends React.Component {
 
   logoutClickEvent = (e) => {
     const { user } = this.state;
-    console.error('logout', user);
     e.preventDefault();
     authRequests
       .logoutUser(user)
