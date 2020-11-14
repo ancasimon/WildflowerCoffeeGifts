@@ -7,11 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using WildflowerCoffeeGifts.DataAccess;
 using WildflowerCoffeeGifts.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WildflowerCoffeeGifts.Controllers
 {
     [Route("api/lineitems")]
     [ApiController]
+    [Authorize]
+    // [AllowAnonymous] add this to any method that does not require auth
     public class ProductOrdersController : ControllerBase
     {
         ProductOrderRepository _productOrderRepo;
