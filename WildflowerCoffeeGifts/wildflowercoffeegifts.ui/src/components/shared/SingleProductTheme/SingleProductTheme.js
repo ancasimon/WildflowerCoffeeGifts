@@ -1,25 +1,36 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {
+  Select, MenuItem, FormControl, InputLabel,
+} from '@material-ui/core';
 import './SingleProductTheme.scss';
 
 class SingleProductTheme extends React.Component {
-  render() {
-    const { theme } = this.props;
-    return (
+  state = {
+    theme: '',
+    value: '',
+  };
+
+   handleChange = (e) => {
+     this.setState(e.target.value);
+   }
+
+   render() {
+     const { theme } = this.props;
+     const { value } = this.state;
+     return (
       <div className='SingleProductTheme'>
-        <li className= "list-group-item m-3">
-          <div className ="d-flex">
-           <h2 className="theme-name">{theme.theme}</h2>
-           <h3 className = 'mr-auto mt-1'> ({theme.count})</h3>
-           </div>
-          <div className="text-left">
-      <Link to ={`/products/${theme.topThreeProducts[0].id}`}><h5>{theme.topThreeProducts[0].title}</h5></Link>
-      <Link to ={`/products/${theme.topThreeProducts[1].id}`}><h5>{theme.topThreeProducts[1].title}</h5></Link>
-      <Link to ={`/products/${theme.topThreeProducts[2].id}`}><h5>{theme.topThreeProducts[2].title}</h5></Link>
+       <FormControl className="form-box">
+        <InputLabel className="theme-name">{theme.theme} ({theme.count})</InputLabel>
+        <Select className="select-box" onChange= {this.handleChange}>
+      <MenuItem value={theme} className="product-item"><Link to ={`/products/${theme.topThreeProducts[0].id}`}>{theme.topThreeProducts[0].title}</Link></MenuItem>
+      <MenuItem value={theme} className="product-item"><Link to ={`/products/${theme.topThreeProducts[1].id}`}>{theme.topThreeProducts[1].title}</Link></MenuItem>
+      <MenuItem value={theme} className="product-item"><Link to ={`/products/${theme.topThreeProducts[2].id}`}>{theme.topThreeProducts[2].title}</Link></MenuItem>
+      </Select>
+      </FormControl>
+      <p>{ value }</p>
      </div>
-     </li>
-     </div>
-    );
-  }
+     );
+   }
 }
 export default SingleProductTheme;
