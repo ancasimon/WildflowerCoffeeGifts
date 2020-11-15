@@ -158,21 +158,13 @@ namespace WildflowerCoffeeGifts.DataAccess
             else
             {
                 var queryForTotalPrice = @"select SUM(x.Subtotal)
-<<<<<<< HEAD
-                                           from (
-                                           select p.Price*po.Qty AS Subtotal                                    
-                                           from ProductOrders po
-                                           join Products p
-                                           on po.ProductId = p.Id
-                                           where po.OrderId = @OrderId) x";
-=======
-from (
-select p.Price*po.Qty AS Subtotal                                    
-from ProductOrders po
-join Products p
-on po.ProductId = p.Id
-where po.OrderId = @OrderId AND po.IsActive=1) x";
->>>>>>> main
+                                            from (
+                                            select p.Price*po.Qty AS Subtotal                                    
+                                            from ProductOrders po
+                                            join Products p
+                                            on po.ProductId = p.Id
+                                            where po.OrderId = @OrderId AND po.IsActive=1) x";
+
                 var totalPrice = db.QueryFirst<decimal>(queryForTotalPrice, parameterOrderId);
                 selectedOrder.TotalPrice = totalPrice;
             }
@@ -309,7 +301,7 @@ where po.OrderId = @OrderId AND po.IsActive=1) x";
 	                        PO.Qty,
 	                        O.TotalPrice,
 	                        O.PurchaseDate,
-	                        PO.IsActive as ProductOrderIsActive,
+	                        PO.IsActive,
 	                        U.FirstName,
 	                        U.LastName,
 	                        U.Username,

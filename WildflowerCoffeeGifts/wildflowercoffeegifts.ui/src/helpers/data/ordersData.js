@@ -12,10 +12,10 @@ const createCart = (userId) => axios.post(`${baseUrl}/orders/cart/${userId}`, us
 const viewAllOrders = () => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/orders/history`)
     .then((response) => {
+      console.error('from ordersData', response.data);
       resolve(response.data);
-      console.error(response.data);
     })
-    .catch((error) => reject(error));
+    .catch((error) => reject(error, 'unable to get orderData from API'));
 });
 
 export default {
