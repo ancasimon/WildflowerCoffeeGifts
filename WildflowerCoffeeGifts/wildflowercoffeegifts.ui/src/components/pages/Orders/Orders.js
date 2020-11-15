@@ -2,6 +2,7 @@ import React from 'react';
 import { Table } from 'reactstrap';
 import ordersData from '../../../helpers/data/ordersData';
 import OrderLineInfo from './OrderLineInfo';
+import '@formatjs/intl-numberformat/polyfill';
 
 import './Orders.scss';
 
@@ -30,13 +31,13 @@ class Orders extends React.Component {
         <Table>
           <thead>
             <tr>
-              <th>Title</th>
-              <th>Qty Ordered</th>
-              <th>Total Price</th>
-              <th>Purchase Date</th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Email</th>
+              <th>Product</th>
+              <th>Qty Ordered</th>
+              <th>Total Price</th>
+              <th>Purchase Date</th>
               <th>Payment</th>
               <th>Completed Order</th>
             </tr>

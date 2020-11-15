@@ -315,7 +315,8 @@ namespace WildflowerCoffeeGifts.DataAccess
 			                            inner join Users U on
 			                            O.UserId = U.Id
 			                                inner join PaymentTypes PT on
-	    		                                U.Id = PT.UserId";
+	    		                                U.Id = PT.UserId
+                              ORDER BY U.FirstName";
 
 
             var adminOrders = db.Query<AdminOrderView>(sqlQuery);
