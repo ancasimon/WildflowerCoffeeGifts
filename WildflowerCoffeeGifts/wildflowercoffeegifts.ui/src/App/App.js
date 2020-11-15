@@ -32,7 +32,7 @@ class App extends React.Component {
                 <Switch>
                  <Route path='/login' component={Login}></Route>
                   <Route path='/cart' component={ShoppingCart} />
-                  <Route path='/orders/history' component={Orders} />
+                  <Route path='/orders' component={Orders} />
                   <Route path='/products/search/:searchWord' component={SearchedProducts} />
                   <Route path='/products/:id' component={SingleProductView} />
                   <Route path='/products' component={Products} />
