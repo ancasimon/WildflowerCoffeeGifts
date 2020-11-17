@@ -13,6 +13,7 @@ import './ShoppingCart.scss';
 class ShoppingCart extends React.Component {
   state = {
     cart: {},
+    cartId: 0,
     lineItems: [],
     user: {},
     userId: 1,
@@ -27,6 +28,7 @@ class ShoppingCart extends React.Component {
         this.setState({
           user: response.data,
         });
+        console.log('user', response);
       })
       .catch((error) => console.error('Unable to get user record.', error));
   }
@@ -45,6 +47,7 @@ class ShoppingCart extends React.Component {
         if (response.status == 200) {
           this.setState({
             cart: response.data,
+            cartId: response.data.id,
             lineItems: response.data.lineItems,
             paymentTypeId: response.data.paymentTypeId,
           });
@@ -58,6 +61,7 @@ class ShoppingCart extends React.Component {
         } else {
           this.setState({
             cart: null,
+            cartId: 0,
             lineItems: [],
             paymentTypeId: 0,
             selectedPaymentType: {},
@@ -93,6 +97,48 @@ class ShoppingCart extends React.Component {
         });
       })
       .catch((error) => console.error('Unable to create the new shopping cart.', error));
+  }
+
+  placeOrder = (e) => {
+    e.preventDefault();
+    const {
+      cart,
+      cartId,
+      userId,
+      totalPrice,
+      paymentTypeId,
+      purchaseDate,
+      deliveryAddress,
+      isActive,
+      lineItems,
+      deliveryCity,
+      deliveryState,
+      recipientEmail,
+      recipientPhone,
+      recipientFirstName,
+      recipientLastName,
+    } = this.state;
+    const updatedOrder = {
+      userId,
+      isCompleted: true,
+      totalPrice: cart.totalPrice,
+      paymentTypeId: cart.paymentTypeId,
+      purchaseDate: new Date,
+      deliveryAddress: cart.deliveryAddress,
+      isActive: cart.isActive,
+      lineItems: cart.lineItems,
+      deliveryCity: cart.deliveryCity,
+      deliveryState: cart.deliveryState,
+      recipientEmail: cart.recipientEmail,
+      recipientPhone: cart.recipientPhone,
+      recipientFirstName: cart.recipientFirstName,
+      recipientLastName: cart.recipientLastName,
+    };
+    ordersData.updateOrder(cartId, updatedOrder)
+      .then(() => {
+        this.props.history.push('/products');
+      })
+      .catch((error) => console.error('We could not finalize your order', error));
   }
 
   render() {
@@ -144,82 +190,82 @@ class ShoppingCart extends React.Component {
                 <form>
                   <div class='form-group'>
                     <label for='recipientEmail'>Recipient Email Address</label>
-                    <input type='email' class='form-control' id='recipientEmail' placeholder='Please enter the email address of the recipient.' />
+                    <input type='email' class='form-control' id='recipientEmail' placeholder='Please enter the email address of the recipient.' value={cart.recipientEmail} />
                   </div>
                   <div class='form-group'>
                     <label for='recipientPhone'>Recipient Phone Number</label>
-                    <input type='text' class='form-control' id='recipientPhone' placeholder='Please enter a phone number for the recipient.' />
+                    <input type='text' class='form-control' id='recipientPhone' placeholder='Please enter a phone number for the recipient.' value={cart.recipientPhone} />
                   </div>
                   <div class='form-group'>
                     <label for='recipientFirstName'>First Name</label>
-                    <input class='form-control' type='text' id='recipientFirstName' placeholder='Please enter the first name of the recipient.' />
+                    <input class='form-control' type='text' id='recipientFirstName' placeholder='Please enter the first name of the recipient.' value={cart.recipientFirstName} />
                   </div>
                   <div class='form-group'>
                     <label for='recipientLastName'>Last Name</label>
-                    <input class='form-control' type='text' id='recipientLastName' placeholder='Please enter the last name of the recipient.' />
+                    <input class='form-control' type='text' id='recipientLastName' placeholder='Please enter the last name of the recipient.' value={cart.recipientLastName} />
                   </div>
                   <div class='form-group'>
                     <label for='recipientAddress'>Delivery Address</label>
-                    <textarea class='form-control' id='recipientAddress' rows='2' placeholder={cart.deliveryAddress} value={cart.deliveryAddress}></textarea>
+                    <textarea class='form-control' id='recipientAddress' rows='2' placeholder='Please enter the delivery address.' value={cart.deliveryAddress}></textarea>
                   </div>
                   <div class='form-group'>
                     <label for='recipientCity'>Delivery City</label>
-                    <input class='form-control' type='text' id='recipientCity' placeholder='Please enter delivery city.' />
+                    <input class='form-control' type='text' id='recipientCity' placeholder='Please enter delivery city.' value={cart.deliveryCity} />
                   </div>
                   <div class='form-group'>
                     <label for='recipientState'>Delivery State</label>
-                    <select class='form-control' id='recipientState'>
-                      <option value="AL">Alabama</option>
-                      <option value="AK">Alaska</option>
-                      <option value="AZ">Arizona</option>
-                      <option value="AR">Arkansas</option>
-                      <option value="CA">California</option>
-                      <option value="CO">Colorado</option>
-                      <option value="CT">Connecticut</option>
-                      <option value="DE">Delaware</option>
-                      <option value="DC">District Of Columbia</option>
-                      <option value="FL">Florida</option>
-                      <option value="GA">Georgia</option>
-                      <option value="HI">Hawaii</option>
-                      <option value="ID">Idaho</option>
-                      <option value="IL">Illinois</option>
-                      <option value="IN">Indiana</option>
-                      <option value="IA">Iowa</option>
-                      <option value="KS">Kansas</option>
-                      <option value="KY">Kentucky</option>
-                      <option value="LA">Louisiana</option>
-                      <option value="ME">Maine</option>
-                      <option value="MD">Maryland</option>
-                      <option value="MA">Massachusetts</option>
-                      <option value="MI">Michigan</option>
-                      <option value="MN">Minnesota</option>
-                      <option value="MS">Mississippi</option>
-                      <option value="MO">Missouri</option>
-                      <option value="MT">Montana</option>
-                      <option value="NE">Nebraska</option>
-                      <option value="NV">Nevada</option>
-                      <option value="NH">New Hampshire</option>
-                      <option value="NJ">New Jersey</option>
-                      <option value="NM">New Mexico</option>
-                      <option value="NY">New York</option>
-                      <option value="NC">North Carolina</option>
-                      <option value="ND">North Dakota</option>
-                      <option value="OH">Ohio</option>
-                      <option value="OK">Oklahoma</option>
-                      <option value="OR">Oregon</option>
-                      <option value="PA">Pennsylvania</option>
-                      <option value="RI">Rhode Island</option>
-                      <option value="SC">South Carolina</option>
-                      <option value="SD">South Dakota</option>
-                      <option value="TN">Tennessee</option>
-                      <option value="TX">Texas</option>
-                      <option value="UT">Utah</option>
-                      <option value="VT">Vermont</option>
-                      <option value="VA">Virginia</option>
-                      <option value="WA">Washington</option>
-                      <option value="WV">West Virginia</option>
-                      <option value="WI">Wisconsin</option>
-                      <option value="WY">Wyoming</option>
+                    <select class='form-control' id='recipientState' value={cart.deliveryState}>
+                    <option value="0">Alabama</option>
+                      <option value="1">Alaska</option>
+                      <option value="2">Arizona</option>
+                      <option value="3">Arkansas</option>
+                      <option value="4">California</option>
+                      <option value="5">Colorado</option>
+                      <option value="6">Connecticut</option>
+                      <option value="7">Delaware</option>
+                      <option value="8">District Of Columbia</option>
+                      <option value="9">Florida</option>
+                      <option value="10">Georgia</option>
+                      <option value="11">Hawaii</option>
+                      <option value="12">Idaho</option>
+                      <option value="13">Illinois</option>
+                      <option value="14">Indiana</option>
+                      <option value="15">Iowa</option>
+                      <option value="16">Kansas</option>
+                      <option value="17">Kentucky</option>
+                      <option value="18">Louisiana</option>
+                      <option value="19">Maine</option>
+                      <option value="20">Maryland</option>
+                      <option value="21">Massachusetts</option>
+                      <option value="22">Michigan</option>
+                      <option value="23">Minnesota</option>
+                      <option value="24">Mississippi</option>
+                      <option value="25">Missouri</option>
+                      <option value="26">Montana</option>
+                      <option value="27">Nebraska</option>
+                      <option value="28">Nevada</option>
+                      <option value="29">New Hampshire</option>
+                      <option value="30">New Jersey</option>
+                      <option value="31">New Mexico</option>
+                      <option value="32">New York</option>
+                      <option value="33">North Carolina</option>
+                      <option value="34">North Dakota</option>
+                      <option value="35">Ohio</option>
+                      <option value="36">Oklahoma</option>
+                      <option value="37">Oregon</option>
+                      <option value="38">Pennsylvania</option>
+                      <option value="39">Rhode Island</option>
+                      <option value="40">South Carolina</option>
+                      <option value="41">South Dakota</option>
+                      <option value="42">Tennessee</option>
+                      <option value="43">Texas</option>
+                      <option value="44">Utah</option>
+                      <option value="45">Vermont</option>
+                      <option value="46">Virginia</option>
+                      <option value="47">Washington</option>
+                      <option value="48">West Virginia</option>
+                      <option value="49">Wisconsin</option>
+                      <option value="50">Wyoming</option>
                     </select>
                   </div>
                 </form>
@@ -229,82 +275,82 @@ class ShoppingCart extends React.Component {
                 <form>
                 <div class='form-group'>
                     <label for='userEmail'>Email</label>
-                    <input type='email' class='form-control' id='userEmail' placeholder='Please enter your email address.' />
+                    <input type='email' class='form-control' id='userEmail' placeholder={user.email} value={user.email} />
                   </div>
                   <div class='form-group'>
                     <label for='userPhone'>Phone Number</label>
-                    <input type='text' class='form-control' id='userPhone' placeholder={'Please enter your phone number.'} />
+                    <input type='text' class='form-control' id='userPhone' placeholder={user.phoneNumber} value={user.phoneNumber} />
                   </div>
                   <div class='form-group'>
                     <label for='userFirstName'>First Name</label>
-                    <input class='form-control' type='text' id='userFirstName' placeholder={'Readonly input here...'} readonly />
+                    <input class='form-control' type='text' id='userFirstName' placeholder={user.firstName} value={user.firstName} readonly />
                   </div>
                   <div class='form-group'>
                     <label for='userLastName'>Last Name</label>
-                    <input class='form-control' type='text' id='userLastName' placeholder={'Readonly input here...'} readonly />
+                    <input class='form-control' type='text' id='userLastName' placeholder={user.lastName} value={user.lastName} readonly />
                   </div>
                   <div class='form-group'>
                     <label for='userAddress'>Billing Address</label>
-                    <textarea class='form-control' id='userAddress' rows='2'></textarea>
+                    <textarea class='form-control' id='userAddress' rows='2' placeholder={user.address} value={user.address}></textarea>
                   </div>
                   <div class='form-group'>
                     <label for='userCity'>Billing City</label>
-                    <input class='form-control' type='text' id='userCity' placeholder={'Readonly input here...'} readonly />
+                    <input class='form-control' type='text' id='userCity' placeholder={user.city} value={user.city} readonly />
                   </div>
                   <div class='form-group'>
                     <label for='userState'>Billing State</label>
-                    <select class='form-control' id='userState'>
-                    <option value="AL">Alabama</option>
-                      <option value="AK">Alaska</option>
-                      <option value="AZ">Arizona</option>
-                      <option value="AR">Arkansas</option>
-                      <option value="CA">California</option>
-                      <option value="CO">Colorado</option>
-                      <option value="CT">Connecticut</option>
-                      <option value="DE">Delaware</option>
-                      <option value="DC">District Of Columbia</option>
-                      <option value="FL">Florida</option>
-                      <option value="GA">Georgia</option>
-                      <option value="HI">Hawaii</option>
-                      <option value="ID">Idaho</option>
-                      <option value="IL">Illinois</option>
-                      <option value="IN">Indiana</option>
-                      <option value="IA">Iowa</option>
-                      <option value="KS">Kansas</option>
-                      <option value="KY">Kentucky</option>
-                      <option value="LA">Louisiana</option>
-                      <option value="ME">Maine</option>
-                      <option value="MD">Maryland</option>
-                      <option value="MA">Massachusetts</option>
-                      <option value="MI">Michigan</option>
-                      <option value="MN">Minnesota</option>
-                      <option value="MS">Mississippi</option>
-                      <option value="MO">Missouri</option>
-                      <option value="MT">Montana</option>
-                      <option value="NE">Nebraska</option>
-                      <option value="NV">Nevada</option>
-                      <option value="NH">New Hampshire</option>
-                      <option value="NJ">New Jersey</option>
-                      <option value="NM">New Mexico</option>
-                      <option value="NY">New York</option>
-                      <option value="NC">North Carolina</option>
-                      <option value="ND">North Dakota</option>
-                      <option value="OH">Ohio</option>
-                      <option value="OK">Oklahoma</option>
-                      <option value="OR">Oregon</option>
-                      <option value="PA">Pennsylvania</option>
-                      <option value="RI">Rhode Island</option>
-                      <option value="SC">South Carolina</option>
-                      <option value="SD">South Dakota</option>
-                      <option value="TN">Tennessee</option>
-                      <option value="TX">Texas</option>
-                      <option value="UT">Utah</option>
-                      <option value="VT">Vermont</option>
-                      <option value="VA">Virginia</option>
-                      <option value="WA">Washington</option>
-                      <option value="WV">West Virginia</option>
-                      <option value="WI">Wisconsin</option>
-                      <option value="WY">Wyoming</option>
+                    <select class='form-control' id='userState' placeholder={user.usState} value={user.usState}>
+                      <option value="0">Alabama</option>
+                      <option value="1">Alaska</option>
+                      <option value="2">Arizona</option>
+                      <option value="3">Arkansas</option>
+                      <option value="4">California</option>
+                      <option value="5">Colorado</option>
+                      <option value="6">Connecticut</option>
+                      <option value="7">Delaware</option>
+                      <option value="8">District Of Columbia</option>
+                      <option value="9">Florida</option>
+                      <option value="10">Georgia</option>
+                      <option value="11">Hawaii</option>
+                      <option value="12">Idaho</option>
+                      <option value="13">Illinois</option>
+                      <option value="14">Indiana</option>
+                      <option value="15">Iowa</option>
+                      <option value="16">Kansas</option>
+                      <option value="17">Kentucky</option>
+                      <option value="18">Louisiana</option>
+                      <option value="19">Maine</option>
+                      <option value="20">Maryland</option>
+                      <option value="21">Massachusetts</option>
+                      <option value="22">Michigan</option>
+                      <option value="23">Minnesota</option>
+                      <option value="24">Mississippi</option>
+                      <option value="25">Missouri</option>
+                      <option value="26">Montana</option>
+                      <option value="27">Nebraska</option>
+                      <option value="28">Nevada</option>
+                      <option value="29">New Hampshire</option>
+                      <option value="30">New Jersey</option>
+                      <option value="31">New Mexico</option>
+                      <option value="32">New York</option>
+                      <option value="33">North Carolina</option>
+                      <option value="34">North Dakota</option>
+                      <option value="35">Ohio</option>
+                      <option value="36">Oklahoma</option>
+                      <option value="37">Oregon</option>
+                      <option value="38">Pennsylvania</option>
+                      <option value="39">Rhode Island</option>
+                      <option value="40">South Carolina</option>
+                      <option value="41">South Dakota</option>
+                      <option value="42">Tennessee</option>
+                      <option value="43">Texas</option>
+                      <option value="44">Utah</option>
+                      <option value="45">Vermont</option>
+                      <option value="46">Virginia</option>
+                      <option value="47">Washington</option>
+                      <option value="48">West Virginia</option>
+                      <option value="49">Wisconsin</option>
+                      <option value="50">Wyoming</option>
                     </select>
                   </div>
                   </form>
@@ -336,7 +382,7 @@ class ShoppingCart extends React.Component {
                 </form>
             </div>
           </div>
-          <button type='submit' className='btn'>Place Order</button>
+          <button type='submit' className='btn' onClick={this.placeOrder}>Place Order</button>
       </div>
     );
   }
