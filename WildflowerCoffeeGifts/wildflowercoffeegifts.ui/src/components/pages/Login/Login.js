@@ -12,6 +12,8 @@ class Login extends React.Component {
     },
   };
 
+register = (email, password) => authRequests.registerUser(email, password)
+
   loginClickEvent = (e) => {
     const { user } = this.state;
     e.preventDefault();
@@ -97,6 +99,16 @@ class Login extends React.Component {
                   value={user.password}
                   onChange={this.passwordChange}
                 />
+              </div>
+            </div>
+            <div className="form-group">
+              <div>
+                <button
+                  className="btn btn-outline-dark"
+                  onClick={() => this.register(user.email, user.password)}
+                >
+                  Need to Register?
+                </button>
               </div>
             </div>
             <div className="form-group">
