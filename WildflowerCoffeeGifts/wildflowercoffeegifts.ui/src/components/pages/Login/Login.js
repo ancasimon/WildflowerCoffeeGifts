@@ -95,7 +95,7 @@ class Login extends React.Component {
                   type="email"
                   className="form-control"
                   id="inputEmail"
-                  placeholder=""
+                  placeholder="Please enter email"
                   value={this.state.user.email}
                   onChange={this.emailChange}
                 />
@@ -110,7 +110,7 @@ class Login extends React.Component {
                   type="password"
                   className="form-control"
                   id="inputPassword"
-                  placeholder=""
+                  placeholder="Please enter password"
                   value={this.state.user.password}
                   onChange={this.passwordChange}
                 />
