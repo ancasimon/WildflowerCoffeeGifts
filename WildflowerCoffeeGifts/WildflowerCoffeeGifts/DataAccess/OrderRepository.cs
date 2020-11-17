@@ -141,7 +141,7 @@ namespace WildflowerCoffeeGifts.DataAccess
             // get the list of ProductOrder records associated with this order it:
             var orderId = selectedOrder.Id;
             var parameterOrderId = new { OrderId = orderId };
-            var queryForLineItems = @"select po.Id, po.IsActive, po.OrderId, po.ProductId, po.Qty, p.Title, p.Price, p.Price*po.Qty AS Subtotal, p.ImageUrl
+            var queryForLineItems = @"select po.Id, po.IsActive, po.OrderId, po.ProductId, po.Qty, p.Title, p.Price, p.Price*po.Qty AS Subtotal
                                       from ProductOrders po
 	                                    join Products p
 		                                    on po.ProductId = p.Id
@@ -158,13 +158,12 @@ namespace WildflowerCoffeeGifts.DataAccess
             else
             {
                 var queryForTotalPrice = @"select SUM(x.Subtotal)
-                                            from (
-                                            select p.Price*po.Qty AS Subtotal                                    
-                                            from ProductOrders po
-                                            join Products p
-                                            on po.ProductId = p.Id
-                                            where po.OrderId = @OrderId AND po.IsActive=1) x";
-
+from (
+select p.Price*po.Qty AS Subtotal                                    
+from ProductOrders po
+join Products p
+on po.ProductId = p.Id
+where po.OrderId = @OrderId AND po.IsActive=1) x";
                 var totalPrice = db.QueryFirst<decimal>(queryForTotalPrice, parameterOrderId);
                 selectedOrder.TotalPrice = totalPrice;
             }
@@ -326,3 +325,4 @@ namespace WildflowerCoffeeGifts.DataAccess
         }
     }
 }
+    
