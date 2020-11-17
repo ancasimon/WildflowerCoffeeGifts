@@ -1,6 +1,12 @@
 import React from 'react';
 import Swal from 'sweetalert2';
-import { Table } from 'reactstrap';
+import {
+  Button,
+  Collapse,
+  CardBody,
+  Card,
+  Table,
+} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 import SingleLineItem from '../../shared/SingleLineItem/SingleLineItem';
@@ -22,6 +28,11 @@ class ShoppingCart extends React.Component {
     selectedPaymentType: {},
     validOrder: false,
     deliveryState: '',
+    isOpenDeliveryInfo: false,
+  }
+
+  toggleDeliveryInfo = () => {
+    this.setState({ isOpenDeliveryInfo: !this.setState.isOpenDeliveryInfo });
   }
 
   getUser = () => {
@@ -141,17 +152,17 @@ class ShoppingCart extends React.Component {
       if (cart.recipientLastName != '') {
         if (cart.deliveryAddress != '') {
           if (cart.deliveryCity != '') {
-            if (cart.deliveryState != '') {
+            if (cart.deliveryState != undefined) {
               if (user.firstName != '') {
                 if (user.lastName != '') {
                   if (user.address != '') {
                     if (user.city != '') {
-                      if (user.usState != '') {
+                      if (user.usState != undefined) {
                         if (selectedPaymentType.paymentOption != '') {
-                          if (selectedPaymentType.accountNo != 0) {
-                            if (selectedPaymentType.expirationMonth != 0) {
-                              if (selectedPaymentType.expirationYear != 0) {
-                                if (selectedPaymentType.ccv != 0) {
+                          if (selectedPaymentType.accountNo != undefined) {
+                            if (selectedPaymentType.expirationMonth != undefined) {
+                              if (selectedPaymentType.expirationYear != undefined) {
+                                if (selectedPaymentType.ccv != undefined) {
                                   this.setState({ validOrder: true });
                                   console.error('valid??', this.state.validOrder);
                                 }
@@ -234,6 +245,7 @@ class ShoppingCart extends React.Component {
       user,
       selectedPaymentType,
       deliveryState,
+      isOpenDeliveryInfo,
     } = this.state;
     const buildLineItems = () => lineItems.map((item) => (
       <SingleLineItem key={item.Id} item={item} buildCartPage={this.buildCartPage} />
@@ -276,9 +288,11 @@ class ShoppingCart extends React.Component {
               </div>
           }
           <div>
-            <div>
-              <h2>Delivery Information</h2>
-                <form>
+              <Button className="wcgButton" onClick={this.toggleDeliveryInfo}>Delivery Information</Button>
+              <Collapse isOpenDeliveryInfo={isOpenDeliveryInfo}>
+              <Card>
+          <CardBody>
+              <form>
                   <div class='form-group'>
                     <label for='recipientEmail'>Recipient Email Address</label>
                     <input type='email' class='form-control' id='recipientEmail' placeholder='Please enter the email address of the recipient.' value={cart.recipientEmail} />
@@ -360,6 +374,9 @@ class ShoppingCart extends React.Component {
                     </select>
                   </div>
                 </form>
+                </CardBody>
+        </Card>
+              </Collapse>
               </div>
               <div>
                 <h2>Billing Information</h2>
@@ -472,7 +489,6 @@ class ShoppingCart extends React.Component {
                   </div>
                 </form>
             </div>
-          </div>
           <button type='submit' className='btn wcgButton' onClick={this.placeOrder}>Place Order</button>
       </div>
     );
