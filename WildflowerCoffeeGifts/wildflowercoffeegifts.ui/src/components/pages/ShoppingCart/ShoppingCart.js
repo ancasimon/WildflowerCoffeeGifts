@@ -118,26 +118,25 @@ class ShoppingCart extends React.Component {
                   <button type='submit' className='btn' onClick={this.createCart}>Start Shopping</button>
                 </div>
               : <div>
-                  <h4>Total Price: ${cart.totalPrice}</h4>
-                  <h4>Items:</h4>
-                  <div>
-                    <Table hover>
-                      <thead>
-                        <tr>
-                          <th>Product</th>
-                          <th>Price Per Unit</th>
-                          <th>Quantity</th>
-                          <th>Subtotal</th>
-                          <th>Remove?</th>
-                        </tr>
-                      </thead>
-                      {buildLineItems()}
-                    </Table>
-                  </div>
-                  <div className="p-3">
-                    <Link to='/products'>Continue Shopping</Link>
-                  </div>
-                </div>
+              <h4>Total Price: ${cart.totalPrice}</h4>
+              <h4>Items:</h4>
+              <div>
+                <Table hover>
+                  <thead>
+                    <tr>
+                      <th>Photo</th>
+                      <th>Product</th>
+                      <th>Price Per Unit</th>
+                      <th>Quantity</th>
+                      <th>Subtotal</th>
+                      <th>Remove?</th>
+                    </tr>
+                  </thead>
+                  {buildLineItems()}
+                </Table>
+              </div>
+              <Link to='/products'>Continue Shopping</Link>
+              </div>
           }
           <div>
             <div>

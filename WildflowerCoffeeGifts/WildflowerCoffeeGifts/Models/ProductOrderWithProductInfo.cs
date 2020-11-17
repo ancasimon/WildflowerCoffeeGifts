@@ -15,5 +15,6 @@ namespace WildflowerCoffeeGifts.Models
         public string Title { get; set; } // product title from the Products table
         public decimal Price { get; set; } // product price from the Products table
         public decimal Subtotal { get; set; } // added this property for the calculation of the line item subtotal
+        public string ImageUrl { get; set; } // product image from the Products table
     }
 }
