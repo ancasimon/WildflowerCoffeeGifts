@@ -1,5 +1,6 @@
 import React from 'react';
-import { CarouselControl, Table } from 'reactstrap';
+import Swal from 'sweetalert2';
+import { Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 import SingleLineItem from '../../shared/SingleLineItem/SingleLineItem';
@@ -19,6 +20,8 @@ class ShoppingCart extends React.Component {
     userId: 1,
     paymentTypeId: 0,
     selectedPaymentType: {},
+    validOrder: false,
+    deliveryState: '',
   }
 
   getUser = () => {
@@ -40,6 +43,8 @@ class ShoppingCart extends React.Component {
       lineItems,
       paymentTypeId,
       selectedPaymentType,
+      validOrder,
+      deliveryState,
     } = this.state;
 
     ordersData.getCart(userId)
@@ -50,6 +55,7 @@ class ShoppingCart extends React.Component {
             cartId: response.data.id,
             lineItems: response.data.lineItems,
             paymentTypeId: response.data.paymentTypeId,
+            deliveryState: cart.deliveryState,
           });
           if (paymentTypeId != null) {
             paymentTypesData.getSinglePaymentType(this.state.paymentTypeId)
@@ -65,6 +71,8 @@ class ShoppingCart extends React.Component {
             lineItems: [],
             paymentTypeId: 0,
             selectedPaymentType: {},
+            validOrder: false,
+            deliveryState: '',
           });
         }
         console.error('response', response);
@@ -81,7 +89,12 @@ class ShoppingCart extends React.Component {
 
   componentDidMount() {
     this.buildCartPage();
+    this.validateOrder();
   }
+
+  // componentDidUpdate() {
+  //   this.validateOrder();
+  // }
 
   createCart = (e) => {
     e.preventDefault();
@@ -99,14 +112,79 @@ class ShoppingCart extends React.Component {
       .catch((error) => console.error('Unable to create the new shopping cart.', error));
   }
 
+  changeDeliveryState = (e) => {
+    e.preventDefault();
+    this.setState({ deliveryState: e.target.value });
+  }
+
+  validateOrder = () => {
+    const {
+      cart,
+      cartId,
+      lineItems,
+      user,
+      userId,
+      paymentTypeId,
+      selectedPaymentType,
+      validOrder,
+      purchaseDate,
+      deliveryAddress,
+      isActive,
+      deliveryCity,
+      deliveryState,
+      recipientEmail,
+      recipientPhone,
+      recipientFirstName,
+      recipientLastName,
+    } = this.state;
+    if (lineItems.length > 0) {
+      if (recipientLastName != '') {
+        if (deliveryAddress != '') {
+          if (deliveryCity != '') {
+            if (deliveryState != '') {
+              if (user.firstName != '') {
+                if (user.lastName != '') {
+                  if (user.address != '') {
+                    if (user.city != '') {
+                      if (user.state != '') {
+                        if (selectedPaymentType.paymentOption != '') {
+                          if (selectedPaymentType.accountNo != 0) {
+                            if (selectedPaymentType.expirationMonth != 0) {
+                              if (selectedPaymentType.expirationYear != 0) {
+                                if (selectedPaymentType.ccv != 0) {
+                                  this.setState({ validOrder: true });
+                                  console.error('valid??', this.state.validOrder);
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  validationAlert = () => {
+    Swal.fire('You must enter all required data. Please see fields marked with an asterisk (*).');
+  }
+
   placeOrder = (e) => {
     e.preventDefault();
     const {
       cart,
       cartId,
+      user,
       userId,
       totalPrice,
       paymentTypeId,
+      selectedPaymentType,
       purchaseDate,
       deliveryAddress,
       isActive,
@@ -117,6 +195,7 @@ class ShoppingCart extends React.Component {
       recipientPhone,
       recipientFirstName,
       recipientLastName,
+      validOrder,
     } = this.state;
     const updatedOrder = {
       userId,
@@ -134,11 +213,18 @@ class ShoppingCart extends React.Component {
       recipientFirstName: cart.recipientFirstName,
       recipientLastName: cart.recipientLastName,
     };
-    ordersData.updateOrder(cartId, updatedOrder)
-      .then(() => {
-        this.props.history.push('/products');
-      })
-      .catch((error) => console.error('We could not finalize your order', error));
+    this.validateOrder();
+    console.error(this.state.lineItems.length, cart.recipientLastName, cart.deliveryAddress, cart.deliveryCity, cart.deliveryState, user.firstName, user.lastName, user.address, user.city, user.usState, selectedPaymentType.paymentOption, selectedPaymentType.accountNo, selectedPaymentType.expirationMonth, selectedPaymentType.expirationYear, selectedPaymentType.ccv);
+    console.error('is it valid??', this.state.validOrder);
+    if (validOrder == true) {
+      ordersData.updateOrder(cartId, updatedOrder)
+        .then(() => {
+          this.props.history.push('/products');
+        })
+        .catch((error) => console.error('We could not finalize your order', error));
+    } else {
+      this.validationAlert();
+    }
   }
 
   render() {
@@ -147,6 +233,7 @@ class ShoppingCart extends React.Component {
       lineItems,
       user,
       selectedPaymentType,
+      deliveryState,
     } = this.state;
     const buildLineItems = () => lineItems.map((item) => (
       <SingleLineItem key={item.Id} item={item} buildCartPage={this.buildCartPage} />
@@ -214,7 +301,7 @@ class ShoppingCart extends React.Component {
                   </div>
                   <div class='form-group'>
                     <label for='recipientState'>Delivery State</label>
-                    <select class='form-control' id='recipientState' value={cart.deliveryState}>
+                    <select class='form-control' id='recipientState' placeholder={cart.deliveryState} value={cart.deliveryState} onChange={this.changeDeliveryState}>
                     <option value="0">Alabama</option>
                       <option value="1">Alaska</option>
                       <option value="2">Arizona</option>
