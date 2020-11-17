@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from 'firebase';
 // import { Link } from 'react-router-dom';
 import './Login.scss';
 
@@ -12,7 +13,13 @@ class Login extends React.Component {
     },
   };
 
-register = (email, password) => authRequests.registerUser(email, password)
+  register(e) {
+    e.preventDefault();
+    firebase.auth().createUserWithEmailAndPassword(this.state.user.email, this.state.user.password)
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   loginClickEvent = (e) => {
     const { user } = this.state;
@@ -81,7 +88,7 @@ register = (email, password) => authRequests.registerUser(email, password)
                   className="form-control"
                   id="inputEmail"
                   placeholder="Email"
-                  value={user.email}
+                  value={this.state.user.email}
                   onChange={this.emailChange}
                 />
               </div>
@@ -96,7 +103,7 @@ register = (email, password) => authRequests.registerUser(email, password)
                   className="form-control"
                   id="inputPassword"
                   placeholder="Password"
-                  value={user.password}
+                  value={this.state.user.password}
                   onChange={this.passwordChange}
                 />
               </div>
@@ -105,7 +112,7 @@ register = (email, password) => authRequests.registerUser(email, password)
               <div>
                 <button
                   className="btn btn-outline-dark"
-                  onClick={() => this.register(user.email, user.password)}
+                  onClick={() => this.register(this.state.user.email, this.state.user.password)}
                 >
                   Need to Register?
                 </button>
