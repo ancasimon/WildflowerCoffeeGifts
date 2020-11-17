@@ -141,7 +141,7 @@ namespace WildflowerCoffeeGifts.DataAccess
             // get the list of ProductOrder records associated with this order it:
             var orderId = selectedOrder.Id;
             var parameterOrderId = new { OrderId = orderId };
-            var queryForLineItems = @"select po.Id, po.IsActive, po.OrderId, po.ProductId, po.Qty, p.Title, p.Price, p.Price*po.Qty AS Subtotal
+            var queryForLineItems = @"select po.Id, po.IsActive, po.OrderId, po.ProductId, po.Qty, p.Title, p.Price, p.Price*po.Qty AS Subtotal, p.ImageUrl
                                       from ProductOrders po
 	                                    join Products p
 		                                    on po.ProductId = p.Id

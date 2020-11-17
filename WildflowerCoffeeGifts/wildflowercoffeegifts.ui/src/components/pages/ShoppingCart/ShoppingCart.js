@@ -100,6 +100,7 @@ class ShoppingCart extends React.Component {
                 <Table hover>
                   <thead>
                     <tr>
+                      <th>Photo</th>
                       <th>Product</th>
                       <th>Price Per Unit</th>
                       <th>Quantity</th>

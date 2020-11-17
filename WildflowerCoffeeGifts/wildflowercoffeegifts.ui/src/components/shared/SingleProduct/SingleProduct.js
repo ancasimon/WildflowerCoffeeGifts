@@ -7,16 +7,16 @@ class SingleProduct extends React.Component {
     const { product } = this.props;
     const singleProductLink = `/products/${product.id}`;
     return (
-      <div>
+      <div className="col-4 p-1">
       <div className='card'>
       <div className='card-title'>
         <h4 className= "title mt-3">{product.title}</h4>
        </div>
-         <img src={product.imageUrl} className= "card-img-top" alt="product"/>
+         <img src={product.imageUrl} className= "productImage center card-img-top" alt="product"/>
          <div className="card-body text-center">
            <p>Price: ${product.price}</p>
-           <p>Description: {product.description}</p>
-           <p>Quantities Available: {product.quantityAvailable}</p>
+           {/* <p>Description: {product.description}</p> */}
+           <p>Quantity Available: {product.quantityAvailable}</p>
            <Link to={singleProductLink}>View Details</Link>
          </div>
       </div>
