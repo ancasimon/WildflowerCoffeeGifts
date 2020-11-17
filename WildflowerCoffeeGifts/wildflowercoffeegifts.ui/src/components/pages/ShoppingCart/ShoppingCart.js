@@ -138,15 +138,15 @@ class ShoppingCart extends React.Component {
       recipientLastName,
     } = this.state;
     if (lineItems.length > 0) {
-      if (recipientLastName != '') {
-        if (deliveryAddress != '') {
-          if (deliveryCity != '') {
-            if (deliveryState != '') {
+      if (cart.recipientLastName != '') {
+        if (cart.deliveryAddress != '') {
+          if (cart.deliveryCity != '') {
+            if (cart.deliveryState != '') {
               if (user.firstName != '') {
                 if (user.lastName != '') {
                   if (user.address != '') {
                     if (user.city != '') {
-                      if (user.state != '') {
+                      if (user.usState != '') {
                         if (selectedPaymentType.paymentOption != '') {
                           if (selectedPaymentType.accountNo != 0) {
                             if (selectedPaymentType.expirationMonth != 0) {
@@ -252,7 +252,7 @@ class ShoppingCart extends React.Component {
                 </div>
               : <div>
               <h4>Total Price: ${cart.totalPrice}</h4>
-              <h4>Items:</h4>
+              <h4>Items*:</h4>
               <div>
                 <Table hover>
                   <thead>
@@ -288,19 +288,19 @@ class ShoppingCart extends React.Component {
                     <input class='form-control' type='text' id='recipientFirstName' placeholder='Please enter the first name of the recipient.' value={cart.recipientFirstName} />
                   </div>
                   <div class='form-group'>
-                    <label for='recipientLastName'>Last Name</label>
+                    <label for='recipientLastName'>Last Name*</label>
                     <input class='form-control' type='text' id='recipientLastName' placeholder='Please enter the last name of the recipient.' value={cart.recipientLastName} />
                   </div>
                   <div class='form-group'>
-                    <label for='recipientAddress'>Delivery Address</label>
+                    <label for='recipientAddress'>Delivery Address*</label>
                     <textarea class='form-control' id='recipientAddress' rows='2' placeholder='Please enter the delivery address.' value={cart.deliveryAddress}></textarea>
                   </div>
                   <div class='form-group'>
-                    <label for='recipientCity'>Delivery City</label>
+                    <label for='recipientCity'>Delivery City*</label>
                     <input class='form-control' type='text' id='recipientCity' placeholder='Please enter delivery city.' value={cart.deliveryCity} />
                   </div>
                   <div class='form-group'>
-                    <label for='recipientState'>Delivery State</label>
+                    <label for='recipientState'>Delivery State*</label>
                     <select class='form-control' id='recipientState' placeholder={cart.deliveryState} value={cart.deliveryState} onChange={this.changeDeliveryState}>
                     <option value="0">Alabama</option>
                       <option value="1">Alaska</option>
@@ -369,23 +369,23 @@ class ShoppingCart extends React.Component {
                     <input type='text' class='form-control' id='userPhone' placeholder={user.phoneNumber} value={user.phoneNumber} />
                   </div>
                   <div class='form-group'>
-                    <label for='userFirstName'>First Name</label>
-                    <input class='form-control' type='text' id='userFirstName' placeholder={user.firstName} value={user.firstName} readonly />
+                    <label for='userFirstName'>First Name*</label>
+                    <input class='form-control' type='text' id='userFirstName' placeholder={user.firstName} value={user.firstName} />
                   </div>
                   <div class='form-group'>
-                    <label for='userLastName'>Last Name</label>
-                    <input class='form-control' type='text' id='userLastName' placeholder={user.lastName} value={user.lastName} readonly />
+                    <label for='userLastName'>Last Name*</label>
+                    <input class='form-control' type='text' id='userLastName' placeholder={user.lastName} value={user.lastName} />
                   </div>
                   <div class='form-group'>
-                    <label for='userAddress'>Billing Address</label>
+                    <label for='userAddress'>Billing Address*</label>
                     <textarea class='form-control' id='userAddress' rows='2' placeholder={user.address} value={user.address}></textarea>
                   </div>
                   <div class='form-group'>
-                    <label for='userCity'>Billing City</label>
-                    <input class='form-control' type='text' id='userCity' placeholder={user.city} value={user.city} readonly />
+                    <label for='userCity'>Billing City*</label>
+                    <input class='form-control' type='text' id='userCity' placeholder={user.city} value={user.city} />
                   </div>
                   <div class='form-group'>
-                    <label for='userState'>Billing State</label>
+                    <label for='userState'>Billing State*</label>
                     <select class='form-control' id='userState' placeholder={user.usState} value={user.usState}>
                       <option value="0">Alabama</option>
                       <option value="1">Alaska</option>
@@ -447,23 +447,23 @@ class ShoppingCart extends React.Component {
                   <button type='submit' className='btn'>Select Another Payment Option</button>
                   <form>
                   <div class='form-group'>
-                    <label for='paymentOption'>Payment Type</label>
+                    <label for='paymentOption'>Payment Type*</label>
                     <input type='text' class='form-control' id='paymentOption' placeholder={selectedPaymentType.paymentOption} value={selectedPaymentType.paymentOption} readonly />
                   </div>
                   <div class='form-group'>
-                    <label for='paymentAccountNumber'>Account Number</label>
+                    <label for='paymentAccountNumber'>Account Number*</label>
                     <input type='text' class='form-control' id='paymentAccountNumber' placeholder={selectedPaymentType.accountNo} value={selectedPaymentType.accountNo} readonly />
                   </div>
                   <div class='form-group'>
-                    <label for='paymentExpMonth'>Expiration Month</label>
+                    <label for='paymentExpMonth'>Expiration Month*</label>
                     <input class='form-control' type='text' id='paymentExpMonth' placeholder={selectedPaymentType.expirationMonth} value={selectedPaymentType.expirationMonth} readonly />
                   </div>
                   <div class='form-group'>
-                    <label for='paymentExpYear'>Expiration Year</label>
+                    <label for='paymentExpYear'>Expiration Year*</label>
                     <input class='form-control' type='text' id='paymentExpYear' placeholder={selectedPaymentType.expirationYear} value={selectedPaymentType.expirationYear} readonly />
                   </div>
                   <div class='form-group'>
-                    <label for='paymentCcv'>CCV</label>
+                    <label for='paymentCcv'>CCV*</label>
                     <input class='form-control' id='text' id='paymentCcv' placeholder={selectedPaymentType.ccv} value={selectedPaymentType.ccv} readonly ></input>
                   </div>
                 </form>
