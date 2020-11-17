@@ -300,7 +300,7 @@ where po.OrderId = @OrderId AND po.IsActive=1) x";
 	                        PO.Qty,
 	                        O.TotalPrice,
 	                        O.PurchaseDate,
-	                        PO.IsActive,
+	                        O.IsCompleted,
 	                        U.FirstName,
 	                        U.LastName,
 	                        U.Username,

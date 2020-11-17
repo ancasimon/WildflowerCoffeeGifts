@@ -12,7 +12,6 @@ namespace WildflowerCoffeeGifts.Models
         public int Qty { get; set; }
         public decimal TotalPrice { get; set; } = 0;
         public DateTime PurchaseDate { get; set; }
-        public bool IsActive { get; set; } = true;
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }

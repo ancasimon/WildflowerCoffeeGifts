@@ -14,7 +14,7 @@ class OrderLineInfo extends React.Component {
             <td>{order.totalPrice}</td>
             <td>{order.purchaseDate}</td>
             <td>{order.paymentOption}</td>
-            { order.isActive !== true ? <td><i class="fas fa-times"></i></td> : <td><i class="fas fa-check-circle"></i></td> }
+            { order.isCompleted !== true ? <td><i class="fas fa-times"></i></td> : <td><i class="fas fa-check-circle"></i></td> }
           </tr>
         </tbody>
     );

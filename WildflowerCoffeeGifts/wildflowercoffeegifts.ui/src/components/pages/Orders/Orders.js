@@ -2,7 +2,6 @@ import React from 'react';
 import { Table } from 'reactstrap';
 import ordersData from '../../../helpers/data/ordersData';
 import OrderLineInfo from './OrderLineInfo';
-import '@formatjs/intl-numberformat/polyfill';
 
 import './Orders.scss';
 
