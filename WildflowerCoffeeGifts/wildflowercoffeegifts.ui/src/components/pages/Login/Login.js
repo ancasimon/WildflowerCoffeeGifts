@@ -62,10 +62,10 @@ class Login extends React.Component {
               <div>
                 <button
                   type="submit"
-                  className="btn btn-outline-dark"
+                  className="btn btn-outline-dark wcgButton"
                   onClick={this.loginClickEvent}
                 >
-                  Login
+                  Log In
                 </button>
               </div>
             </div>
@@ -103,10 +103,10 @@ class Login extends React.Component {
               <div>
                 <button
                   type="submit"
-                  className="btn btn-outline-dark"
+                  className="btn btn-outline-dark wcgButton"
                   onClick={this.logoutClickEvent}
                 >
-                  LogOut
+                  Log Out
                 </button>
               </div>
             </div>

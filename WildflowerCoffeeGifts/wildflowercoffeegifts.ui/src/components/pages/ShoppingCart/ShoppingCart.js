@@ -248,7 +248,9 @@ class ShoppingCart extends React.Component {
               ? <div>
                   <p>Your cart is empty!</p>
                   <p>Click Start Shopping below to get started!</p>
-                  <button type='submit' className='btn' onClick={this.createCart}>Start Shopping</button>
+                  <div className="p-1">
+                    <button type='submit' className='btn wcgButton' onClick={this.createCart}>Start Shopping</button>
+                    </div>
                 </div>
               : <div>
               <h4>Total Price: ${cart.totalPrice}</h4>
@@ -268,7 +270,9 @@ class ShoppingCart extends React.Component {
                   {buildLineItems()}
                 </Table>
               </div>
-              <Link to='/products'>Continue Shopping</Link>
+              <div className="p-3">
+                <Link to='/products' className="wcgButton">Continue Shopping</Link>
+              </div>
               </div>
           }
           <div>
@@ -444,7 +448,7 @@ class ShoppingCart extends React.Component {
                 </div>
                 <div>
                   <h2>Payment Information</h2>
-                  <button type='submit' className='btn'>Select Another Payment Option</button>
+                  {/* <button type='submit' className='btn wcgButton'>Select Another Payment Option</button> */}
                   <form>
                   <div class='form-group'>
                     <label for='paymentOption'>Payment Type*</label>
@@ -469,7 +473,7 @@ class ShoppingCart extends React.Component {
                 </form>
             </div>
           </div>
-          <button type='submit' className='btn' onClick={this.placeOrder}>Place Order</button>
+          <button type='submit' className='btn wcgButton' onClick={this.placeOrder}>Place Order</button>
       </div>
     );
   }
