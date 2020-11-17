@@ -21,8 +21,11 @@ const registerUser = (user) =>
     // get email from firebase
     console.error('register', user);
     const userInfo = {
-      email: cred.user.email,
-      password: cred.user.password,
+      email: user.email,
+      password: user.password,
+      userName: user.userName,
+      firstName: user.firstName,
+      lastName: user.lastName,
     };
 
     // get token from firebase
@@ -31,6 +34,7 @@ const registerUser = (user) =>
       .then((token) => sessionStorage.setItem('token', token))
       // save the user to the the api
       .then(() => axios.post(`${baseUrl}/users`, userInfo));
+    console.error('register', user);
   });
 const loginUser = (user) =>
   // sub out whatever auth method firebase provides that you want to use.

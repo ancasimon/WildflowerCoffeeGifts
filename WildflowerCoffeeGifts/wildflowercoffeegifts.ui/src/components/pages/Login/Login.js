@@ -10,22 +10,29 @@ class Login extends React.Component {
     user: {
       email: '',
       password: '',
+      firstName: '',
+      lastName: '',
     },
-  };
-
-  register(e) {
-    e.preventDefault();
-    firebase.auth().createUserWithEmailAndPassword(this.state.user.email, this.state.user.password)
-      .catch((error) => {
-        console.log(error);
-      });
   }
 
-  loginClickEvent = (e) => {
+   loginClickEvent = (e) => {
+     const { user } = this.state;
+     e.preventDefault();
+     authRequests
+       .loginUser(user)
+       .then(() => {
+         this.props.history.push('/home');
+       })
+       .catch((error) => {
+         console.error('there was an error in registering', error);
+       });
+   };
+
+  registerClickEvent = (e) => {
     const { user } = this.state;
     e.preventDefault();
     authRequests
-      .loginUser(user)
+      .registerUser(user)
       .then(() => {
         this.props.history.push('/home');
       })
@@ -47,6 +54,18 @@ class Login extends React.Component {
       });
   };
 
+  firstNameChange = (e) => {
+    const tempUser = { ...this.state.user };
+    tempUser.firstName = e.target.value;
+    this.setState({ user: tempUser });
+  };
+
+  lastNameChange = (e) => {
+    const tempUser = { ...this.state.user };
+    tempUser.lastName = e.target.value;
+    this.setState({ user: tempUser });
+  };
+
   emailChange = (e) => {
     const tempUser = { ...this.state.user };
     tempUser.email = e.target.value;
@@ -64,21 +83,10 @@ class Login extends React.Component {
     return (
       <div className="Login">
         <div className="box-container">
+          <h1 className="text-center"><em>Welcome</em></h1>
         <div id="login-form">
-
           <form className="form-horizontal col-sm-12 col-sm-offset-3">
-          <div className="form-group">
-              <div>
-                <button
-                  type="submit"
-                  className="btn btn-outline-dark"
-                  onClick={this.loginClickEvent}
-                >
-                  Login
-                </button>
-              </div>
-            </div>
-            <div className="form-group">
+             <div className="form-group">
               <label htmlFor="inputEmail" className="col-sm-4 control-label">
                 Email:
               </label>
@@ -87,7 +95,7 @@ class Login extends React.Component {
                   type="email"
                   className="form-control"
                   id="inputEmail"
-                  placeholder="Email"
+                  placeholder=""
                   value={this.state.user.email}
                   onChange={this.emailChange}
                 />
@@ -102,30 +110,67 @@ class Login extends React.Component {
                   type="password"
                   className="form-control"
                   id="inputPassword"
-                  placeholder="Password"
+                  placeholder=""
                   value={this.state.user.password}
                   onChange={this.passwordChange}
                 />
               </div>
             </div>
-            <div className="form-group">
+            <div className="btn container">
               <div>
-                <button
+                <button m-5px
+                  type="submit"
                   className="btn btn-outline-dark"
-                  onClick={() => this.register(this.state.user.email, this.state.user.password)}
+                  onClick={this.loginClickEvent}
                 >
-                  Need to Register?
+                  Login
                 </button>
-              </div>
-            </div>
-            <div className="form-group">
-              <div>
-                <button
+                 <button
                   type="submit"
                   className="btn btn-outline-dark"
                   onClick={this.logoutClickEvent}
                 >
                   LogOut
+                </button>
+              </div>
+            </div>
+          <h6>Need to Register?</h6>
+          <div className="form-group">
+              <label htmlFor="inputFirstName" className="col-sm-4 control-label">
+                FirstName:
+              </label>
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputFirstName"
+                  placeholder="Please enter first name"
+                  value={this.state.user.firstName}
+                  onChange={this.firstNameChange}
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="inputLastName" className="col-sm-4 control-label">
+                LastName:
+              </label>
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputLastName"
+                  placeholder="Please enter last name"
+                  value={this.state.user.lastName}
+                  onChange={this.lastNameChange}
+                />
+              </div>
+            </div>
+            <div className="form-group mt-15px">
+              <div>
+                <button
+                  className="btn btn-primary text-center"
+                  onClick={this.registerClickEvent}>
+                  SignUp
                 </button>
               </div>
             </div>
