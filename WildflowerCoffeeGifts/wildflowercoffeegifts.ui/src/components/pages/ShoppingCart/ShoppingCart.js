@@ -29,6 +29,12 @@ class ShoppingCart extends React.Component {
     validOrder: true,
     deliveryState: '',
     isOpenDeliveryInfo: false,
+    deliveryCity: '',
+    deliveryState: '',
+    recipientEmail: '',
+    recipientPhone: '',
+    recipientFirstName: '',
+    recipientLastName: '',
   }
 
   toggleDeliveryInfo = () => {
@@ -66,7 +72,6 @@ class ShoppingCart extends React.Component {
             cartId: response.data.id,
             lineItems: response.data.lineItems,
             paymentTypeId: response.data.paymentTypeId,
-            deliveryState: cart.deliveryState,
           });
           if (paymentTypeId != null) {
             paymentTypesData.getSinglePaymentType(this.state.paymentTypeId)
@@ -83,7 +88,12 @@ class ShoppingCart extends React.Component {
             paymentTypeId: 0,
             selectedPaymentType: {},
             validOrder: false,
+            deliveryCity: '',
             deliveryState: '',
+            recipientEmail: '',
+            recipientPhone: '',
+            recipientFirstName: '',
+            recipientLastName: '',
           });
         }
         console.error('response', response);
