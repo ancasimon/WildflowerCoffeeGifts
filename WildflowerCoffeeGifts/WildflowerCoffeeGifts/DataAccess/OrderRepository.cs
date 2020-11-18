@@ -158,12 +158,12 @@ namespace WildflowerCoffeeGifts.DataAccess
             else
             {
                 var queryForTotalPrice = @"select SUM(x.Subtotal)
-from (
-select p.Price*po.Qty AS Subtotal                                    
-from ProductOrders po
-join Products p
-on po.ProductId = p.Id
-where po.OrderId = @OrderId AND po.IsActive=1) x";
+                                            from (
+                                            select p.Price*po.Qty AS Subtotal                                    
+                                            from ProductOrders po
+                                            join Products p
+                                            on po.ProductId = p.Id
+                                            where po.OrderId = @OrderId AND po.IsActive=1) x";
                 var totalPrice = db.QueryFirst<decimal>(queryForTotalPrice, parameterOrderId);
                 selectedOrder.TotalPrice = totalPrice;
             }
@@ -290,7 +290,7 @@ where po.OrderId = @OrderId AND po.IsActive=1) x";
             return updatedOrder;
         }
 
-        public AdminOrderView AdminViewOfPlacedOrders()
+        public IEnumerable<AdminOrderView> AdminViewOfPlacedOrders()
         {
             using var db = new SqlConnection(_connectionString);
 
@@ -298,35 +298,50 @@ where po.OrderId = @OrderId AND po.IsActive=1) x";
 	                        O.Id,
 	                        U.FirstName,
 	                        U.LastName,
-	                        U.Email
+	                        U.Email,
+                            O.isCompleted,
+                            O.PurchaseDate,
+                            PT.PaymentOption
 	                        from Orders O
 		                        inner join Users U on
 		                        O.UserId = U.Id
 			                        inner join ProductOrders PO on
 			                        O.Id = PO.OrderId
-                            where O.Id = PO.OrderId";
+                                        inner join PaymentTypes PT on
+	    		                        U.Id = PT.UserId
+                            ORDER BY O.Id";
 
 
             var adminOrders = db.Query<AdminOrderView>(sqlQuery);
 
-            if (adminOrders != null)
+            List<AdminOrderView> ordersList = new List<AdminOrderView>();
+            ordersList = adminOrders.ToList();
+
+            foreach (var item in adminOrders)
             {
-                var queryForLineItems = @"select po.Qty, p.Title, p.Price
-                                           from ProductOrders po
-		                                        join Products p
-		                                        on po.ProductId = p.Id
-		                                        join Orders O 
-		                                        on O.Id = po.OrderId
-                                            where O.Id = @OrderId";
+                var orderId = item.id;
 
-                var orderLineItems = db.Query<ProductOrderWithProductInfo>(queryForLineItems);
+                var queryForLineItems = @"select 
+	                                    O.Id as OrderId,
+							            P.Title,
+	                                    PO.Qty,
+	                                    O.TotalPrice
+                                        from Orders O
+	                                        inner join ProductOrders PO on
+	                                        O.Id = PO.OrderId
+		                                        inner join Products P on
+		                                        PO.ProductId = P.Id
+			                                        inner join Users U on
+			                                        O.UserId = U.Id
+                                        where O.Id = @id";
+                var parameters = new { id = orderId };
+                var orderLineItems = db.Query<AdminOrderItem>(queryForLineItems, parameters);
 
-                adminOrders.LineItems = (List<ProductOrderWithProductInfo>)orderLineItems;
+                List<AdminOrderItem> orderLineItemsList = orderLineItems.ToList();
 
+                item.LineItems.AddRange(orderLineItemsList);
             }
-
             return adminOrders;
-
         }
     }
 }

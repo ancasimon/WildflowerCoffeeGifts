@@ -7,13 +7,15 @@ namespace WildflowerCoffeeGifts.Models
 {
     public class AdminOrderView
     {
-        public int Id { get; set; }
+        public int id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public DateTime PurchaseDate { get; set; }
+        public bool IsCompleted { get; set; }
+        public string PaymentType { get; set; }
 
-        public decimal TotalPrice { get; set; } = 0;
-        public List<ProductOrderWithProductInfo> LineItems { get; set; } = new List<ProductOrderWithProductInfo>();
+        public List<AdminOrderItem> LineItems { get; set; } = new List<AdminOrderItem>();
 
     }
 }
