@@ -3,9 +3,11 @@ import React from 'react';
 class OrderLineInfo extends React.Component {
   render() {
     const { order } = this.props;
+
     return (
         <tbody>
           <tr>
+            <td>{order.id}</td>
             <td>{order.firstName}</td>
             <td>{order.lastName}</td>
             <td>{order.email}</td>
