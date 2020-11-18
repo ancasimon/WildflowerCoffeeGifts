@@ -1,8 +1,12 @@
 import React from 'react';
+<<<<<<< HEAD
 import { Table } from 'reactstrap';
 import ordersData from '../../../helpers/data/ordersData';
 import OrderLineInfo from './OrderLineInfo';
 
+=======
+import ProductThemes from '../ProductThemes/ProductThemes';
+>>>>>>> main
 import './Orders.scss';
 
 class Orders extends React.Component {

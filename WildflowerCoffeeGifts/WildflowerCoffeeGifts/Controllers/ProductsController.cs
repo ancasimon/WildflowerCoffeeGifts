@@ -10,10 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WildflowerCoffeeGifts.Controllers
 {
-    public abstract class FirebaseEnabledController : ControllerBase
-    {
-        protected string UserId => User.FindFirst(x => x.Type == "user_id").Value;
-    }
+    
     [Route("api/products")]
     [ApiController]
     [Authorize]
