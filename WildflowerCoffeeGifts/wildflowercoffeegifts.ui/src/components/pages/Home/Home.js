@@ -28,19 +28,17 @@ class Home extends React.Component {
           </div>
         </div>
         <br />
-        <div className='homeContent row'>
-          <div className="col-3 productsRow">
-            <h4 className="ml-auto">PRODUCT CATEGORIES</h4>
-            <ProductThemes/>
-          </div>
-          <div className="col-9 productsRow">
-            <h1> Latest Products</h1>
-            <div className="d-flex flex-wrap">
+        <div className="container twenty-product-view">
+          <div className="row">
+            <div className="col-3 twenty-product-cat">
+             <ProductThemes/>
+            </div>
+            <div className="col-9 d-flex flex-wrap twenty-product-featured">
               {buildTwentyProducts}
             </div>
-          </div>
-        </div>
-      </div>
+            </div>
+            </div>
+            </div>
     );
   }
 }
