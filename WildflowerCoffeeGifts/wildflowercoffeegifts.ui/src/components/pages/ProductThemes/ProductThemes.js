@@ -1,6 +1,7 @@
 import React from 'react';
 import productThemeData from '../../../helpers/data/productThemeData';
 import SingleProductTheme from '../../shared/SingleProductTheme/SingleProductTheme';
+import './ProductThemes.scss';
 
 class ProductThemes extends React.Component {
   state = { themes: [] };
@@ -18,6 +19,7 @@ class ProductThemes extends React.Component {
     return (
     // <div className="d-flex flex-wrap justify-content-between">
     <div>
+      <h5 className="product-cat-title">Product Categories</h5>
     {buildProductThemes}
   </div>
     );

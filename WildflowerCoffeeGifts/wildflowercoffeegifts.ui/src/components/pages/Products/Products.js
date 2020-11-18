@@ -3,6 +3,7 @@ import React from 'react';
 import './Products.scss';
 import productsData from '../../../helpers/data/productsData';
 import SingleProduct from '../../shared/SingleProduct/SingleProduct';
+import ProductThemes from '../ProductThemes/ProductThemes';
 
 class Products extends React.Component {
   state = {
@@ -19,9 +20,16 @@ class Products extends React.Component {
     const buildProducts = products.map((product) => (<SingleProduct key={product.id} product={product}/>));
 
     return (
-      <div className="d-flex flex-wrap">
-        {buildProducts}
-      </div>
+        <div className="container product-view">
+          <div className="row">
+            <div className="col-3 product-cat">
+             <ProductThemes/>
+            </div>
+            <div className="col-9 d-flex flex-wrap">
+              {buildProducts}
+            </div>
+            </div>
+            </div>
     );
   }
 }

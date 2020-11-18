@@ -18,9 +18,11 @@ axios.interceptors.request.use((request) => {
 const registerUser = (user) =>
   // sub out whatever auth method firebase provides that you want to use.
   firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then((cred) => {
+    console.error('logincred', cred.user);
     // get email from firebase
     console.error('register', user);
     const userInfo = {
+      uid: firebase.auth().currentUser.uid,
       email: user.email,
       password: user.password,
       userName: user.userName,

@@ -20,7 +20,7 @@ class SingleProductTheme extends React.Component {
      const { value } = this.state;
      return (
       <div className='SingleProductTheme'>
-       <FormControl className="form-box">
+        <FormControl className="form-box">
         <InputLabel className="theme-name">{theme.theme} ({theme.count})</InputLabel>
         <Select className="select-box" onChange= {this.handleChange}>
       <MenuItem value={theme} className="product-item"><Link to ={`/products/${theme.topThreeProducts[0].id}`}>{theme.topThreeProducts[0].title}</Link></MenuItem>
