@@ -26,7 +26,7 @@ class ShoppingCart extends React.Component {
     userId: 1,
     paymentTypeId: 0,
     selectedPaymentType: {},
-    validOrder: false,
+    validOrder: true,
     deliveryState: '',
     isOpenDeliveryInfo: false,
   }
@@ -159,10 +159,10 @@ class ShoppingCart extends React.Component {
                     if (user.city != '') {
                       if (user.usState != undefined) {
                         if (selectedPaymentType.paymentOption != '') {
-                          if (selectedPaymentType.accountNo != undefined) {
-                            if (selectedPaymentType.expirationMonth != undefined) {
-                              if (selectedPaymentType.expirationYear != undefined) {
-                                if (selectedPaymentType.ccv != undefined) {
+                          if (selectedPaymentType.accountNo != 0) {
+                            if (selectedPaymentType.expirationMonth != 0) {
+                              if (selectedPaymentType.expirationYear != 0) {
+                                if (selectedPaymentType.ccv != 0) {
                                   this.setState({ validOrder: true });
                                   console.error('valid??', this.state.validOrder);
                                 }
@@ -288,10 +288,11 @@ class ShoppingCart extends React.Component {
               </div>
           }
           <div>
-              <Button className="wcgButton" onClick={this.toggleDeliveryInfo}>Delivery Information</Button>
+            <h2>Delivery Information</h2>
+              {/* <Button className="wcgButton" onClick={this.toggleDeliveryInfo}>Delivery Information</Button>
               <Collapse isOpenDeliveryInfo={isOpenDeliveryInfo}>
-              <Card>
-          <CardBody>
+                <Card>
+                  <CardBody> */}
               <form>
                   <div class='form-group'>
                     <label for='recipientEmail'>Recipient Email Address</label>
@@ -374,9 +375,9 @@ class ShoppingCart extends React.Component {
                     </select>
                   </div>
                 </form>
-                </CardBody>
-        </Card>
-              </Collapse>
+                  {/* </CardBody>
+                </Card>
+              </Collapse> */}
               </div>
               <div>
                 <h2>Billing Information</h2>
