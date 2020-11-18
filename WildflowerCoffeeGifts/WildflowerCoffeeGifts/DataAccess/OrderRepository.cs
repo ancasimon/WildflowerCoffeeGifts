@@ -290,35 +290,40 @@ where po.OrderId = @OrderId AND po.IsActive=1) x";
             return updatedOrder;
         }
 
-        public IEnumerable<AdminOrderView> AdminViewOfPlacedOrders()
+        public AdminOrderView AdminViewOfPlacedOrders()
         {
             using var db = new SqlConnection(_connectionString);
 
             var sqlQuery = @"select 
 	                        O.Id,
-	                        P.Title,
-	                        PO.Qty,
-	                        O.TotalPrice,
-	                        O.PurchaseDate,
-	                        O.IsCompleted,
 	                        U.FirstName,
 	                        U.LastName,
-	                        U.Username,
-	                        U.Email,
-	                        PT.PaymentOption
-                            from Orders O
-	                            inner join ProductOrders PO on
-	                            O.Id = PO.OrderId
-		                            inner join Products P on
-		                            PO.ProductId = P.Id
-			                            inner join Users U on
-			                            O.UserId = U.Id
-			                                inner join PaymentTypes PT on
-	    		                                U.Id = PT.UserId
-                              ORDER BY U.FirstName";
+	                        U.Email
+	                        from Orders O
+		                        inner join Users U on
+		                        O.UserId = U.Id
+			                        inner join ProductOrders PO on
+			                        O.Id = PO.OrderId
+                            where O.Id = PO.OrderId";
 
 
             var adminOrders = db.Query<AdminOrderView>(sqlQuery);
+
+            if (adminOrders != null)
+            {
+                var queryForLineItems = @"select po.Qty, p.Title, p.Price
+                                           from ProductOrders po
+		                                        join Products p
+		                                        on po.ProductId = p.Id
+		                                        join Orders O 
+		                                        on O.Id = po.OrderId
+                                            where O.Id = @OrderId";
+
+                var orderLineItems = db.Query<ProductOrderWithProductInfo>(queryForLineItems);
+
+                adminOrders.LineItems = (List<ProductOrderWithProductInfo>)orderLineItems;
+
+            }
 
             return adminOrders;
 
