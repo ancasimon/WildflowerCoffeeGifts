@@ -10,11 +10,17 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WildflowerCoffeeGifts.Controllers
 {
+    public abstract class FirebaseEnabledController : ControllerBase
+    {
+        protected string UserId => User.FindFirst(x => x.Type == "user_id").Value;
+    }
+
+
     [Route("api/users")]
     [ApiController]
     [Authorize]
     // [AllowAnonymous] add this to any method that does not require auth
-    public class UsersController : ControllerBase
+    public class UsersController : FirebaseEnabledController
     {
         UsersRepository _userRepo;
         public UsersController()
