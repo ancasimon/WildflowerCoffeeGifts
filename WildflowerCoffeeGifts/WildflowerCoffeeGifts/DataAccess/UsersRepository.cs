@@ -62,6 +62,21 @@ namespace WildflowerCoffeeGifts.DataAccess
             return selectedUser;
         }
 
+        //public User GetUserIdByUid(int uid)
+        //{
+        //    using var db = new SqlConnection(_connectionString);
+
+        //    var query = @"select *
+        //                    from Users
+        //                    where Uid = @Uid";
+
+        //    var parameters = new { uid = UserId }; //WHAT VALUE DO I USE HERE TO DEFINE THE UID???
+
+        //    var selectedUser = db.QueryFirstOrDefault<User>(query, parameters);
+
+        //    return selectedUserId;
+        //}
+
         public User Update(int id, User user)
         {
             var sql = @"UPDATE Users

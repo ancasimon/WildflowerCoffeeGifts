@@ -10,3 +10,11 @@ body {
 .wcgButton {
   @include buttons;
 }
+
+.newBlock {
+  height: inherit !important;
+}
+
+.alignLeft {
+  text-align: left;
+}
