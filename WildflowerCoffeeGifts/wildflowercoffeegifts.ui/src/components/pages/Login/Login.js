@@ -123,7 +123,7 @@ class Login extends React.Component {
                   className="btn btn-outline-dark wcgButton"
                   onClick={this.loginClickEvent}
                 >
-                  Login
+                  Log In
                 </button>
                  <button
                   type="submit"

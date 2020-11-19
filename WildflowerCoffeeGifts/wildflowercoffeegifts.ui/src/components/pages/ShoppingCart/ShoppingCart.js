@@ -28,16 +28,28 @@ class ShoppingCart extends React.Component {
     paymentTypeId: 0,
     selectedPaymentType: {},
     validOrder: true,
-    deliveryState: '',
     isOpenDeliveryInfo: false,
     isOpenBillingInfo: false,
     isOpenPaymentInfo: false,
-    deliveryCity: '',
-    deliveryState: '',
     recipientEmail: '',
     recipientPhone: '',
     recipientFirstName: '',
     recipientLastName: '',
+    deliveryAddress: '',
+    deliveryCity: '',
+    deliveryState: null,
+    userEmail: '',
+    userPhoneNumber: 0,
+    userFirstName: '',
+    userLastName: '',
+    userAddress: '',
+    userCity: '',
+    userState: null,
+    paymentOption: '',
+    accountNo: 0,
+    expirationMonth: 0,
+    expirationYear: 0,
+    ccv: 0,
   }
 
   toggleDeliveryInfo = () => {
@@ -140,9 +152,99 @@ class ShoppingCart extends React.Component {
       .catch((error) => console.error('Unable to create the new shopping cart.', error));
   }
 
+  changeRecipientEmail = (e) => {
+    e.preventDefault();
+    this.setState({ recipientEmail: e.target.value });
+  }
+
+  changeRecipientPhone = (e) => {
+    e.preventDefault();
+    this.setState({ recipientPhone: e.target.value });
+  }
+
+  changeRecipientFirstName = (e) => {
+    e.preventDefault();
+    this.setState({ recipientFirstName: e.target.value });
+  }
+
+  changeRecipientLastName = (e) => {
+    e.preventDefault();
+    this.setState({ recipientLastName: e.target.value });
+  }
+
+  changeDeliveryAddress = (e) => {
+    e.preventDefault();
+    this.setState({ deliveryAddress: e.target.value });
+  }
+
+  changeDeliveryCity = (e) => {
+    e.preventDefault();
+    this.setState({ deliveryCity: e.target.value });
+  }
+
   changeDeliveryState = (e) => {
     e.preventDefault();
     this.setState({ deliveryState: e.target.value });
+  }
+
+  changeUserEmail = (e) => {
+    e.preventDefault();
+    this.setState({ userEmail: e.target.value });
+  }
+
+  changeUserPhoneNumber = (e) => {
+    e.preventDefault();
+    this.setState({ userPhoneNumber: e.target.value });
+  }
+
+  changeUserFirstName = (e) => {
+    e.preventDefault();
+    this.setState({ userFirstName: e.target.value });
+  }
+
+  changeUserLastName = (e) => {
+    e.preventDefault();
+    this.setState({ userLastName: e.target.value });
+  }
+
+  changeUserAddress = (e) => {
+    e.preventDefault();
+    this.setState({ userAddress: e.target.value });
+  }
+
+  changeUserCity = (e) => {
+    e.preventDefault();
+    this.setState({ userCity: e.target.value });
+  }
+
+  changeUserState = (e) => {
+    e.preventDefault();
+    this.setState({ userState: e.target.value });
+  }
+
+  changePaymentOption = (e) => {
+    e.preventDefault();
+    this.setState({ paymentOption: e.target.value });
+  }
+
+  changeAccountNo = (e) => {
+    e.preventDefault();
+    this.setState({ accountNo: e.target.value });
+  }
+
+  changeExpirationMonth = (e) => {
+    e.preventDefault();
+    this.setState({ expirationMonth: e.target.value });
+  }
+
+  changeExpirationYear = (e) => {
+    e.preventDefault();
+    this.setState({ expirationYear: e.target.value });
+  }
+
+  changeCcv = (e) => {
+    e.preventDefault();
+    this.setState({ ccv: e.target.value });
   }
 
   // validateOrder = () => {
@@ -241,12 +343,12 @@ class ShoppingCart extends React.Component {
       deliveryAddress: cart.deliveryAddress,
       isActive: cart.isActive,
       lineItems: cart.lineItems,
-      deliveryCity: cart.deliveryCity,
-      deliveryState: cart.deliveryState,
-      recipientEmail: cart.recipientEmail,
-      recipientPhone: cart.recipientPhone,
-      recipientFirstName: cart.recipientFirstName,
-      recipientLastName: cart.recipientLastName,
+      deliveryCity,
+      deliveryState,
+      recipientEmail,
+      recipientPhone,
+      recipientFirstName,
+      recipientLastName,
     };
     // this.validateOrder();
     console.error(this.state.lineItems.length, cart.recipientLastName, cart.deliveryAddress, cart.deliveryCity, cart.deliveryState, user.firstName, user.lastName, user.address, user.city, user.usState, selectedPaymentType.paymentOption, selectedPaymentType.accountNo, selectedPaymentType.expirationMonth, selectedPaymentType.expirationYear, selectedPaymentType.ccv);
@@ -269,10 +371,28 @@ class ShoppingCart extends React.Component {
       lineItems,
       user,
       selectedPaymentType,
-      deliveryState,
       isOpenDeliveryInfo,
       isOpenBillingInfo,
       isOpenPaymentInfo,
+      recipientEmail,
+      recipientPhone,
+      recipientFirstName,
+      recipientLastName,
+      deliveryAddress,
+      deliveryCity,
+      deliveryState,
+      userEmail,
+      userPhoneNumber,
+      userFirstName,
+      userLastName,
+      userAddress,
+      userCity,
+      userState,
+      paymentOption,
+      accountNo,
+      expirationMonth,
+      expirationYear,
+      ccv,
     } = this.state;
     const buildLineItems = () => lineItems.map((item) => (
       <SingleLineItem key={item.Id} item={item} buildCartPage={this.buildCartPage} />
@@ -309,7 +429,7 @@ class ShoppingCart extends React.Component {
                   {buildLineItems()}
                 </Table>
               </div>
-              <div className="p-3">
+              <div className="pb-3 pt-3">
                 <Link to='/products' className="wcgButton">Continue Shopping</Link>
               </div>
               </div>
@@ -323,31 +443,31 @@ class ShoppingCart extends React.Component {
                       <h2>Delivery Information</h2>
                         <div class='form-group'>
                           <label for='recipientEmail'>Recipient Email Address</label>
-                          <input type='email' class='form-control' id='recipientEmail' placeholder='Please enter the email address of the recipient.' value={cart.recipientEmail} />
+                          <input type='email' class='form-control' id='recipientEmail' placeholder='Please enter the email address of the recipient.' value={recipientEmail} onChange={this.changeRecipientEmail} />
                         </div>
                         <div class='form-group'>
                           <label for='recipientPhone'>Recipient Phone Number</label>
-                          <input type='text' class='form-control' id='recipientPhone' placeholder='Please enter a phone number for the recipient.' value={cart.recipientPhone} />
+                          <input type='text' class='form-control' id='recipientPhone' placeholder='Please enter a phone number for the recipient.' value={recipientPhone} onChange={this.changeRecipientPhoneNumber} />
                         </div>
                         <div class='form-group'>
                           <label for='recipientFirstName'>First Name</label>
-                          <input class='form-control' type='text' id='recipientFirstName' placeholder='Please enter the first name of the recipient.' value={cart.recipientFirstName} />
+                          <input class='form-control' type='text' id='recipientFirstName' placeholder='Please enter the first name of the recipient.' value={recipientFirstName} onChange={this.changeRecipientFirstName} />
                         </div>
                         <div class='form-group'>
                           <label for='recipientLastName'>Last Name*</label>
-                          <input class='form-control' type='text' id='recipientLastName' placeholder='Please enter the last name of the recipient.' value={cart.recipientLastName} />
+                          <input class='form-control' type='text' id='recipientLastName' placeholder='Please enter the last name of the recipient.' value={recipientLastName} onChange={this.changeRecipientLastName} />
                         </div>
                         <div class='form-group'>
                           <label for='recipientAddress'>Delivery Address*</label>
-                          <textarea class='form-control' id='recipientAddress' rows='2' placeholder='Please enter the delivery address.' value={cart.deliveryAddress}></textarea>
+                          <textarea class='form-control' id='recipientAddress' rows='2' placeholder='Please enter the delivery address.' value={deliveryAddress} onChange={this.changeDeliveryAddress}></textarea>
                         </div>
                         <div class='form-group'>
                           <label for='recipientCity'>Delivery City*</label>
-                          <input class='form-control' type='text' id='recipientCity' placeholder='Please enter delivery city.' value={cart.deliveryCity} />
+                          <input class='form-control' type='text' id='recipientCity' placeholder='Please enter delivery city.' value={deliveryCity} onChange={this.changeDeliveryCity} />
                         </div>
                         <div class='form-group'>
                           <label for='recipientState'>Delivery State*</label>
-                          <select class='form-control' id='recipientState' placeholder={cart.deliveryState} value={cart.deliveryState} onChange={this.changeDeliveryState}>
+                          <select class='form-control' id='recipientState' placeholder={deliveryState} value={deliveryState} onChange={this.changeDeliveryState}>
                           <option value="0">Alabama</option>
                             <option value="1">Alaska</option>
                             <option value="2">Arizona</option>
@@ -415,31 +535,31 @@ class ShoppingCart extends React.Component {
                         <form>
                         <div class='form-group'>
                             <label for='userEmail'>Email</label>
-                            <input type='email' class='form-control' id='userEmail' placeholder={user.email} value={user.email} />
+                            <input type='email' class='form-control' id='userEmail' placeholder={userEmail} value={userEmail} onChange={this.changeUserEmail} />
                           </div>
                           <div class='form-group'>
                             <label for='userPhone'>Phone Number</label>
-                            <input type='text' class='form-control' id='userPhone' placeholder={user.phoneNumber} value={user.phoneNumber} />
+                            <input type='text' class='form-control' id='userPhone' placeholder={userPhoneNumber} value={userPhoneNumber} onChange={this.changeUserPhoneNumber} />
                           </div>
                           <div class='form-group'>
                             <label for='userFirstName'>First Name*</label>
-                            <input class='form-control' type='text' id='userFirstName' placeholder={user.firstName} value={user.firstName} />
+                            <input class='form-control' type='text' id='userFirstName' placeholder={userFirstName} value={userFirstName} onChange={this.changeUserFirstName} />
                           </div>
                           <div class='form-group'>
                             <label for='userLastName'>Last Name*</label>
-                            <input class='form-control' type='text' id='userLastName' placeholder={user.lastName} value={user.lastName} />
+                            <input class='form-control' type='text' id='userLastName' placeholder={userLastName} value={userLastName} onChange={this.changeUserLastName} />
                           </div>
                           <div class='form-group'>
                             <label for='userAddress'>Billing Address*</label>
-                            <textarea class='form-control' id='userAddress' rows='2' placeholder={user.address} value={user.address}></textarea>
+                            <textarea class='form-control' id='userAddress' rows='2' placeholder={userAddress} value={userAddress} onChange={this.changeUserAddress}></textarea>
                           </div>
                           <div class='form-group'>
                             <label for='userCity'>Billing City*</label>
-                            <input class='form-control' type='text' id='userCity' placeholder={user.city} value={user.city} />
+                            <input class='form-control' type='text' id='userCity' placeholder={userCity} value={userCity} onChange={this.changeUserCity} />
                           </div>
                           <div class='form-group'>
                             <label for='userState'>Billing State*</label>
-                            <select class='form-control' id='userState' placeholder={user.usState} value={user.usState}>
+                            <select class='form-control' id='userState' placeholder={userState} value={userState} onChange={this.changeUserState}>
                               <option value="0">Alabama</option>
                               <option value="1">Alaska</option>
                               <option value="2">Arizona</option>
@@ -508,23 +628,23 @@ class ShoppingCart extends React.Component {
                         <form>
                         <div class='form-group'>
                           <label for='paymentOption'>Payment Type*</label>
-                          <input type='text' class='form-control' id='paymentOption' placeholder={selectedPaymentType.paymentOption} value={selectedPaymentType.paymentOption} readonly />
+                          <input type='text' class='form-control' id='paymentOption' placeholder={paymentOption} value={paymentOption} onChange={this.changePaymentType} />
                         </div>
                         <div class='form-group'>
                           <label for='paymentAccountNumber'>Account Number*</label>
-                          <input type='text' class='form-control' id='paymentAccountNumber' placeholder={selectedPaymentType.accountNo} value={selectedPaymentType.accountNo} readonly />
+                          <input type='text' class='form-control' id='paymentAccountNumber' placeholder={accountNo} value={accountNo} onChange={this.changeAccountNo} />
                         </div>
                         <div class='form-group'>
                           <label for='paymentExpMonth'>Expiration Month*</label>
-                          <input class='form-control' type='text' id='paymentExpMonth' placeholder={selectedPaymentType.expirationMonth} value={selectedPaymentType.expirationMonth} readonly />
+                          <input class='form-control' type='text' id='paymentExpMonth' placeholder={expirationMonth} value={expirationMonth} onChange={this.changeExpMonth} />
                         </div>
                         <div class='form-group'>
                           <label for='paymentExpYear'>Expiration Year*</label>
-                          <input class='form-control' type='text' id='paymentExpYear' placeholder={selectedPaymentType.expirationYear} value={selectedPaymentType.expirationYear} readonly />
+                          <input class='form-control' type='text' id='paymentExpYear' placeholder={expirationYear} value={expirationYear} onChange={this.changeExpYear} />
                         </div>
                         <div class='form-group'>
                           <label for='paymentCcv'>CCV*</label>
-                          <input class='form-control' id='text' id='paymentCcv' placeholder={selectedPaymentType.ccv} value={selectedPaymentType.ccv} readonly ></input>
+                          <input class='form-control' id='text' id='paymentCcv' placeholder={ccv} value={ccv} onChange={this.changeCcv} ></input>
                         </div>
                       </form>
                     </CardBody>
