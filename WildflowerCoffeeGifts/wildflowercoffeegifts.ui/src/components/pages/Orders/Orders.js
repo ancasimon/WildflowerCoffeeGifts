@@ -1,12 +1,8 @@
 import React from 'react';
-<<<<<<< HEAD
 import { Table } from 'reactstrap';
 import ordersData from '../../../helpers/data/ordersData';
 import OrderLineInfo from './OrderLineInfo';
 
-=======
-import ProductThemes from '../ProductThemes/ProductThemes';
->>>>>>> main
 import './Orders.scss';
 
 class Orders extends React.Component {
@@ -26,19 +22,18 @@ class Orders extends React.Component {
 
   render() {
     const { orderTableInfo } = this.state;
-    const viewOrderDetails = () => orderTableInfo.map((order) => <OrderLineInfo key={order.id} order={order}/>);
-    console.error(viewOrderDetails);
+    const viewOrderDetails = () => orderTableInfo.map((order) => <OrderLineInfo key={order.id} order={order} />);
     return (
       <div>
       <h1 className="text-center m-3">Order History</h1>
         <Table>
           <thead>
             <tr>
+              <th>Order #</th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Email</th>
-              <th>Product</th>
-              <th>Qty Ordered</th>
+              <th>Product(Qty)</th>
               <th>Total Price</th>
               <th>Purchase Date</th>
               <th>Payment</th>

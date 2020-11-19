@@ -13,7 +13,8 @@ namespace WildflowerCoffeeGifts.Models
         public string Email { get; set; }
         public DateTime PurchaseDate { get; set; }
         public bool IsCompleted { get; set; }
-        public string PaymentType { get; set; }
+        public string PaymentOption { get; set; }
+        public decimal TotalPrice { get; set; } 
 
         public List<AdminOrderItem> LineItems { get; set; } = new List<AdminOrderItem>();
 
