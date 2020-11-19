@@ -33,7 +33,7 @@ class ShoppingCart extends React.Component {
     const { cart, userId, lineItems } = this.state;
     ordersData.getCart(userId)
       .then((response) => {
-        if (response.status == 200) {
+        if (response.status === 200) {
           this.setState({
             cart: response.data,
             lineItems: response.data.lineItems,
