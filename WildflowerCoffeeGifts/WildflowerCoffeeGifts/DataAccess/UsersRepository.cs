@@ -61,7 +61,20 @@ namespace WildflowerCoffeeGifts.DataAccess
 
             return selectedUser;
         }
+        public User GetUsersByIdProfile(int id)
+        {
+            using var db = new SqlConnection(_connectionString);
 
+            var query = @"select *
+                            from Users
+                            where Id = @id";
+
+            var parameters = new { id = id };
+
+            var selectedUser = db.QueryFirstOrDefault<User>(query, parameters);
+
+            return selectedUser;
+        }
         public User Update(int id, User user)
         {
             var sql = @"UPDATE Users

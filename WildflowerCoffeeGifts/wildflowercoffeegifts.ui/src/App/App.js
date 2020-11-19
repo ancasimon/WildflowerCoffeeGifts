@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import fbConnection from '../helpers/data/connection';
 import Login from '../components/pages/Login/Login';
-
+import Profile from '../components/pages/Profile/Profile';
 import Home from '../components/pages/Home/Home';
 import MyNavbar from '../components/shared/MyNavbar/MyNavbar';
 import Orders from '../components/pages/Orders/Orders';
@@ -31,6 +31,7 @@ class App extends React.Component {
               <div className="row">
                 <Switch>
                  <Route path='/login' component={Login}></Route>
+                 <Route path='/profile' component={Profile}></Route>
                   <Route path='/cart' component={ShoppingCart} />
                   <Route path='/orders' component={Orders} />
                   <Route path='/products/search/:searchWord' component={SearchedProducts} />

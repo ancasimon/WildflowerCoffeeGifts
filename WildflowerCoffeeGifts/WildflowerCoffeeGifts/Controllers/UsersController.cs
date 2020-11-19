@@ -18,7 +18,7 @@ namespace WildflowerCoffeeGifts.Controllers
 
     [Route("api/users")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     // [AllowAnonymous] add this to any method that does not require auth
     public class UsersController : FirebaseEnabledController
     {
@@ -40,6 +40,14 @@ namespace WildflowerCoffeeGifts.Controllers
         public IActionResult GetUsersById(int id)
         {
             var selectedUser = _userRepo.GetUsersById(id);
+            if (selectedUser == null) return NotFound("We did not find a user with that ID. Please try again.");
+            return Ok(selectedUser);
+        }
+
+        [HttpGet("{id}/profile")]
+        public IActionResult GetUsersByIdProfile(int id)
+        {
+            var selectedUser = _userRepo.GetUsersByIdProfile(id);
             if (selectedUser == null) return NotFound("We did not find a user with that ID. Please try again.");
             return Ok(selectedUser);
         }
