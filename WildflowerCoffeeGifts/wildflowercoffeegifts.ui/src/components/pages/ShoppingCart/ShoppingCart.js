@@ -24,10 +24,10 @@ class ShoppingCart extends React.Component {
     cartId: 0,
     lineItems: [],
     user: {},
-    userId: 2,
+    userId: 8,
     paymentTypeId: 0,
     selectedPaymentType: {},
-    validOrder: false,
+    validOrder: true,
     deliveryState: '',
     isOpenDeliveryInfo: false,
     isOpenBillingInfo: false,
@@ -124,10 +124,6 @@ class ShoppingCart extends React.Component {
     // this.validateOrder();
   }
 
-  // componentDidUpdate() {
-  //   this.validateOrder();
-  // }
-
   createCart = (e) => {
     e.preventDefault();
     const {
@@ -169,7 +165,7 @@ class ShoppingCart extends React.Component {
   //     recipientFirstName,
   //     recipientLastName,
   //   } = this.state;
-  //   var validCheck = false;
+  //   console.error('valid?? line items', lineItems.length);
   //   if (lineItems.length < 1) return;
   // if (cart.recipientLastName) //better rely onthe Javascript falsey value
 
@@ -203,10 +199,15 @@ class ShoppingCart extends React.Component {
   //   }
   // }
   // }
+  //   this.setState({ validOrder: true });
   // }
 
   validationAlert = () => {
     Swal.fire('You must enter all required data. Please see fields marked with an asterisk (*).');
+  }
+
+  successfulPurchaseAlert = () => {
+    Swal.fire('Congratulations! Your order is on its way!');
   }
 
   placeOrder = (e) => {
@@ -254,6 +255,7 @@ class ShoppingCart extends React.Component {
       ordersData.updateOrder(cartId, updatedOrder)
         .then(() => {
           this.props.history.push('/products');
+          this.successfulPurchaseAlert();
         })
         .catch((error) => console.error('We could not finalize your order', error));
     } else {
