@@ -30,6 +30,15 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(allPaymentTypes);
         }
 
+        [HttpGet("all/{userId}")]
+        public IActionResult GetAllPaymentTypesByUserId(int userId)
+        {
+            var allPaymentTypesForSelectedUser = _paymentTypeRepo.GetAllPaymentTypesByUserId(userId);
+
+            return Ok(allPaymentTypesForSelectedUser);
+        }
+
+
         [HttpGet("{id}")]
         public IActionResult GetSinglePaymentTypeById(int id)
         {

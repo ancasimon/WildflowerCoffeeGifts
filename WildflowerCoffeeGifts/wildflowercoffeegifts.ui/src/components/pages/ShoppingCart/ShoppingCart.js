@@ -5,6 +5,14 @@ import {
   Collapse,
   CardBody,
   Card,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   Table,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
@@ -24,7 +32,7 @@ class ShoppingCart extends React.Component {
     cartId: 0,
     lineItems: [],
     user: {},
-    userId: 8,
+    userId: 1,
     paymentTypeId: 0,
     selectedPaymentType: {},
     validOrder: true,
@@ -37,19 +45,30 @@ class ShoppingCart extends React.Component {
     recipientLastName: '',
     deliveryAddress: '',
     deliveryCity: '',
-    deliveryState: null,
+    deliveryState: '',
     userEmail: '',
     userPhoneNumber: 0,
     userFirstName: '',
     userLastName: '',
     userAddress: '',
     userCity: '',
-    userState: null,
+    userState: '',
     paymentOption: '',
     accountNo: 0,
     expirationMonth: 0,
     expirationYear: 0,
     ccv: 0,
+    modal: false,
+    paymentTypes: [],
+    dropdownOpen: false,
+  }
+
+  toggleModal = () => {
+    this.setState({ modal: !this.setState.modal });
+  }
+
+  toggleDropdown = () => {
+    this.setState({ dropdownOpen: !this.state.dropdownOpen });
   }
 
   toggleDeliveryInfo = () => {
@@ -74,6 +93,16 @@ class ShoppingCart extends React.Component {
         console.log('user', response);
       })
       .catch((error) => console.error('Unable to get user record.', error));
+  }
+
+  getPaymentTypes = () => {
+    const { userId } = this.state;
+    paymentTypesData.getAllPaymentTypesByUserId(userId)
+      .then((userPaymentTypesResponse) => {
+        this.setState({ paymentTypes: userPaymentTypesResponse.data });
+        console.error('pmt types', userPaymentTypesResponse.data);
+      })
+      .catch((error) => console.error('Unable to get payment types for this user.'));
   }
 
   getCart = () => {
@@ -129,6 +158,7 @@ class ShoppingCart extends React.Component {
     const { userId, cart } = this.state;
     this.getCart(userId);
     this.getUser(userId);
+    this.getPaymentTypes(userId);
   }
 
   componentDidMount() {
@@ -393,9 +423,16 @@ class ShoppingCart extends React.Component {
       expirationMonth,
       expirationYear,
       ccv,
+      paymentTypes,
+      dropdownOpen,
     } = this.state;
+
     const buildLineItems = () => lineItems.map((item) => (
       <SingleLineItem key={item.Id} item={item} buildCartPage={this.buildCartPage} />
+    ));
+
+    const buildPaymentTypes = () => paymentTypes.map((item) => (
+      <DropdownItem key={item.id} value={item.id}>{item.paymentOption}</DropdownItem>
     ));
 
     return (
@@ -441,33 +478,33 @@ class ShoppingCart extends React.Component {
                   <CardBody>
                     <form>
                       <h2>Delivery Information</h2>
-                        <div class='form-group'>
-                          <label for='recipientEmail'>Recipient Email Address</label>
-                          <input type='email' class='form-control' id='recipientEmail' placeholder='Please enter the email address of the recipient.' value={recipientEmail} onChange={this.changeRecipientEmail} />
+                        <div className='form-group'>
+                          <label htmlFor='recipientEmail'>Recipient Email Address</label>
+                          <input type='email' className='form-control' id='recipientEmail' placeholder='Please enter the email address of the recipient.' value={recipientEmail} onChange={this.changeRecipientEmail} />
                         </div>
-                        <div class='form-group'>
-                          <label for='recipientPhone'>Recipient Phone Number</label>
-                          <input type='text' class='form-control' id='recipientPhone' placeholder='Please enter a phone number for the recipient.' value={recipientPhone} onChange={this.changeRecipientPhoneNumber} />
+                        <div className='form-group'>
+                          <label htmlFor='recipientPhone'>Recipient Phone Number</label>
+                          <input type='text' className='form-control' id='recipientPhone' placeholder='Please enter a phone number for the recipient.' value={recipientPhone} onChange={this.changeRecipientPhoneNumber} />
                         </div>
-                        <div class='form-group'>
-                          <label for='recipientFirstName'>First Name</label>
-                          <input class='form-control' type='text' id='recipientFirstName' placeholder='Please enter the first name of the recipient.' value={recipientFirstName} onChange={this.changeRecipientFirstName} />
+                        <div className='form-group'>
+                          <label htmlFor='recipientFirstName'>First Name</label>
+                          <input className='form-control' type='text' id='recipientFirstName' placeholder='Please enter the first name of the recipient.' value={recipientFirstName} onChange={this.changeRecipientFirstName} />
                         </div>
-                        <div class='form-group'>
-                          <label for='recipientLastName'>Last Name*</label>
-                          <input class='form-control' type='text' id='recipientLastName' placeholder='Please enter the last name of the recipient.' value={recipientLastName} onChange={this.changeRecipientLastName} />
+                        <div className='form-group'>
+                          <label htmlFor='recipientLastName'>Last Name*</label>
+                          <input className='form-control' type='text' id='recipientLastName' placeholder='Please enter the last name of the recipient.' value={recipientLastName} onChange={this.changeRecipientLastName} />
                         </div>
-                        <div class='form-group'>
-                          <label for='recipientAddress'>Delivery Address*</label>
-                          <textarea class='form-control' id='recipientAddress' rows='2' placeholder='Please enter the delivery address.' value={deliveryAddress} onChange={this.changeDeliveryAddress}></textarea>
+                        <div className='form-group'>
+                          <label htmlFor='recipientAddress'>Delivery Address*</label>
+                          <textarea className='form-control' id='recipientAddress' rows='2' placeholder='Please enter the delivery address.' value={deliveryAddress} onChange={this.changeDeliveryAddress}></textarea>
                         </div>
-                        <div class='form-group'>
-                          <label for='recipientCity'>Delivery City*</label>
-                          <input class='form-control' type='text' id='recipientCity' placeholder='Please enter delivery city.' value={deliveryCity} onChange={this.changeDeliveryCity} />
+                        <div className='form-group'>
+                          <label htmlFor='recipientCity'>Delivery City*</label>
+                          <input className='form-control' type='text' id='recipientCity' placeholder='Please enter delivery city.' value={deliveryCity} onChange={this.changeDeliveryCity} />
                         </div>
-                        <div class='form-group'>
-                          <label for='recipientState'>Delivery State*</label>
-                          <select class='form-control' id='recipientState' placeholder={deliveryState} value={deliveryState} onChange={this.changeDeliveryState}>
+                        <div className='form-group'>
+                          <label htmlFor='recipientState'>Delivery State*</label>
+                          <select className='form-control' id='recipientState' placeholder={deliveryState} value={deliveryState} onChange={this.changeDeliveryState}>
                           <option value="0">Alabama</option>
                             <option value="1">Alaska</option>
                             <option value="2">Arizona</option>
@@ -533,33 +570,33 @@ class ShoppingCart extends React.Component {
                       <CardBody>
                         <h2>Billing Information</h2>
                         <form>
-                        <div class='form-group'>
-                            <label for='userEmail'>Email</label>
-                            <input type='email' class='form-control' id='userEmail' placeholder={userEmail} value={userEmail} onChange={this.changeUserEmail} />
+                        <div className='form-group'>
+                            <label htmlFor='userEmail'>Email</label>
+                            <input type='email' className='form-control' id='userEmail' placeholder={userEmail} value={userEmail} onChange={this.changeUserEmail} />
                           </div>
-                          <div class='form-group'>
-                            <label for='userPhone'>Phone Number</label>
-                            <input type='text' class='form-control' id='userPhone' placeholder={userPhoneNumber} value={userPhoneNumber} onChange={this.changeUserPhoneNumber} />
+                          <div className='form-group'>
+                            <label htmlFor='userPhone'>Phone Number</label>
+                            <input type='text' className='form-control' id='userPhone' placeholder={userPhoneNumber} value={userPhoneNumber} onChange={this.changeUserPhoneNumber} />
                           </div>
-                          <div class='form-group'>
-                            <label for='userFirstName'>First Name*</label>
-                            <input class='form-control' type='text' id='userFirstName' placeholder={userFirstName} value={userFirstName} onChange={this.changeUserFirstName} />
+                          <div className='form-group'>
+                            <label htmlFor='userFirstName'>First Name*</label>
+                            <input className='form-control' type='text' id='userFirstName' placeholder={userFirstName} value={userFirstName} onChange={this.changeUserFirstName} />
                           </div>
-                          <div class='form-group'>
-                            <label for='userLastName'>Last Name*</label>
-                            <input class='form-control' type='text' id='userLastName' placeholder={userLastName} value={userLastName} onChange={this.changeUserLastName} />
+                          <div className='form-group'>
+                            <label htmlFor='userLastName'>Last Name*</label>
+                            <input className='form-control' type='text' id='userLastName' placeholder={userLastName} value={userLastName} onChange={this.changeUserLastName} />
                           </div>
-                          <div class='form-group'>
-                            <label for='userAddress'>Billing Address*</label>
-                            <textarea class='form-control' id='userAddress' rows='2' placeholder={userAddress} value={userAddress} onChange={this.changeUserAddress}></textarea>
+                          <div className='form-group'>
+                            <label htmlFor='userAddress'>Billing Address*</label>
+                            <textarea className='form-control' id='userAddress' rows='2' placeholder={userAddress} value={userAddress} onChange={this.changeUserAddress}></textarea>
                           </div>
-                          <div class='form-group'>
-                            <label for='userCity'>Billing City*</label>
-                            <input class='form-control' type='text' id='userCity' placeholder={userCity} value={userCity} onChange={this.changeUserCity} />
+                          <div className='form-group'>
+                            <label htmlFor='userCity'>Billing City*</label>
+                            <input className='form-control' type='text' id='userCity' placeholder={userCity} value={userCity} onChange={this.changeUserCity} />
                           </div>
-                          <div class='form-group'>
-                            <label for='userState'>Billing State*</label>
-                            <select class='form-control' id='userState' placeholder={userState} value={userState} onChange={this.changeUserState}>
+                          <div className='form-group'>
+                            <label htmlFor='userState'>Billing State*</label>
+                            <select className='form-control' id='userState' placeholder={userState} value={userState} onChange={this.changeUserState}>
                               <option value="0">Alabama</option>
                               <option value="1">Alaska</option>
                               <option value="2">Arizona</option>
@@ -618,40 +655,54 @@ class ShoppingCart extends React.Component {
                   </Card>
                 </Collapse>
                 </div>
-                <div className="alignLeft">
-                <Button className="wcgButton" onClick={this.togglePaymentInfo}>Add Payment Details</Button>
-                  <Collapse isOpen={isOpenPaymentInfo}>
-                    <Card className="newBlock">
-                      <CardBody>
-                        <h2>Payment Information</h2>
-                        {/* <button type='submit' className='btn wcgButton'>Select Another Payment Option</button> */}
-                        <form>
-                        <div class='form-group'>
-                          <label for='paymentOption'>Payment Type*</label>
-                          <input type='text' class='form-control' id='paymentOption' placeholder={paymentOption} value={paymentOption} onChange={this.changePaymentType} />
-                        </div>
-                        <div class='form-group'>
-                          <label for='paymentAccountNumber'>Account Number*</label>
-                          <input type='text' class='form-control' id='paymentAccountNumber' placeholder={accountNo} value={accountNo} onChange={this.changeAccountNo} />
-                        </div>
-                        <div class='form-group'>
-                          <label for='paymentExpMonth'>Expiration Month*</label>
-                          <input class='form-control' type='text' id='paymentExpMonth' placeholder={expirationMonth} value={expirationMonth} onChange={this.changeExpMonth} />
-                        </div>
-                        <div class='form-group'>
-                          <label for='paymentExpYear'>Expiration Year*</label>
-                          <input class='form-control' type='text' id='paymentExpYear' placeholder={expirationYear} value={expirationYear} onChange={this.changeExpYear} />
-                        </div>
-                        <div class='form-group'>
-                          <label for='paymentCcv'>CCV*</label>
-                          <input class='form-control' id='text' id='paymentCcv' placeholder={ccv} value={ccv} onChange={this.changeCcv} ></input>
-                        </div>
-                      </form>
-                    </CardBody>
-                  </Card>
-                </Collapse>
+          <div>
+          <button type='submit' className='btn wcgButton' onClick={this.toggleModal}>Order</button>
+
+          {/* modal with payment info below: */}
+          <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
+            <ModalHeader toggle={this.toggleModal}>Payment Information</ModalHeader>
+            <ModalBody>
+            <div>
+            <Dropdown isOpen={dropdownOpen} toggle={this.toggleDropdown}>
+                    <DropdownToggle caret>
+                    Select a payment type
+                    </DropdownToggle>
+                      <DropdownMenu>
+                        {buildPaymentTypes()}
+                      </DropdownMenu>
+                    </Dropdown>
             </div>
-          <button type='submit' className='btn wcgButton' onClick={this.placeOrder}>Place Order</button>
+            <div>
+              <form>
+                <div className='form-group'>
+                  <label htmlFor='paymentOption'>Payment Type*</label>
+                  <input type='text' className='form-control' id='paymentOption' placeholder={paymentOption} value={paymentOption} onChange={this.changePaymentType} />
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='paymentAccountNumber'>Account Number*</label>
+                  <input type='text' className='form-control' id='paymentAccountNumber' placeholder={accountNo} value={accountNo} onChange={this.changeAccountNo} />
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='paymentExpMonth'>Expiration Month*</label>
+                  <input className='form-control' type='text' id='paymentExpMonth' placeholder={expirationMonth} value={expirationMonth} onChange={this.changeExpMonth} />
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='paymentExpYear'>Expiration Year*</label>
+                  <input className='form-control' type='text' id='paymentExpYear' placeholder={expirationYear} value={expirationYear} onChange={this.changeExpYear} />
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='paymentCcv'>CCV*</label>
+                  <input className='form-control' id='text' id='paymentCcv' placeholder={ccv} value={ccv} onChange={this.changeCcv} ></input>
+                </div>
+              </form>
+            </div>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={this.placeOrder}>Done</Button>{' '}
+                <Button color="secondary" onClick={this.toggleAllModals}>Cancel</Button>
+              </ModalFooter>
+            </Modal>
+        </div>
       </div>
     );
   }

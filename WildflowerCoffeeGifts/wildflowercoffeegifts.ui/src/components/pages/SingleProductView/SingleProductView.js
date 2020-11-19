@@ -13,7 +13,7 @@ class SingleProductView extends React.Component {
   state = {
     selectedProduct: {},
     selectedProductId: this.props.match.params.id, // we may need to move this to props when we do the product cards and pass down the id of the card selected ...
-    userId: 8,
+    userId: 1,
     cart: {},
     lineItems: [],
     productQuantityOnSingleView: 1,
