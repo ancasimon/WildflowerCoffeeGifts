@@ -295,7 +295,7 @@ namespace WildflowerCoffeeGifts.DataAccess
             using var db = new SqlConnection(_connectionString);
 
             var sqlQuery = @"select 
-	                            O.Id,
+	                            O.Id as OrderId,
 	                            U.FirstName,
 	                            U.LastName,
 	                            U.Email,
@@ -308,8 +308,14 @@ namespace WildflowerCoffeeGifts.DataAccess
 			                            inner join ProductOrders PO on
 			                            O.Id = PO.OrderId
                                             inner join PaymentTypes PT on
-	    		                            U.Id = PT.UserId
-                                ORDER BY O.Id";
+	    		                            O.PaymentTypeId = PT.Id
+                                WHERE O.IsActive = 1
+								GROUP BY O.Id, U.FirstName,
+	                            U.LastName,
+	                            U.Email,
+                                O.isCompleted,
+                                O.PurchaseDate,
+                                PT.PaymentOption";
 
             var allOrders = db.Query<AdminOrderView>(sqlQuery);
 
@@ -330,9 +336,10 @@ namespace WildflowerCoffeeGifts.DataAccess
 
                 // item.TotalPrice = db.QueryFirstOrDefault<decimal>(addedTotalSql);
 
-                var orderId = item.id;
+                var orderId = item.OrderId;
 
-                var queryForLineItems = @"select 
+                var queryForLineItems = @"select
+                                        PO.Id,
 	                                    O.Id as OrderId,
 							            P.Title,
 	                                    PO.Qty,
@@ -345,7 +352,7 @@ namespace WildflowerCoffeeGifts.DataAccess
 		                                        PO.ProductId = P.Id
 			                                        inner join Users U on
 			                                        O.UserId = U.Id
-                                        where O.Id = @id";
+                                        where O.Id = @id AND PO.IsActive = 1";
                 var parameters = new { id = orderId };
                 var orderLineItems = db.Query<AdminOrderItem>(queryForLineItems, parameters);
 
@@ -359,9 +366,8 @@ namespace WildflowerCoffeeGifts.DataAccess
                 }
                 else
                 {
-                    if(item != null)
-                    {
-                        var selectedOrderId = item.id;
+
+                        var selectedOrderId = item.OrderId;
                         var idParameter = new { id = selectedOrderId };
                         var queryForTotalPrice = @"select SUM(x.Subtotal)
                                             from (
@@ -372,10 +378,9 @@ namespace WildflowerCoffeeGifts.DataAccess
                                             where po.OrderId = @id AND po.IsActive=1) x";
                         var totalPrice = db.QueryFirst<decimal>(queryForTotalPrice, idParameter);
                         item.TotalPrice = totalPrice;
-                    }
-               
+
                 }
-              
+
             }
             return allOrders;
         }

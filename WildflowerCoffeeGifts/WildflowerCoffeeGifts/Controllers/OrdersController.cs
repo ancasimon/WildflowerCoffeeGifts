@@ -12,7 +12,7 @@ namespace WildflowerCoffeeGifts.Controllers
 {
     [Route("api/orders")]
     [ApiController]
-    // [Authorize]
+    [Authorize]
     // [AllowAnonymous] add this to any method that does not require auth
     public class OrdersController : ControllerBase
     {
