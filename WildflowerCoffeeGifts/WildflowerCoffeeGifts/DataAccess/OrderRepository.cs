@@ -147,36 +147,36 @@ namespace WildflowerCoffeeGifts.DataAccess
 
             if (selectedOrder != null)
             {
-            // get the list of ProductOrder records associated with this order it:
-            var orderId = selectedOrder.Id;
-            var parameterOrderId = new { OrderId = orderId };
-            var queryForLineItems = @"select po.Id, po.IsActive, po.OrderId, po.ProductId, po.Qty, p.Title, p.Price, p.Price*po.Qty AS Subtotal, p.ImageUrl
+                // get the list of ProductOrder records associated with this order it:
+                var orderId = selectedOrder.Id;
+                var parameterOrderId = new { OrderId = orderId };
+                var queryForLineItems = @"select po.Id, po.IsActive, po.OrderId, po.ProductId, po.Qty, p.Title, p.Price, p.Price*po.Qty AS Subtotal
                                       from ProductOrders po
 	                                    join Products p
 		                                    on po.ProductId = p.Id
                                       where po.OrderId = @OrderId AND po.IsActive=1";
 
-            var orderLineItems = db.Query<ProductOrderWithProductInfo>(queryForLineItems, parameterOrderId);
-            // assign the ProductOrder records returned by the first query above to the LineItems List property on the order object:
-            selectedOrder.LineItems = (List<ProductOrderWithProductInfo>)orderLineItems;
+                var orderLineItems = db.Query<ProductOrderWithProductInfo>(queryForLineItems, parameterOrderId);
+                // assign the ProductOrder records returned by the first query above to the LineItems List property on the order object:
+                selectedOrder.LineItems = (List<ProductOrderWithProductInfo>)orderLineItems;
 
-            if (selectedOrder.LineItems.Count == 0)
-            {
-                selectedOrder.TotalPrice = 0;
-            } 
-            else
-            {
-                var queryForTotalPrice = @"select SUM(x.Subtotal)
-from (
-select p.Price*po.Qty AS Subtotal                                    
-from ProductOrders po
-join Products p
-on po.ProductId = p.Id
-where po.OrderId = @OrderId AND po.IsActive=1) x";
-                var totalPrice = db.QueryFirst<decimal>(queryForTotalPrice, parameterOrderId);
-                selectedOrder.TotalPrice = totalPrice;
+                if (selectedOrder.LineItems.Count == 0)
+                {
+                    selectedOrder.TotalPrice = 0;
+                }
+                else
+                {
+                    var queryForTotalPrice = @"select SUM(x.Subtotal)
+                                            from (
+                                            select p.Price*po.Qty AS Subtotal                                    
+                                            from ProductOrders po
+                                            join Products p
+                                            on po.ProductId = p.Id
+                                            where po.OrderId = @OrderId AND po.IsActive=1) x";
+                    var totalPrice = db.QueryFirst<decimal>(queryForTotalPrice, parameterOrderId);
+                    selectedOrder.TotalPrice = totalPrice;
+                }
             }
-          }
 
             return selectedOrder;
         }
@@ -298,5 +298,101 @@ where po.OrderId = @OrderId AND po.IsActive=1) x";
 
             return updatedOrder;
         }
+
+        public IEnumerable<AdminOrderView> AdminViewOfPlacedOrders()
+        {
+            using var db = new SqlConnection(_connectionString);
+
+            var sqlQuery = @"select 
+	                            O.Id as OrderId,
+	                            U.FirstName,
+	                            U.LastName,
+	                            U.Email,
+                                O.isCompleted,
+                                O.PurchaseDate,
+                                PT.PaymentOption
+	                            from Orders O
+		                            inner join Users U on
+		                            O.UserId = U.Id
+			                            inner join ProductOrders PO on
+			                            O.Id = PO.OrderId
+                                            inner join PaymentTypes PT on
+	    		                            O.PaymentTypeId = PT.Id
+                                WHERE O.IsActive = 1
+								GROUP BY O.Id, U.FirstName,
+	                            U.LastName,
+	                            U.Email,
+                                O.isCompleted,
+                                O.PurchaseDate,
+                                PT.PaymentOption";
+
+            var allOrders = db.Query<AdminOrderView>(sqlQuery);
+
+            List<AdminOrderView> ordersList = new List<AdminOrderView>();
+            ordersList = allOrders.ToList();
+
+            foreach (var item in ordersList)
+            {
+
+                /*var addedTotalSql = @"select O.Id, sum(O.TotalPrice) as totalPrice
+	                              from Orders O
+		                            inner join Users U on
+		                            O.UserId = U.Id
+			                            inner join ProductOrders PO on
+			                            O.Id = PO.OrderId
+			                            where O.Id = PO.OrderId
+			                            GROUP BY O.Id";*/
+
+                // item.TotalPrice = db.QueryFirstOrDefault<decimal>(addedTotalSql);
+
+                var orderId = item.OrderId;
+
+                var queryForLineItems = @"select
+                                        PO.Id,
+	                                    O.Id as OrderId,
+							            P.Title,
+	                                    PO.Qty,
+	                                    P.Price,
+										P.Price*PO.Qty AS Subtotal
+                                        from Orders O
+	                                        inner join ProductOrders PO on
+	                                        O.Id = PO.OrderId
+		                                        inner join Products P on
+		                                        PO.ProductId = P.Id
+			                                        inner join Users U on
+			                                        O.UserId = U.Id
+                                        where O.Id = @id AND PO.IsActive = 1";
+                var parameters = new { id = orderId };
+                var orderLineItems = db.Query<AdminOrderItem>(queryForLineItems, parameters);
+
+                List<AdminOrderItem> orderLineItemsList = orderLineItems.ToList();
+
+                item.LineItems.AddRange(orderLineItemsList);
+
+                if (item.LineItems.Count == 0)
+                {
+                    item.TotalPrice = 0;
+                }
+                else
+                {
+
+                        var selectedOrderId = item.OrderId;
+                        var idParameter = new { id = selectedOrderId };
+                        var queryForTotalPrice = @"select SUM(x.Subtotal)
+                                            from (
+                                            select p.Price*po.Qty AS Subtotal                                    
+                                            from ProductOrders po
+                                            join Products p
+                                            on po.ProductId = p.Id
+                                            where po.OrderId = @id AND po.IsActive=1) x";
+                        var totalPrice = db.QueryFirst<decimal>(queryForTotalPrice, idParameter);
+                        item.TotalPrice = totalPrice;
+
+                }
+
+            }
+            return allOrders;
+        }
     }
 }
+    

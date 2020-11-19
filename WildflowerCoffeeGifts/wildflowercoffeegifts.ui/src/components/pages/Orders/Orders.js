@@ -1,18 +1,48 @@
 import React from 'react';
-import ProductThemes from '../ProductThemes/ProductThemes';
+import { Table } from 'reactstrap';
+import ordersData from '../../../helpers/data/ordersData';
+import OrderLineInfo from './OrderLineInfo';
+
 import './Orders.scss';
 
 class Orders extends React.Component {
+  state = {
+    orderTableInfo: [],
+  }
+
+  getAdminOrderInfo = () => {
+    ordersData.viewAllOrders()
+      .then((orderTableInfo) => this.setState({ orderTableInfo }))
+      .catch((err) => console.error('unable to get order info'));
+  }
+
+  componentDidMount() {
+    this.getAdminOrderInfo();
+  }
+
   render() {
+    const { orderTableInfo } = this.state;
+    const viewOrderDetails = () => orderTableInfo.map((order) => <OrderLineInfo key={order.id} order={order} />);
     return (
-      <div className="container product-view">
-        <h1>Orders Page</h1>
-      <div className="row">
-        <div className="col-3 product-cat">
-         <ProductThemes/>
-        </div>
-        </div>
-        </div>
+      <div>
+      <h1 className="text-center m-3">Order History</h1>
+        <Table>
+          <thead>
+            <tr>
+              <th>Order #</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Product(Qty)</th>
+              <th>Total Price</th>
+              <th>Purchase Date</th>
+              <th>Payment</th>
+              <th>Completed Order</th>
+            </tr>
+          </thead>
+            {viewOrderDetails()}
+      </Table>
+    </div>
     );
   }
 }
