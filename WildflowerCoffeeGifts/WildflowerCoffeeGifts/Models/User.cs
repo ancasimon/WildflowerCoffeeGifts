@@ -15,5 +15,6 @@ namespace WildflowerCoffeeGifts.Models
         public DateTime DateCreated { get; set; }
         public string Password { get; set; }
         public bool IsActive { get; set; } = true;
+        public string Uid { get; set; }
     }
 }
