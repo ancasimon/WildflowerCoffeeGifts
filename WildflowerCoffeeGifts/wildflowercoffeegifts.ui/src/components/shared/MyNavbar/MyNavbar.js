@@ -16,7 +16,6 @@ class MyNavbar extends React.Component {
   state = {
     isOpen: false,
     searchInput: '',
-    // wordSearched: `/products/search/${this.searchInput}`,
   }
 
   filterProducts = (e) => {
