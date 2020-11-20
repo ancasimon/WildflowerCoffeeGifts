@@ -35,10 +35,10 @@ class Profile extends Component {
     console.error('myId', uid);
     return (
       <div className="box-container">
-        ,<h1 className="text-center"><i class="fas fa-users"></i></h1>
+        <h1 className="text-center"><i class="fas fa-users"></i></h1>
           <h2 className="text-center"><em>{firstName} {lastName}</em></h2>
           <p className="text-center"><i class="fas fa-envelope-open-text"></i> {email}</p>
-          <p className="text-center"><i class="far fa-id-card"></i> Account Number:  {uid}</p>
+          <p className="mr-auto"><i class="far fa-id-card"></i> Acct#: {uid}</p>
            </div>
     );
   }
