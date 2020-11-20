@@ -3,7 +3,17 @@ import { baseUrl } from '../constants.json';
 
 const getAllUsers = () => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/users`)
-    .then((response) => resolve(response.data))
+    .then((response) => {
+      const fbUsers = response.data;
+      const users = [];
+      if (fbUsers) {
+        Object.keys(fbUsers).forEach((fbId) => {
+          fbUsers[fbId].id = fbId;
+          users.push(fbUsers[fbId]);
+        });
+      }
+      resolve(users);
+    })
     .catch((error) => reject(error));
 });
 
