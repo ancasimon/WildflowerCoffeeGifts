@@ -325,17 +325,6 @@ namespace WildflowerCoffeeGifts.DataAccess
             foreach (var item in ordersList)
             {
 
-                /*var addedTotalSql = @"select O.Id, sum(O.TotalPrice) as totalPrice
-	                              from Orders O
-		                            inner join Users U on
-		                            O.UserId = U.Id
-			                            inner join ProductOrders PO on
-			                            O.Id = PO.OrderId
-			                            where O.Id = PO.OrderId
-			                            GROUP BY O.Id";*/
-
-                // item.TotalPrice = db.QueryFirstOrDefault<decimal>(addedTotalSql);
-
                 var orderId = item.OrderId;
 
                 var queryForLineItems = @"select
@@ -383,6 +372,24 @@ namespace WildflowerCoffeeGifts.DataAccess
 
             }
             return allOrders;
+        }
+
+        public IEnumerable<AdminOrderView> ViewOfCompletedOrders()
+        {
+            using var db = new SqlConnection(_connectionString);
+
+            var sqlOfCompletedOrders = @"select O.Id, Users.FirstName, Users.LastName, O.PurchaseDate
+                                        from Orders O
+	                                        join ProductOrders PO on 
+	                                        O.Id = PO.OrderId
+		                                        join Users on
+		                                        O.UserId = Users.Id
+		                                        where IsCompleted = 1 and PO.IsActive = 1
+                                        GROUP BY O.Id, Users.FirstName, Users.LastName, O.PurchaseDate";
+
+            var allCompletedOrders = db.Query<AdminOrderView>(sqlOfCompletedOrders);
+
+            return allCompletedOrders;
         }
     }
 }

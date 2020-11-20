@@ -12,7 +12,7 @@ namespace WildflowerCoffeeGifts.Controllers
 {
     [Route("api/orders")]
     [ApiController]
-    [Authorize]
+    // [Authorize]
     // [AllowAnonymous] add this to any method that does not require auth
     public class OrdersController : ControllerBase
     {
@@ -94,6 +94,14 @@ namespace WildflowerCoffeeGifts.Controllers
             var orderDetails = _orderRepo.AdminViewOfPlacedOrders();
 
             return Ok(orderDetails);
+        }
+
+        [HttpGet("previousOrders")]
+        public IActionResult GetAllPreviousOrders()
+        {
+            var closedOrders = _orderRepo.ViewOfCompletedOrders();
+
+            return Ok(closedOrders);
         }
 
     }
