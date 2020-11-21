@@ -374,20 +374,20 @@ namespace WildflowerCoffeeGifts.DataAccess
             return allOrders;
         }
 
-        public IEnumerable<AdminOrderView> ViewOfCompletedOrders()
+        public IEnumerable<PastOrders> ViewOfCompletedOrders()
         {
             using var db = new SqlConnection(_connectionString);
 
-            var sqlOfCompletedOrders = @"select O.Id, Users.FirstName, Users.LastName, O.PurchaseDate
+            var sqlOfCompletedOrders = @"select O.Id, Users.FirstName, Users.LastName, O.PurchaseDate, O.IsCompleted
                                         from Orders O
 	                                        join ProductOrders PO on 
 	                                        O.Id = PO.OrderId
 		                                        join Users on
 		                                        O.UserId = Users.Id
 		                                        where IsCompleted = 1 and PO.IsActive = 1
-                                        GROUP BY O.Id, Users.FirstName, Users.LastName, O.PurchaseDate";
+                                        GROUP BY O.Id, Users.FirstName, Users.LastName, O.PurchaseDate, O.IsCompleted";
 
-            var allCompletedOrders = db.Query<AdminOrderView>(sqlOfCompletedOrders);
+            var allCompletedOrders = db.Query<PastOrders>(sqlOfCompletedOrders);
 
             return allCompletedOrders;
         }
