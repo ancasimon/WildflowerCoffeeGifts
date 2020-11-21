@@ -133,15 +133,26 @@ namespace WildflowerCoffeeGifts.DataAccess
             var parameterUserId = new { UserId = userId };
             var queryForOrder = @"select *
                                 from Orders o
-                                where o.IsCompleted = 0 AND o.UserId = @UserId AND o.IsActive=1"; //what is on the left side of the equation here is the variable I am declaring - and I am filling it with the data on the right, which is the parameter we are passing in to the method / and the variable is calling that parameter!!          
+                                    join users u 
+                                        on u.id = o.userid
+                                where o.IsCompleted = 0 AND u.UID = @UserId AND o.IsActive=1"; //what is on the left side of the equation here is the variable I am declaring - and I am filling it with the data on the right, which is the parameter we are passing in to the method / and the variable is calling that parameter!!          
             var selectedOrder = db.QueryFirstOrDefault<Order>(queryForOrder, parameterUserId);
+
+
+            // OPTION to start using uid above!!!!
+            //var parameterUserId = new { Uid = userId };
+            //var queryForOrder = @"select *
+            //                    from Orders o
+            //                        join Users u
+            //                            on o.UserId = u.Id
+            //                    where u.Uid = @Uid AND o.IsCompleted = 0 AND o.IsActive=1";
 
             if (selectedOrder != null)
             {
                 // get the list of ProductOrder records associated with this order it:
                 var orderId = selectedOrder.Id;
                 var parameterOrderId = new { OrderId = orderId };
-                var queryForLineItems = @"select po.Id, po.IsActive, po.OrderId, po.ProductId, po.Qty, p.Title, p.Price, p.Price*po.Qty AS Subtotal
+                var queryForLineItems = @"select po.Id, po.IsActive, po.OrderId, po.ProductId, po.Qty, p.Title, p.ImageUrl, p.Price, p.Price*po.Qty AS Subtotal
                                       from ProductOrders po
 	                                    join Products p
 		                                    on po.ProductId = p.Id
@@ -181,10 +192,16 @@ namespace WildflowerCoffeeGifts.DataAccess
                                                 ,[TotalPrice]
                                                 ,[PaymentTypeId]
                                                 ,[DeliveryAddress]
+                                                ,[DeliveryCity]
+                                                ,[DeliveryState]
+                                                ,[RecipientEmail]
+                                                ,[RecipientPhone]
+                                                ,[RecipientFirstName]
+                                                ,[RecipientLastName]
                                                 ,[IsActive])
                                             Output inserted.Id
                                             VALUES
-                                            (@userId, @isCompleted, @totalPrice, @paymentTypeId, @deliveryAddress, @isActive)";
+                                            (@userId, @isCompleted, @totalPrice, @paymentTypeId, @deliveryAddress, @deliveryCity, @deliveryState, @recipientEmail, @recipientPhone, @recipientFirstName, @recipientLastName, @isActive)";
             using var db = new SqlConnection(_connectionString);
             var newId = db.ExecuteScalar<int>(sqlInsert, orderToAdd);
 
@@ -270,6 +287,12 @@ namespace WildflowerCoffeeGifts.DataAccess
                                         ,[PaymentTypeId] = @paymentTypeId
                                         ,[PurchaseDate] = @purchaseDate
                                         ,[DeliveryAddress] = @deliveryAddress
+                                        ,[DeliveryCity] = @deliveryCity
+                                        ,[DeliveryState] = @deliveryState
+                                        ,[RecipientEmail] = @recipientEmail
+                                        ,[RecipientPhone] = @recipientPhone
+                                        ,[RecipientFirstName] = @recipientFirstName
+                                        ,[RecipientLastName] = @recipientLastName
                                         ,[IsActive] = @isActive
                                     OUTPUT INSERTED.*
                                     WHERE Id = @id";
@@ -282,6 +305,12 @@ namespace WildflowerCoffeeGifts.DataAccess
                 order.PaymentTypeId,
                 order.PurchaseDate,
                 order.DeliveryAddress,
+                order.DeliveryCity,
+                order.DeliveryState,
+                order.RecipientEmail,
+                order.RecipientPhone,
+                order.RecipientFirstName,
+                order.RecipientLastName,
                 order.IsActive,
                 id
             };
