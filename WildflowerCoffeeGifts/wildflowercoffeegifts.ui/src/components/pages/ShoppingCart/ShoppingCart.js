@@ -325,6 +325,31 @@ class ShoppingCart extends React.Component {
     this.setState({ ccv: e.target.value * 1 });
   }
 
+  addNewPaymentType = (e) => {
+    e.preventDefault();
+    const newPaymentTypeObject = {
+      paymentOption: 'Please enter a payment type.',
+      accountNo: 0,
+      expirationMonth: 0,
+      expirationYear: 0,
+      ccv: 0,
+      isActive: true,
+      userId: this.state.userId,
+    };
+    paymentTypesData.postPaymentType(newPaymentTypeObject)
+      .then((newPaymentTypeResponse) => {
+        console.error('NEW paymenttypeinfo', newPaymentTypeResponse);
+        this.setState({
+          selectedPaymentType: newPaymentTypeResponse.data,
+          paymentOption: newPaymentTypeResponse.data.paymentOption,
+          accountNo: newPaymentTypeResponse.data.accountNo,
+          expirationMonth: newPaymentTypeResponse.data.expirationMonth,
+          expirationYear: newPaymentTypeResponse.data.expirationYear,
+          ccv: newPaymentTypeResponse.data.ccv,
+        });
+      });
+  }
+
   // validateOrder = () => {
   //   const {
   //     cart,
@@ -764,6 +789,7 @@ class ShoppingCart extends React.Component {
                     </DropdownToggle>
                       <DropdownMenu>
                         {buildPaymentTypes()}
+                        <DropdownItem key='newCard' value='newCard' onClick={this.addNewPaymentType}>Add a New Card</DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
             </div>
