@@ -5,9 +5,12 @@ import './SingleProduct.scss';
 
 import PropTypes from 'prop-types';
 
+import productShape from '../../../helpers/propz/productShape';
+
 class SingleProduct extends React.Component {
   static propTypes = {
     authed: PropTypes.bool.isRequired,
+    product: productShape.productShape,
   }
 
   render() {
@@ -24,7 +27,7 @@ class SingleProduct extends React.Component {
            <p>Price: ${product.price}</p>
            {/* <p>Description: {product.description}</p> */}
            <p>Quantity Available: {product.quantityAvailable}</p>
-           <Link to={singleProductLink} authed={authed}>View Details</Link>
+           <Link to={singleProductLink} product={product} productId={product.id} authed={authed}>View Details</Link>
          </div>
       </div>
       </div>

@@ -9,11 +9,15 @@ import productOrdersData from '../../../helpers/data/productOrdersData';
 import paymentTypesData from '../../../helpers/data/paymentTypesData';
 import productsData from '../../../helpers/data/productsData';
 
+import productShape from '../../../helpers/propz/productShape';
+
 import './SingleProductView.scss';
 
 class SingleProductView extends React.Component {
   static propTypes = {
     authed: PropTypes.bool.isRequired,
+    product: productShape.productShape,
+    productId: PropTypes.number.isRequired,
   }
 
   state = {
@@ -186,8 +190,9 @@ class SingleProductView extends React.Component {
 
   render() {
     const { selectedProduct, productQuantityOnSingleView } = this.state;
+    const { authed, product } = this.props;
     const buildCartButton = () => {
-      const { authed } = this.props;
+      // const { authed } = this.props;
       console.error('auth', { authed });
       if (authed) {
         return (
