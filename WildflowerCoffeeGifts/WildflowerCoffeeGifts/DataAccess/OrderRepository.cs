@@ -190,6 +190,12 @@ namespace WildflowerCoffeeGifts.DataAccess
                                                 ,[TotalPrice]
                                                 ,[PaymentTypeId]
                                                 ,[DeliveryAddress]
+                                                ,[DeliveryCity]
+                                                ,[DeliveryState]
+                                                ,[RecipientEmail]
+                                                ,[RecipientPhone]
+                                                ,[RecipientFirstName]
+                                                ,[RecipientLastName]
                                                 ,[IsActive])
                                             Output inserted.Id
                                             VALUES
@@ -279,6 +285,12 @@ namespace WildflowerCoffeeGifts.DataAccess
                                         ,[PaymentTypeId] = @paymentTypeId
                                         ,[PurchaseDate] = @purchaseDate
                                         ,[DeliveryAddress] = @deliveryAddress
+                                        ,[DeliveryCity] = @deliveryCity
+                                        ,[DeliveryState] = @deliveryState
+                                        ,[RecipientEmail] = @recipientEmail
+                                        ,[RecipientPhone] = @recipientPhone
+                                        ,[RecipientFirstName] = @recipientFirstName
+                                        ,[RecipientLastName] = @recipientLastName
                                         ,[IsActive] = @isActive
                                     OUTPUT INSERTED.*
                                     WHERE Id = @id";
@@ -291,6 +303,11 @@ namespace WildflowerCoffeeGifts.DataAccess
                 order.PaymentTypeId,
                 order.PurchaseDate,
                 order.DeliveryAddress,
+                order.DeliveryState,
+                order.RecipientEmail,
+                order.RecipientPhone,
+                order.RecipientFirstName,
+                order.RecipientLastName,
                 order.IsActive,
                 id
             };

@@ -45,14 +45,14 @@ class ShoppingCart extends React.Component {
     recipientLastName: '',
     deliveryAddress: '',
     deliveryCity: '',
-    deliveryState: '',
+    deliveryState: 0,
     userEmail: '',
     userPhoneNumber: 0,
     userFirstName: '',
     userLastName: '',
     userAddress: '',
     userCity: '',
-    userState: '',
+    userState: 0,
     paymentOption: '',
     accountNo: 0,
     expirationMonth: 0,
@@ -86,11 +86,18 @@ class ShoppingCart extends React.Component {
   getUser = () => {
     const { userId } = this.state;
     usersData.getSingleUser(userId)
-      .then((response) => {
+      .then((userResponse) => {
         this.setState({
-          user: response.data,
+          user: userResponse.data,
+          userEmail: userResponse.data.email,
+          userPhoneNumber: userResponse.data.phoneNumber,
+          userFirstName: userResponse.data.firstName,
+          userLastName: userResponse.data.lastName,
+          userAddress: userResponse.data.address,
+          userCity: userResponse.data.city,
+          userState: userResponse.data.usState,
         });
-        console.log('user', response);
+        console.log('user', userResponse);
       })
       .catch((error) => console.error('Unable to get user record.', error));
   }
@@ -113,23 +120,44 @@ class ShoppingCart extends React.Component {
       paymentTypeId,
       selectedPaymentType,
       validOrder,
+      recipientEmail,
+      recipientPhone,
+      recipientFirstName,
+      recipientLastName,
+      deliveryAddress,
+      deliveryCity,
       deliveryState,
     } = this.state;
 
     ordersData.getCart(userId)
-      .then((response) => {
-        if (response.status === 200) {
+      .then((cartResponse) => {
+        if (cartResponse.status === 200) {
           this.setState({
-            cart: response.data,
-            cartId: response.data.id,
-            lineItems: response.data.lineItems,
-            paymentTypeId: response.data.paymentTypeId,
+            cart: cartResponse.data,
+            cartId: cartResponse.data.id,
+            lineItems: cartResponse.data.lineItems,
+            paymentTypeId: cartResponse.data.paymentTypeId,
+            // recipientEmail: cartResponse.data.recipientEmail,
+            // recipientPhone: cartResponse.data.recipientPhone,
+            // recipientFirstName: cartResponse.data.recipientFirstName,
+            // recipientLastName: cartResponse.data.recipientLastName,
+            // deliveryAddress: cartResponse.data.deliveryAddress,
+            // deliveryCity: cartResponse.data.deliveryCity,
+            // deliveryState: cartResponse.data.deliveryState,
           });
+          console.error('cart resp', cartResponse);
           if (paymentTypeId != null) {
             paymentTypesData.getSinglePaymentType(this.state.paymentTypeId)
               .then((paymentTypeResponse) => {
                 console.error('paymenttypeinfo', paymentTypeResponse);
-                this.setState({ selectedPaymentType: paymentTypeResponse.data });
+                this.setState({
+                  selectedPaymentType: paymentTypeResponse.data,
+                  paymentOption: paymentTypeResponse.data.paymentOption,
+                  accountNo: paymentTypeResponse.data.accountNo,
+                  expirationMonth: paymentTypeResponse.data.expirationMonth,
+                  expirationYear: paymentTypeResponse.data.expirationYear,
+                  ccv: paymentTypeResponse.data.ccv,
+                });
               });
           }
         } else {
@@ -140,15 +168,21 @@ class ShoppingCart extends React.Component {
             paymentTypeId: 0,
             selectedPaymentType: {},
             validOrder: false,
-            deliveryCity: '',
-            deliveryState: '',
-            recipientEmail: '',
-            recipientPhone: '',
-            recipientFirstName: '',
-            recipientLastName: '',
+            // deliveryAddress: '',
+            // deliveryCity: '',
+            // deliveryState: '',
+            // recipientEmail: '',
+            // recipientPhone: '',
+            // recipientFirstName: '',
+            // recipientLastName: '',
+            // paymentOption: '',
+            // accountNo: 0,
+            // expirationMonth: 0,
+            // expirationYear: 0,
+            // ccv: 0,
           });
         }
-        console.error('response', response);
+        console.error('cart from db', cartResponse);
         console.error('current cart', this.state.cart);
       })
       .catch((error) => console.error('Unable to get the shopping cart.', error));
@@ -187,9 +221,9 @@ class ShoppingCart extends React.Component {
     this.setState({ recipientEmail: e.target.value });
   }
 
-  changeRecipientPhone = (e) => {
+  changeRecipientPhoneNumber = (e) => {
     e.preventDefault();
-    this.setState({ recipientPhone: e.target.value });
+    this.setState({ recipientPhone: e.target.value * 1 });
   }
 
   changeRecipientFirstName = (e) => {
@@ -214,7 +248,7 @@ class ShoppingCart extends React.Component {
 
   changeDeliveryState = (e) => {
     e.preventDefault();
-    this.setState({ deliveryState: e.target.value });
+    this.setState({ deliveryState: e.target.value * 1 });
   }
 
   changeUserEmail = (e) => {
@@ -224,7 +258,7 @@ class ShoppingCart extends React.Component {
 
   changeUserPhoneNumber = (e) => {
     e.preventDefault();
-    this.setState({ userPhoneNumber: e.target.value });
+    this.setState({ userPhoneNumber: e.target.value * 1 });
   }
 
   changeUserFirstName = (e) => {
@@ -249,32 +283,32 @@ class ShoppingCart extends React.Component {
 
   changeUserState = (e) => {
     e.preventDefault();
-    this.setState({ userState: e.target.value });
+    this.setState({ userState: e.target.value * 1 });
   }
 
-  changePaymentOption = (e) => {
+  changePaymentType = (e) => {
     e.preventDefault();
-    this.setState({ paymentOption: e.target.value });
+    this.setState({ paymentOption: e.target.value * 1 });
   }
 
   changeAccountNo = (e) => {
     e.preventDefault();
-    this.setState({ accountNo: e.target.value });
+    this.setState({ accountNo: e.target.value * 1 });
   }
 
-  changeExpirationMonth = (e) => {
+  changeExpMonth = (e) => {
     e.preventDefault();
-    this.setState({ expirationMonth: e.target.value });
+    this.setState({ expirationMonth: e.target.value * 1 });
   }
 
-  changeExpirationYear = (e) => {
+  changeExpYear = (e) => {
     e.preventDefault();
-    this.setState({ expirationYear: e.target.value });
+    this.setState({ expirationYear: e.target.value * 1 });
   }
 
   changeCcv = (e) => {
     e.preventDefault();
-    this.setState({ ccv: e.target.value });
+    this.setState({ ccv: e.target.value * 1 });
   }
 
   // validateOrder = () => {
@@ -362,32 +396,79 @@ class ShoppingCart extends React.Component {
       recipientPhone,
       recipientFirstName,
       recipientLastName,
+      userEmail,
+      userPhoneNumber,
+      userFirstName,
+      userLastName,
+      userAddress,
+      userCity,
+      userState,
+      paymentOption,
+      accountNo,
+      expirationMonth,
+      expirationYear,
+      ccv,
       validOrder,
     } = this.state;
     const updatedOrder = {
-      userId,
+      id: cartId,
+      userId: cart.userId,
       isCompleted: true,
       totalPrice: cart.totalPrice,
       paymentTypeId: cart.paymentTypeId,
       purchaseDate: new Date,
-      deliveryAddress: cart.deliveryAddress,
       isActive: cart.isActive,
       lineItems: cart.lineItems,
-      deliveryCity,
-      deliveryState,
-      recipientEmail,
-      recipientPhone,
-      recipientFirstName,
-      recipientLastName,
+      deliveryAddress: this.state.deliveryAddress,
+      deliveryCity: this.state.deliveryCity,
+      deliveryState: this.state.deliveryState,
+      recipientEmail: this.state.recipientEmail,
+      recipientPhone: this.state.recipientPhone,
+      recipientFirstName: this.state.recipientFirstName,
+      recipientLastName: this.state.recipientLastName,
+    };
+    const updatedUser = {
+      id: user.Id,
+      isActive: user.isActive,
+      email: userEmail,
+      username: user.userName,
+      password: user.password,
+      phoneNumber: userPhoneNumber,
+      firstName: userFirstName,
+      lastName: userLastName,
+      address: userAddress,
+      city: userCity,
+      usState: userState,
+      dateCreated: user.dateCreated,
+      isActive: user.isActive,
+    };
+    const updatedPaymentType = {
+      id: selectedPaymentType.id,
+      paymentOption,
+      userId,
+      accountNo,
+      expirationMonth,
+      expirationYear,
+      ccv,
+      isActive,
     };
     // this.validateOrder();
     console.error(this.state.lineItems.length, cart.recipientLastName, cart.deliveryAddress, cart.deliveryCity, cart.deliveryState, user.firstName, user.lastName, user.address, user.city, user.usState, selectedPaymentType.paymentOption, selectedPaymentType.accountNo, selectedPaymentType.expirationMonth, selectedPaymentType.expirationYear, selectedPaymentType.ccv);
     console.error('is it valid??', this.state.validOrder);
     if (this.state.validOrder == true) {
-      ordersData.updateOrder(cartId, updatedOrder)
-        .then(() => {
-          this.props.history.push('/products');
-          this.successfulPurchaseAlert();
+      paymentTypesData.updatePaymentType(selectedPaymentType.id, updatedPaymentType)
+        .then((updatedPaymentTypeResponse) => {
+          console.error('updatedpayment respo', updatedPaymentTypeResponse);
+          usersData.updateUser(userId, updatedUser)
+            .then((updatedUserResponse) => {
+              console.error('updateduser resp', updatedUserResponse);
+              ordersData.updateOrder(cartId, updatedOrder)
+                .then((updatedOrderResponse) => {
+                  console.error('updated order respo', updatedOrderResponse);
+                  this.successfulPurchaseAlert();
+                  this.props.history.push('/products');
+                });
+            });
         })
         .catch((error) => console.error('We could not finalize your order', error));
     } else {
@@ -472,7 +553,7 @@ class ShoppingCart extends React.Component {
               </div>
           }
           <div>
-            <Button className="wcgButton" onClick={this.toggleDeliveryInfo}>Add Delivery Information</Button>
+            <Button className="wcgButton" onClick={this.toggleDeliveryInfo}>Add Delivery Address</Button>
               <Collapse isOpen={isOpenDeliveryInfo}>
                 <Card className="newBlock">
                   <CardBody>
@@ -480,31 +561,31 @@ class ShoppingCart extends React.Component {
                       <h2>Delivery Information</h2>
                         <div className='form-group'>
                           <label htmlFor='recipientEmail'>Recipient Email Address</label>
-                          <input type='email' className='form-control' id='recipientEmail' placeholder='Please enter the email address of the recipient.' value={recipientEmail} onChange={this.changeRecipientEmail} />
+                          <input type='email' className='form-control' id='recipientEmail' placeholder='Please enter the email address of the recipient.' value={this.state.recipientEmail} onChange={this.changeRecipientEmail} />
                         </div>
                         <div className='form-group'>
                           <label htmlFor='recipientPhone'>Recipient Phone Number</label>
-                          <input type='text' className='form-control' id='recipientPhone' placeholder='Please enter a phone number for the recipient.' value={recipientPhone} onChange={this.changeRecipientPhoneNumber} />
+                          <input type='text' className='form-control' id='recipientPhone' placeholder='Please enter a phone number for the recipient.' value={this.state.recipientPhone} onChange={this.changeRecipientPhoneNumber} />
                         </div>
                         <div className='form-group'>
                           <label htmlFor='recipientFirstName'>First Name</label>
-                          <input className='form-control' type='text' id='recipientFirstName' placeholder='Please enter the first name of the recipient.' value={recipientFirstName} onChange={this.changeRecipientFirstName} />
+                          <input className='form-control' type='text' id='recipientFirstName' placeholder='Please enter the first name of the recipient.' value={this.state.recipientFirstName} onChange={this.changeRecipientFirstName} />
                         </div>
                         <div className='form-group'>
                           <label htmlFor='recipientLastName'>Last Name*</label>
-                          <input className='form-control' type='text' id='recipientLastName' placeholder='Please enter the last name of the recipient.' value={recipientLastName} onChange={this.changeRecipientLastName} />
+                          <input className='form-control' type='text' id='recipientLastName' placeholder='Please enter the last name of the recipient.' value={this.state.recipientLastName} onChange={this.changeRecipientLastName} />
                         </div>
                         <div className='form-group'>
                           <label htmlFor='recipientAddress'>Delivery Address*</label>
-                          <textarea className='form-control' id='recipientAddress' rows='2' placeholder='Please enter the delivery address.' value={deliveryAddress} onChange={this.changeDeliveryAddress}></textarea>
+                          <textarea className='form-control' id='recipientAddress' rows='2' placeholder='Please enter the delivery address.' value={this.state.deliveryAddress} onChange={this.changeDeliveryAddress}></textarea>
                         </div>
                         <div className='form-group'>
                           <label htmlFor='recipientCity'>Delivery City*</label>
-                          <input className='form-control' type='text' id='recipientCity' placeholder='Please enter delivery city.' value={deliveryCity} onChange={this.changeDeliveryCity} />
+                          <input className='form-control' type='text' id='recipientCity' placeholder='Please enter delivery city.' value={this.state.deliveryCity} onChange={this.changeDeliveryCity} />
                         </div>
                         <div className='form-group'>
                           <label htmlFor='recipientState'>Delivery State*</label>
-                          <select className='form-control' id='recipientState' placeholder={deliveryState} value={deliveryState} onChange={this.changeDeliveryState}>
+                          <select className='form-control' id='recipientState' placeholder={this.state.deliveryState} value={this.state.deliveryState} onChange={this.changeDeliveryState}>
                           <option value="0">Alabama</option>
                             <option value="1">Alaska</option>
                             <option value="2">Arizona</option>
@@ -564,7 +645,7 @@ class ShoppingCart extends React.Component {
                 </Collapse>
               </div>
               <div>
-                <Button className="wcgButton" onClick={this.toggleBillingInfo}>Add Billing Information</Button>
+                <Button className="wcgButton" onClick={this.toggleBillingInfo}>Add Billing Address</Button>
                   <Collapse isOpen={isOpenBillingInfo}>
                     <Card className="newBlock">
                       <CardBody>
@@ -656,7 +737,7 @@ class ShoppingCart extends React.Component {
                 </Collapse>
                 </div>
           <div>
-          <button type='submit' className='btn wcgButton' onClick={this.toggleModal}>Order</button>
+          <button type='submit' className='btn wcgButton' onClick={this.toggleModal}>Add Payment Details</button>
 
           {/* modal with payment info below: */}
           <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
@@ -698,7 +779,7 @@ class ShoppingCart extends React.Component {
             </div>
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" onClick={this.placeOrder}>Done</Button>{' '}
+                <Button color="primary" onClick={this.placeOrder}>Place Order</Button>{' '}
                 <Button color="secondary" onClick={this.toggleAllModals}>Cancel</Button>
               </ModalFooter>
             </Modal>
