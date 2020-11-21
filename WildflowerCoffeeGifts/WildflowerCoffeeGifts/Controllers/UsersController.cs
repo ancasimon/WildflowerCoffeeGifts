@@ -13,7 +13,7 @@ namespace WildflowerCoffeeGifts.Controllers
 
     [Route("api/users")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     // [AllowAnonymous] add this to any method that does not require auth
     public class UsersController : FirebaseEnabledController
     {
