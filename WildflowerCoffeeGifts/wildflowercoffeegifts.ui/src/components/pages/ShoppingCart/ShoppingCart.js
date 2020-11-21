@@ -38,7 +38,6 @@ class ShoppingCart extends React.Component {
     validOrder: true,
     isOpenDeliveryInfo: false,
     isOpenBillingInfo: false,
-    isOpenPaymentInfo: false,
     recipientEmail: '',
     recipientPhone: 0,
     recipientFirstName: '',
@@ -67,6 +66,10 @@ class ShoppingCart extends React.Component {
     this.setState({ modal: !this.setState.modal });
   }
 
+  closeModal = () => {
+    this.setState({ modal: false });
+  }
+
   toggleDropdown = () => {
     this.setState({ dropdownOpen: !this.state.dropdownOpen });
   }
@@ -77,10 +80,6 @@ class ShoppingCart extends React.Component {
 
   toggleBillingInfo = () => {
     this.setState({ isOpenBillingInfo: !this.setState.isOpenBillingInfo });
-  }
-
-  togglePaymentInfo = () => {
-    this.setState({ isOpenPaymentInfo: !this.setState.isOpenPaymentInfo });
   }
 
   getUser = () => {
@@ -499,7 +498,6 @@ class ShoppingCart extends React.Component {
       selectedPaymentType,
       isOpenDeliveryInfo,
       isOpenBillingInfo,
-      isOpenPaymentInfo,
       recipientEmail,
       recipientPhone,
       recipientFirstName,
@@ -521,6 +519,7 @@ class ShoppingCart extends React.Component {
       ccv,
       paymentTypes,
       dropdownOpen,
+      modal,
     } = this.state;
 
     const buildLineItems = () => lineItems.map((item) => (
@@ -795,7 +794,7 @@ class ShoppingCart extends React.Component {
               </ModalBody>
               <ModalFooter>
                 <Button color="primary" onClick={this.placeOrder}>Place Order</Button>{' '}
-                <Button color="secondary" onClick={this.toggleAllModals}>Cancel</Button>
+                <Button color="secondary" onClick={this.closeModal}>Cancel</Button>
               </ModalFooter>
             </Modal>
         </div>
