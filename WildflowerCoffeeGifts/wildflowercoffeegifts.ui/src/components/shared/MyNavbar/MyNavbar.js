@@ -42,6 +42,8 @@ class MyNavbar extends React.Component {
 
     const buildNavbar = () => {
       const { authed } = this.props;
+      console.error('auth in navbar', { authed });
+      // ANCA: the code block below builds the 2 alternate navbars based on whether use is authenticated or not:
       if (authed) {
         return (
           <Nav className="ml-auto NavList" navbar>
@@ -49,7 +51,7 @@ class MyNavbar extends React.Component {
               <NavLink tag={RRNavLink} to="/home" className='listItems'>Home</NavLink>
             </NavItem>
             <NavItem className="NavItem">
-              <NavLink tag={RRNavLink} to="/products" className='listItems'>Products</NavLink>
+              <NavLink tag={RRNavLink} to="/products" authed={authed} className='listItems'>Products</NavLink>
             </NavItem>
             <NavItem className="NavItem">
               <NavLink tag={RRNavLink} to="/orders" className='listItems'>Orders</NavLink>
@@ -83,6 +85,7 @@ class MyNavbar extends React.Component {
           </form>
         </Nav>;
     };
+    // ANCA: end alternate navbars code block here.
 
     return (
       <div className="MyNavbar">

@@ -1,11 +1,19 @@
 import React from 'react';
+
+import PropTypes from 'prop-types';
+
 import ProductThemes from '../ProductThemes/ProductThemes';
-import productsData from '../../../helpers/data/productsData';
 import SingleProduct from '../../shared/SingleProduct/SingleProduct';
+
+import productsData from '../../../helpers/data/productsData';
 
 import './Home.scss';
 
 class Home extends React.Component {
+  static propTypes = {
+    authed: PropTypes.bool.isRequired,
+  }
+
   state = { products: [] };
 
   componentDidMount() {
@@ -17,7 +25,8 @@ class Home extends React.Component {
 
   render() {
     const { products } = this.state;
-    const buildTwentyProducts = products.map((product) => (<SingleProduct key={product.id} product={product} />));
+    const { authed } = this.props;
+    const buildTwentyProducts = products.map((product) => (<SingleProduct key={product.id} product={product} authed={authed} />));
 
     return (
       <div>

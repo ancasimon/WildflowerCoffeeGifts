@@ -1,10 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import './SingleProduct.scss';
 
+import PropTypes from 'prop-types';
+
 class SingleProduct extends React.Component {
+  static propTypes = {
+    authed: PropTypes.bool.isRequired,
+  }
+
   render() {
-    const { product } = this.props;
+    const { product, authed } = this.props;
     const singleProductLink = `/products/${product.id}`;
     return (
       <div className="col-4 p-1">
@@ -17,7 +24,7 @@ class SingleProduct extends React.Component {
            <p>Price: ${product.price}</p>
            {/* <p>Description: {product.description}</p> */}
            <p>Quantity Available: {product.quantityAvailable}</p>
-           <Link to={singleProductLink}>View Details</Link>
+           <Link to={singleProductLink} authed={authed}>View Details</Link>
          </div>
       </div>
       </div>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import PropTypes from 'prop-types';
+
 import ShoppingCart from '../ShoppingCart/ShoppingCart';
 import ordersData from '../../../helpers/data/ordersData';
 import productOrdersData from '../../../helpers/data/productOrdersData';
@@ -10,6 +12,10 @@ import productsData from '../../../helpers/data/productsData';
 import './SingleProductView.scss';
 
 class SingleProductView extends React.Component {
+  static propTypes = {
+    authed: PropTypes.bool.isRequired,
+  }
+
   state = {
     selectedProduct: {},
     selectedProductId: this.props.match.params.id, // we may need to move this to props when we do the product cards and pass down the id of the card selected ...
@@ -180,6 +186,18 @@ class SingleProductView extends React.Component {
 
   render() {
     const { selectedProduct, productQuantityOnSingleView } = this.state;
+    const buildCartButton = () => {
+      const { authed } = this.props;
+      console.error('auth', { authed });
+      if (authed) {
+        return (
+          <button className="cart" type="submit" className="btn" onClick={this.addToCart}>Add to Cart</button>
+        );
+      }
+      return (
+        <Link to='/login' className="btn">Please Log In to Add to Cart</Link>
+      );
+    };
 
     return (
             <div>
@@ -201,7 +219,7 @@ class SingleProductView extends React.Component {
                       <p><b>Flower Arrangement:</b> {selectedProduct.flowerArrName}</p>
                       <label htmlFor="product-quantity"><b>Quantity:</b></label>
                       <input id="product-quantity" className="qty-input" type="text" value={productQuantityOnSingleView} onChange={this.changeproductQuantityOnSingleView} />
-                      <button className="cart" type="submit" className="btn" onClick={this.addToCart}>Add to Cart</button>
+                      {buildCartButton()}
                     </div>
                     </div>
                     </div>
