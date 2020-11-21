@@ -32,7 +32,7 @@ class ShoppingCart extends React.Component {
     cartId: 0,
     lineItems: [],
     user: {},
-    userId: 5,
+    userId: 22,
     paymentTypeId: 0,
     selectedPaymentType: {},
     validOrder: true,
