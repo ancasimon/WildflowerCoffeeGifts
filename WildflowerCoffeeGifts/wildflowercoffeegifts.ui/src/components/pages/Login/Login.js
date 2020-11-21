@@ -12,6 +12,10 @@ class Login extends React.Component {
       password: '',
       firstName: '',
       lastName: '',
+      streetAddress: '',
+      city: '',
+      citystate: '',
+      zipcode: '',
     },
   }
 
@@ -52,6 +56,30 @@ class Login extends React.Component {
       .catch((error) => {
         console.error('there was an error logging out', error);
       });
+  };
+
+  streetAddressChange = (e) => {
+    const tempUser = { ...this.state.user };
+    tempUser.streetAddress = e.target.value;
+    this.setState({ user: tempUser });
+  };
+
+  cityChange = (e) => {
+    const tempUser = { ...this.state.user };
+    tempUser.city = e.target.value;
+    this.setState({ user: tempUser });
+  };
+
+  cityStateChange = (e) => {
+    const tempUser = { ...this.state.user };
+    tempUser.cityState = e.target.value;
+    this.setState({ user: tempUser });
+  };
+
+  zipcodeChange = (e) => {
+    const tempUser = { ...this.state.user };
+    tempUser.zipcode = e.target.value;
+    this.setState({ user: tempUser });
   };
 
   firstNameChange = (e) => {
@@ -162,6 +190,66 @@ class Login extends React.Component {
                   placeholder="Please enter last name"
                   value={this.state.user.lastName}
                   onChange={this.lastNameChange}
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="inputStreetAddress" className="col-sm-4 control-label">
+                Street Address:
+              </label>
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputStreetAddress"
+                  placeholder="Please enter street address"
+                  value={this.state.user.streetAddress}
+                  onChange={this.streetAddressChange}
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="inputcity" className="col-sm-4 control-label">
+                City:
+              </label>
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputcity"
+                  placeholder="Please enter city"
+                  value={this.state.user.city}
+                  onChange={this.cityChange}
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="inputcityState" className="col-sm-4 control-label">
+                CityState:
+              </label>
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputcityState"
+                  placeholder="Please enter state"
+                  value={this.state.user.cityState}
+                  onChange={this.cityStateChange}
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="inputzipcode" className="col-sm-4 control-label">
+                ZipCode:
+              </label>
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputzipcode"
+                  placeholder="Please enter zipcode"
+                  value={this.state.user.zipcode}
+                  onChange={this.zipcodeChange}
                 />
               </div>
             </div>
