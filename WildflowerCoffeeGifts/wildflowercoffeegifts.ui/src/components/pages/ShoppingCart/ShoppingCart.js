@@ -539,7 +539,7 @@ class ShoppingCart extends React.Component {
               ? <div>
                   <p>Your cart is empty!</p>
                   <p>Click Start Shopping below to get started!</p>
-                  <div className="p-1">
+                  <div className="p-2">
                     <button type='submit' className='btn wcgButton' onClick={this.createCart}>Start Shopping</button>
                     </div>
                 </div>
@@ -561,7 +561,7 @@ class ShoppingCart extends React.Component {
                   {buildLineItems()}
                 </Table>
               </div>
-              <div className="pb-3 pt-3">
+              <div className="pb-5 pt-3">
                 <Link to='/products' className="wcgButton">Continue Shopping</Link>
               </div>
               </div>
