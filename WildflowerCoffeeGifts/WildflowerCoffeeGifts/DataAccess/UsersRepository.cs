@@ -72,20 +72,20 @@ namespace WildflowerCoffeeGifts.DataAccess
             return selectedUser;
         }
 
-        //public User GetUserIdByUid(int uid)
-        //{
-        //    using var db = new SqlConnection(_connectionString);
+        public User GetUserByUid(int uid)
+        {
+            using var db = new SqlConnection(_connectionString);
 
-        //    var query = @"select *
-        //                    from Users
-        //                    where Uid = @Uid";
+            var query = @"select *
+                            from Users
+                            where Uid = @uid";
 
-        //    var parameters = new { uid = UserId }; //WHAT VALUE DO I USE HERE TO DEFINE THE UID???
+            var parameters = new { uid }; //WHAT VALUE DO I USE HERE TO DEFINE THE UID???
 
-        //    var selectedUser = db.QueryFirstOrDefault<User>(query, parameters);
+            var selectedUser = db.QueryFirstOrDefault<User>(query, parameters);
 
-        //    return selectedUserId;
-        //}
+            return selectedUser;
+        }
 
         public User Update(int id, User user)
         {

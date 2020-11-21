@@ -39,6 +39,15 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(selectedUser);
         }
 
+        // trying!! get user by uid??
+        [HttpGet("uid/{uid}")]
+        public IActionResult GetUserByUid(int uid)
+        {
+            var selectedUser = _userRepo.GetUserByUid(uid);
+            if (selectedUser == null) return NotFound("We did not find a user with that UID. Please try again.");
+            return Ok(selectedUser);
+        }
+
         [HttpPost]
         public IActionResult CreateUser(User user) 
         {
