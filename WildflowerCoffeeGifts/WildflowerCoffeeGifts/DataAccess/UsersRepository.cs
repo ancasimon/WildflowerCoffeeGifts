@@ -14,6 +14,12 @@ namespace WildflowerCoffeeGifts.DataAccess
 
         const string _connectionString = "Server=localhost;Database=WCG;Trusted_Connection=True";
 
+        public string Address { get; set; }
+        public string City { get; set; }
+        public Int64 PhoneNumber { get; set; }
+        public UsStates UsState { get; set; }
+        public string Uid { get; set; }
+
         public void Add(User userToAdd)
         {
             var sql = @"INSERT INTO [dbo].[Users]
@@ -25,10 +31,14 @@ namespace WildflowerCoffeeGifts.DataAccess
                                  ,[Password]
                                  ,[IsActive]
                                  ,[Uid]   
+                                 ,[Address]
+                                 ,[City]
+                                 ,[PhoneNumber]
+                                 ,[UsState]
                                  )
                                 Output inserted.id
                                 VALUES
-                                (@Email,@FirstName,@LastName,@Email,GETDATE(),@Password,@IsActive,@Uid)";
+                                (@Email,@FirstName,@LastName,@Email,GETDATE(),@Password,@IsActive,@Uid, @Address, @City, @PhoneNumber, @UsState)";
             using var db = new SqlConnection(_connectionString);
 
             var newId = db.ExecuteScalar<int>(sql, userToAdd);
@@ -62,6 +72,21 @@ namespace WildflowerCoffeeGifts.DataAccess
             return selectedUser;
         }
 
+        //public User GetUserIdByUid(int uid)
+        //{
+        //    using var db = new SqlConnection(_connectionString);
+
+        //    var query = @"select *
+        //                    from Users
+        //                    where Uid = @Uid";
+
+        //    var parameters = new { uid = UserId }; //WHAT VALUE DO I USE HERE TO DEFINE THE UID???
+
+        //    var selectedUser = db.QueryFirstOrDefault<User>(query, parameters);
+
+        //    return selectedUserId;
+        //}
+
         public User Update(int id, User user)
         {
             var sql = @"UPDATE Users
@@ -72,6 +97,10 @@ namespace WildflowerCoffeeGifts.DataAccess
                                  ,[DateCreated] = @DateCreated
                                  ,[Password] = @Password
                                  ,[IsActive] = @IsActive
+                                 ,[Address] = @Address
+                                 ,[City] = @City
+                                 ,[PhoneNumber] = @PhoneNumber
+                                 ,[UsState] = @UsState
                     output inserted.*
                     Where id = @id";
 
@@ -86,6 +115,10 @@ namespace WildflowerCoffeeGifts.DataAccess
                  user.DateCreated,
                  user.Password,
                  user.IsActive,
+                 user.Address,
+                 user.City,
+                 user.PhoneNumber,
+                 user.UsState,
                  id
               };
 

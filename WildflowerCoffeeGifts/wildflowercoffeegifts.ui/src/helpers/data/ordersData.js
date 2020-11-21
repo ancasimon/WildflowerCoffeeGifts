@@ -9,6 +9,8 @@ const postOrder = (newOrder) => axios.post(`${baseUrl}/orders`, newOrder);
 
 const createCart = (userId) => axios.post(`${baseUrl}/orders/cart/${userId}`, userId);
 
+const updateOrder = (orderId, updatedOrder) => axios.put(`${baseUrl}/orders/${orderId}`, updatedOrder);
+
 const viewAllOrders = () => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/orders/history`)
     .then((response) => {
@@ -23,5 +25,6 @@ export default {
   postOrder,
   getCart,
   createCart,
+  updateOrder,
   viewAllOrders,
 };

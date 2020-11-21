@@ -17,7 +17,7 @@ class SingleProduct extends React.Component {
            <p>Price: ${product.price}</p>
            {/* <p>Description: {product.description}</p> */}
            <p>Quantity Available: {product.quantityAvailable}</p>
-           <Link to={singleProductLink}>View Details</Link>
+           <Link to={singleProductLink} className="wcgButton p-2">View Details</Link>
          </div>
       </div>
       </div>

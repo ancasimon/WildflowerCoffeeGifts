@@ -16,6 +16,12 @@ namespace WildflowerCoffeeGifts.Models
         public string DeliveryAddress { get; set; }
         public bool IsActive { get; set; } = true;
         public List<ProductOrderWithProductInfo> LineItems { get; set; } = new List<ProductOrderWithProductInfo>();
+        public string DeliveryCity { get; set; }
+        public UsStates DeliveryState { get; set; }
+        public string RecipientEmail { get; set; }
+        public Int64 RecipientPhone { get; set; }
+        public string RecipientFirstName { get; set; }
+        public string RecipientLastName { get; set; }
 
     }
 }

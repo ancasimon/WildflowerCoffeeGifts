@@ -13,7 +13,7 @@ class SingleProductView extends React.Component {
   state = {
     selectedProduct: {},
     selectedProductId: this.props.match.params.id, // we may need to move this to props when we do the product cards and pass down the id of the card selected ...
-    userId: 19,
+    userId: 22,
     cart: {},
     lineItems: [],
     productQuantityOnSingleView: 1,
@@ -201,7 +201,7 @@ class SingleProductView extends React.Component {
                       <p><b>Flower Arrangement:</b> {selectedProduct.flowerArrName}</p>
                       <label htmlFor="product-quantity"><b>Quantity:</b></label>
                       <input id="product-quantity" className="qty-input" type="text" value={productQuantityOnSingleView} onChange={this.changeproductQuantityOnSingleView} />
-                      <button className="cart" type="submit" className="btn" onClick={this.addToCart}>Add to Cart</button>
+                      <button className="cart" type="submit" className="btn wcgButton" onClick={this.addToCart}>Add to Cart</button>
                     </div>
                     </div>
                     </div>

@@ -14,7 +14,7 @@ namespace WildflowerCoffeeGifts.Controllers
     [ApiController]
     [Authorize]
     // [AllowAnonymous] add this to any method that does not require auth
-    public class OrdersController : ControllerBase
+    public class OrdersController : FirebaseEnabledController
     {
         OrderRepository _orderRepo;
         public OrdersController()

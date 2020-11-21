@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Petit+Formal+Script&display=swap');
+@import '../../../styles/variables'; 
 
 .active {
     color: black;  
@@ -17,7 +18,7 @@
 }
 
 .MyNavbar {
-    background-color: #4d0019;
+    background-color: $darkRed;
 }
 
 .NavItem {
