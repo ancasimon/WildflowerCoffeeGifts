@@ -454,7 +454,7 @@ class ShoppingCart extends React.Component {
       userId: cart.userId,
       isCompleted: true,
       totalPrice: cart.totalPrice,
-      paymentTypeId: cart.paymentTypeId,
+      paymentTypeId: this.state.selectedPaymentType.id,
       purchaseDate: new Date,
       isActive: cart.isActive,
       lineItems: cart.lineItems,
@@ -482,7 +482,7 @@ class ShoppingCart extends React.Component {
       isActive: user.isActive,
     };
     const updatedPaymentType = {
-      id: selectedPaymentType.id,
+      id: this.state.selectedPaymentType.id,
       paymentOption,
       userId,
       accountNo,
