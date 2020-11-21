@@ -22,5 +22,9 @@ const getProfileUser = (id) => axios.get(`${baseUrl}/users/${id}/profile`);
 
 const updateUser = (userId, updatedUser) => axios.put(`${baseUrl}/users/${userId}`, updatedUser);
 
-export default { getAllUsers, getSingleUser, getProfileUser, updateUser };
-
+export default {
+  getAllUsers,
+  getSingleUser,
+  getProfileUser,
+  updateUser,
+};
