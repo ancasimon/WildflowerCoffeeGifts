@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import {
   BrowserRouter,
   Route,
@@ -20,23 +22,52 @@ import './App.scss';
 
 fbConnection();
 
+const PrivateRoute = ({ component: Component, authed, ...rest }) => {
+  const routeChecker = (props) => (authed === true
+    ? (<Component { ...props } />)
+    : (<Redirect to={{ pathname: '/login', state: { from: props.location } }} />));
+  return <Route {...rest} render={(props) => routeChecker(props)} />;
+};
+
 class App extends React.Component {
+  state = {
+    authed: false,
+  }
+
+  componentDidMount() {
+    this.removeListener = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ authed: true });
+      } else {
+        this.setState({ authed: false });
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.removeListener();
+  }
+
   render() {
+    const { authed } = this.state;
+
     return (
       <div className="App">
         <BrowserRouter>
           <React.Fragment>
-            <MyNavbar />
+            <MyNavbar authed={authed} />
             <div className="container">
               <div className="row">
                 <Switch>
-                 <Route path='/login' component={Login}></Route>
-                  <Route path='/cart' component={ShoppingCart} />
-                  <Route path='/orders' component={Orders} />
-                  <Route path='/products/search/:searchWord' component={SearchedProducts} />
-                  <Route path='/products/:id' component={SingleProductView} />
-                  <Route path='/products' component={Products} />
-                  <Route path='/' component={Home} />
+                  <Route path='/login' component={Login} authed={authed}></Route>
+                  <PrivateRoute path='/cart' component={ShoppingCart} authed={authed} />
+                  <PrivateRoute path='/orders' component={Orders} authed={authed} />
+                  <Route path='/products/search/:searchWord' component={SearchedProducts} authed={authed} />
+                  <Route path='/products/:id' component={SingleProductView} authed={authed} />
+                  <Route path='/products' component={Products} authed={authed} />
+                  <Route path='/home' component={Home} authed={authed} />
+
+                  <Redirect from='*' to='/home' />
                 </Switch>
               </div>
             </div>
