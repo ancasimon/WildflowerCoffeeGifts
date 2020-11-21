@@ -54,14 +54,18 @@ namespace WildflowerCoffeeGifts.DataAccess
             return latestPaymentTypeForUser;
         }
 
-        public IEnumerable<PaymentType> GetAllPaymentTypesByUserId(int userId)
+        // updated method below to use uid!!
+        public IEnumerable<PaymentType> GetAllPaymentTypesByUserUid(string uid)
         {
             using var db = new SqlConnection(_connectionString);
-            var sqlForAllPaymentTypesByUserId = @"select * from PaymentTypes
-                                                    where UserId = @userId AND IsActive = 1
-                                                    order by Id desc";
-            var parameterForUserId = new { userId };
-            var allPaymentTypes = db.Query<PaymentType>(sqlForAllPaymentTypesByUserId, parameterForUserId);
+            var sqlForAllPaymentTypesByUserUid = @"select * 
+                                                from PaymentTypes pt
+                                                        join Users u
+                                                            on pt.UserId = u.Id
+                                                    where u.Uid = @uid AND pt.IsActive = 1
+                                                    order by pt.Id desc";
+            var parameterForUserUid = new { uid };
+            var allPaymentTypes = db.Query<PaymentType>(sqlForAllPaymentTypesByUserUid, parameterForUserUid);
 
             return allPaymentTypes;
         }

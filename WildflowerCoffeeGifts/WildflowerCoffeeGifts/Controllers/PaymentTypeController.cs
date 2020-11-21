@@ -14,7 +14,7 @@ namespace WildflowerCoffeeGifts.Controllers
     [ApiController]
     [Authorize]
     // [AllowAnonymous] add this to any method that does not require auth
-    public class PaymentTypeController : ControllerBase
+    public class PaymentTypeController : FirebaseEnabledController
     {
         PaymentTypeRepository _paymentTypeRepo;
         public PaymentTypeController()
@@ -31,9 +31,9 @@ namespace WildflowerCoffeeGifts.Controllers
         }
 
         [HttpGet("all/{userId}")]
-        public IActionResult GetAllPaymentTypesByUserId(int userId)
+        public IActionResult GetAllPaymentTypesByUserUd(string uid)
         {
-            var allPaymentTypesForSelectedUser = _paymentTypeRepo.GetAllPaymentTypesByUserId(userId);
+            var allPaymentTypesForSelectedUser = _paymentTypeRepo.GetAllPaymentTypesByUserUid(UserId);
 
             return Ok(allPaymentTypesForSelectedUser);
         }

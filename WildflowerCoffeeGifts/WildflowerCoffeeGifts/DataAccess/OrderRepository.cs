@@ -130,13 +130,13 @@ namespace WildflowerCoffeeGifts.DataAccess
             using var db = new SqlConnection(_connectionString);
 
             // get the details of the order id for the userId passed in as a parameter:
-            var parameterUserId = new { Uid = uid };
+            var parameterUserUid = new { Uid = uid };
             var queryForOrder = @"select *
                                 from Orders o
                                     join Users u
                                         on o.UserId = u.Id
                                 where u.Uid = @Uid AND o.IsCompleted = 0 AND o.IsActive=1"; //what is on the left side of the equation here is the variable I am declaring - and I am filling it with the data on the right, which is the parameter we are passing in to the method / and the variable is calling that parameter!!          
-            var selectedOrder = db.QueryFirstOrDefault<Order>(queryForOrder, parameterUserId);
+            var selectedOrder = db.QueryFirstOrDefault<Order>(queryForOrder, parameterUserUid);
 
             if (selectedOrder != null)
             {
@@ -205,15 +205,28 @@ namespace WildflowerCoffeeGifts.DataAccess
 
 
         // created a new method that gets the latest payment type record for the user -and if none is available, then it creates a default payment type - and then creates an order for that user, using that payment type:
-        public Order CreateShoppingCart(int userId)
+        // updating method below to use uid!!
+        public Order CreateShoppingCart(string uid)
         {
             using var db = new SqlConnection(_connectionString);
-            // get the latest payment type for the user:
-            var parameterUserId = new { userId };
+            // find the user first based on uid!
+            var parameterUserUid = new { Uid = uid };
+
             var queryForLatestPaymentType = @"select *
-                                            from PaymentTypes
-                                            where UserId = @userId and IsActive = 1";
-            var latestPayment = db.QueryFirstOrDefault<PaymentType>(queryForLatestPaymentType, parameterUserId);
+                                            from PaymentTypes pt
+                                                join Users u
+                                                    on pt.UserId = u.Id
+                                            where u.uid = @uid and pt.IsActive = 1
+                                            order by pt.Id desc";
+            var latestPayment = db.QueryFirstOrDefault<PaymentType>(queryForLatestPaymentType, parameterUserUid);
+
+            //var queryForUserId = @"select *
+            //                    from Users u
+            //                    where u.Uid = @Uid";
+            //var selectedUserId = db.ExecuteScalar<int>(queryForUserId, parameterUserUid);
+
+            //var parameterUserId = new { UserId : selectedUserId };
+
             if (latestPayment == null)
             {
                 var createDefaultPaymentType = @"INSERT INTO [dbo].[PaymentTypes]
@@ -222,17 +235,19 @@ namespace WildflowerCoffeeGifts.DataAccess
                                                                      [AccountNo],
                                                                      [ExpirationYear],
                                                                      [ExpirationMonth],
-                                                                     [IsActive])
+                                                                     [IsActive],
+                                                                     [Ccv])
                                                 Output inserted.Id
                                                 VALUES 
                                                     ('Please specify a payment type.',
-                                                    @userId,
+                                                    20,
                                                     '',
                                                     '',
                                                     '',
-                                                    1)";
+                                                    1,
+                                                    0)";
 
-                var newPaymentTypeId = db.ExecuteScalar<int>(createDefaultPaymentType, parameterUserId);
+                var newPaymentTypeId = db.ExecuteScalar<int>(createDefaultPaymentType, parameterUserUid);
 
                 var getPaymentType = @"select *
                                    from PaymentTypes
@@ -257,9 +272,9 @@ namespace WildflowerCoffeeGifts.DataAccess
                                                 ,[IsActive])
                                             Output inserted.Id
                                             VALUES
-                                            (@userId, 0, 0, @latestPaymentTypeId, 'Please enter an address.', 1)";
+                                            (20, 0, 0, @latestPaymentTypeId, 'Please enter an address.', 1)";
 
-            var parametersForNewOrder = new { userId, latestPaymentTypeId };
+            var parametersForNewOrder = new { parameterUserUid, latestPaymentTypeId };
             var newOrderId = db.ExecuteScalar<int>(createOrder, parametersForNewOrder);
 
             var sqlGetOrder = "select * from Orders where Id = @id";

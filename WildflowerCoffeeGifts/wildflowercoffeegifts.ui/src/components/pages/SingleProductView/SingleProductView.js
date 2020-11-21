@@ -25,7 +25,7 @@ class SingleProductView extends React.Component {
     productInCart: false,
     relatedLineItemId: 0,
     relatedLineItem: {},
-    uid: authData.getUid(),
+    uid: 0,
   }
 
   buildSingleView = () => {
@@ -42,9 +42,10 @@ class SingleProductView extends React.Component {
   }
 
   getUserIdByUid = () => {
-    // const uid = authData.getUid();
-    console.error('uid!!!', this.state.uid);
-    usersData.getUserIdByUid(this.state.uid)
+    const uid = authData.getUid();
+    console.error('uid!!!', uid);
+    this.setState({ uid });
+    usersData.getUserIdByUid(uid)
       .then((userIdResponse) => {
         console.error('userresp', userIdResponse);
         this.setState({ userId: userIdResponse.data });
@@ -75,6 +76,7 @@ class SingleProductView extends React.Component {
               this.setState({
                 cart: orderResponse.data,
                 lineItems: orderResponse.data.lineItems,
+                userId: this.state.userId,
               });
               console.error('line items', this.state.lineItems);
               for (let i = 0; i < orderResponse.data.lineItems.length; i += 1) {
@@ -126,6 +128,7 @@ class SingleProductView extends React.Component {
     const {
       cart,
       userId,
+      uid,
       selectedProduct,
       selectedProductId,
       productQuantityOnSingleView,
@@ -136,8 +139,9 @@ class SingleProductView extends React.Component {
     } = this.state;
     this.getUserIdByUid(this.state.uid);
     if (cart == null) {
-      ordersData.createCart(userId)
+      ordersData.createCart(this.state.uid)
         .then((newOrderResponse) => {
+          console.error('order resp', newOrderResponse);
           this.setState({
             cart: newOrderResponse.data,
             lineItems: [],

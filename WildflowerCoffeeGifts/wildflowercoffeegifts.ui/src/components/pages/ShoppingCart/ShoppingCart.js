@@ -86,13 +86,14 @@ class ShoppingCart extends React.Component {
 
   getUser = () => {
     // const { userId } = this.state;
-    const uid = authData.getUid();
-    console.error('uid!!!', uid);
-    usersData.getUserIdByUid(uid)
+    // const uid = authData.getUid();
+    // console.error('uid!!!', uid);
+    // this.setState({ uid });
+    usersData.getUserIdByUid(this.state.uid)
       .then((userIdResponse) => {
         console.error('userresp', userIdResponse);
         this.setState({ userId: userIdResponse.data });
-        usersData.getSingleUser(this.state.userId)
+        usersData.getSingleUser(userIdResponse.data)
           .then((userResponse) => {
             this.setState({
               user: userResponse.data,
@@ -112,7 +113,8 @@ class ShoppingCart extends React.Component {
 
   getPaymentTypes = () => {
     const { userId } = this.state;
-    paymentTypesData.getAllPaymentTypesByUserId(userId)
+    const { uid } = authData.getUid();
+    paymentTypesData.getAllPaymentTypesByUserUid(uid)
       .then((userPaymentTypesResponse) => {
         this.setState({ paymentTypes: userPaymentTypesResponse.data });
         console.error('pmt types', userPaymentTypesResponse.data);
@@ -135,6 +137,7 @@ class ShoppingCart extends React.Component {
       deliveryAddress,
       deliveryCity,
       deliveryState,
+      uid,
     } = this.state;
 
     ordersData.getCart(this.state.uid)
@@ -204,6 +207,9 @@ class ShoppingCart extends React.Component {
   }
 
   componentDidMount() {
+    const uid = authData.getUid();
+    console.error('uid upon load!!!', uid);
+    this.setState({ uid });
     this.buildCartPage();
     // this.validateOrder();
   }
@@ -213,12 +219,14 @@ class ShoppingCart extends React.Component {
     const {
       cart,
       userId,
+      uid,
     } = this.state;
-    ordersData.createCart(userId)
+    ordersData.createCart(uid)
       .then((newOrderResponse) => {
         this.setState({
           cart: newOrderResponse.data,
           lineItems: [],
+          userId: this.state.userId,
         });
       })
       .catch((error) => console.error('Unable to create the new shopping cart.', error));

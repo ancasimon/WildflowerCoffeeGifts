@@ -7,7 +7,7 @@ const getCart = (uid) => axios.get(`${baseUrl}/orders/cart/uid/${uid}`);
 
 const postOrder = (newOrder) => axios.post(`${baseUrl}/orders`, newOrder);
 
-const createCart = (userId) => axios.post(`${baseUrl}/orders/cart/${userId}`, userId);
+const createCart = (uid) => axios.post(`${baseUrl}/orders/cart/uid/${uid}`);
 
 const updateOrder = (orderId, updatedOrder) => axios.put(`${baseUrl}/orders/${orderId}`, updatedOrder);
 

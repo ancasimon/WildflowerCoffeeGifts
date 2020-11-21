@@ -61,11 +61,11 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(selectedOrder);
         }
 
-        // writing a new method here to create a shopping cart order:
-        [HttpPost("cart/{userId}")]
-        public IActionResult CreateShoppingCart(int userId)
+        // writing a new method here to create a shopping cart order: - // updating method below to use uid!!
+        [HttpPost("cart/uid/{userUid}")]
+        public IActionResult CreateShoppingCart(string uid)
         {
-            var newCart = _orderRepo.CreateShoppingCart(userId);
+            var newCart = _orderRepo.CreateShoppingCart(uid);
             return Created($"/api/orders/cart/{newCart.Id}", newCart);
         }
 
