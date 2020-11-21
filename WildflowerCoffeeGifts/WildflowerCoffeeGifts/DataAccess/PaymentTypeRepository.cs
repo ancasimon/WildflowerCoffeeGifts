@@ -87,7 +87,8 @@ namespace WildflowerCoffeeGifts.DataAccess
                          [AccountNo],
                          [ExpirationYear],
                          [ExpirationMonth],
-                         [IsActive])
+                         [IsActive],
+                         [Ccv])
                          Output inserted.Id
                         VALUES 
                          (@paymentOption,
@@ -95,7 +96,8 @@ namespace WildflowerCoffeeGifts.DataAccess
                           @accountNo,
                           @expirationYear,
                           @expirationMonth,
-                          @isActive)";
+                          @isActive,
+                          @ccv)";
 
             using var db = new SqlConnection(_connectionString);
 
@@ -120,7 +122,8 @@ namespace WildflowerCoffeeGifts.DataAccess
                           [AccountNo] = @accountNo,
                           [ExpirationYear] = @expirationYear,
                           [ExpirationMonth] = @expirationMonth,
-                          [IsActive] = @isActive
+                          [IsActive] = @isActive,
+                          [Ccv] = @ccv
                           OUTPUT INSERTED.*
                             WHERE Id = @id";
             using var db = new SqlConnection(_connectionString);
@@ -133,6 +136,7 @@ namespace WildflowerCoffeeGifts.DataAccess
                 updatedInfo.ExpirationYear,
                 updatedInfo.ExpirationMonth,
                 updatedInfo.IsActive,
+                updatedInfo.Ccv,
                 id
             };
 

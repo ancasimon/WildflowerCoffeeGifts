@@ -199,7 +199,7 @@ namespace WildflowerCoffeeGifts.DataAccess
                                                 ,[IsActive])
                                             Output inserted.Id
                                             VALUES
-                                            (@userId, @isCompleted, @totalPrice, @paymentTypeId, @deliveryAddress, @isActive)";
+                                            (@userId, @isCompleted, @totalPrice, @paymentTypeId, @deliveryAddress, @deliveryCity, @deliveryState, @recipientEmail, @recipientPhone, @recipientFirstName, @recipientLastName, @isActive)";
             using var db = new SqlConnection(_connectionString);
             var newId = db.ExecuteScalar<int>(sqlInsert, orderToAdd);
 
@@ -303,6 +303,7 @@ namespace WildflowerCoffeeGifts.DataAccess
                 order.PaymentTypeId,
                 order.PurchaseDate,
                 order.DeliveryAddress,
+                order.DeliveryCity,
                 order.DeliveryState,
                 order.RecipientEmail,
                 order.RecipientPhone,

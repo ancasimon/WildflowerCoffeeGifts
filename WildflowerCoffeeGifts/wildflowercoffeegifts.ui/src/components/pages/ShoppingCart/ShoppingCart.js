@@ -40,7 +40,7 @@ class ShoppingCart extends React.Component {
     isOpenBillingInfo: false,
     isOpenPaymentInfo: false,
     recipientEmail: '',
-    recipientPhone: '',
+    recipientPhone: 0,
     recipientFirstName: '',
     recipientLastName: '',
     deliveryAddress: '',
@@ -288,7 +288,7 @@ class ShoppingCart extends React.Component {
 
   changePaymentType = (e) => {
     e.preventDefault();
-    this.setState({ paymentOption: e.target.value * 1 });
+    this.setState({ paymentOption: e.target.value });
   }
 
   changeAccountNo = (e) => {
