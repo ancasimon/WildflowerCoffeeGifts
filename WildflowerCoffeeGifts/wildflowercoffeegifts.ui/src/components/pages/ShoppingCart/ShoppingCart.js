@@ -32,7 +32,7 @@ class ShoppingCart extends React.Component {
     cartId: 0,
     lineItems: [],
     user: {},
-    userId: 1,
+    userId: 5,
     paymentTypeId: 0,
     selectedPaymentType: {},
     validOrder: true,
@@ -286,6 +286,21 @@ class ShoppingCart extends React.Component {
     this.setState({ userState: e.target.value * 1 });
   }
 
+  changeSelectedPaymentType = (e) => {
+    const newlySelectedPaymentTypeRecord = this.state.paymentTypes.filter((x) => x.id === (e.target.value * 1));
+    console.error('newlyselctedpmt', newlySelectedPaymentTypeRecord);
+    e.preventDefault();
+    this.setState({
+      paymentTypeId: e.target.value * 1,
+      selectedPaymentType: newlySelectedPaymentTypeRecord[0],
+      paymentOption: newlySelectedPaymentTypeRecord[0].paymentOption,
+      accountNo: newlySelectedPaymentTypeRecord[0].accountNo,
+      expirationMonth: newlySelectedPaymentTypeRecord[0].expirationMonth,
+      expirationYear: newlySelectedPaymentTypeRecord[0].expirationYear,
+      ccv: newlySelectedPaymentTypeRecord[0].ccv,
+    });
+  }
+
   changePaymentType = (e) => {
     e.preventDefault();
     this.setState({ paymentOption: e.target.value });
@@ -513,7 +528,7 @@ class ShoppingCart extends React.Component {
     ));
 
     const buildPaymentTypes = () => paymentTypes.map((item) => (
-      <DropdownItem key={item.id} value={item.id}>{item.paymentOption}</DropdownItem>
+      <DropdownItem key={item.id} value={item.id} onClick={this.changeSelectedPaymentType}>{item.paymentOption}</DropdownItem>
     ));
 
     return (
@@ -757,23 +772,23 @@ class ShoppingCart extends React.Component {
               <form>
                 <div className='form-group'>
                   <label htmlFor='paymentOption'>Payment Type*</label>
-                  <input type='text' className='form-control' id='paymentOption' placeholder={paymentOption} value={paymentOption} onChange={this.changePaymentType} />
+                  <input type='text' className='form-control' id='paymentOption' placeholder={this.state.paymentOption} value={paymentOption} onChange={this.changePaymentType} />
                 </div>
                 <div className='form-group'>
                   <label htmlFor='paymentAccountNumber'>Account Number*</label>
-                  <input type='text' className='form-control' id='paymentAccountNumber' placeholder={accountNo} value={accountNo} onChange={this.changeAccountNo} />
+                  <input type='text' className='form-control' id='paymentAccountNumber' placeholder={this.state.accountNo} value={accountNo} onChange={this.changeAccountNo} />
                 </div>
                 <div className='form-group'>
                   <label htmlFor='paymentExpMonth'>Expiration Month*</label>
-                  <input className='form-control' type='text' id='paymentExpMonth' placeholder={expirationMonth} value={expirationMonth} onChange={this.changeExpMonth} />
+                  <input className='form-control' type='text' id='paymentExpMonth' placeholder={this.state.expirationMonth} value={expirationMonth} onChange={this.changeExpMonth} />
                 </div>
                 <div className='form-group'>
                   <label htmlFor='paymentExpYear'>Expiration Year*</label>
-                  <input className='form-control' type='text' id='paymentExpYear' placeholder={expirationYear} value={expirationYear} onChange={this.changeExpYear} />
+                  <input className='form-control' type='text' id='paymentExpYear' placeholder={this.state.expirationYear} value={expirationYear} onChange={this.changeExpYear} />
                 </div>
                 <div className='form-group'>
                   <label htmlFor='paymentCcv'>CCV*</label>
-                  <input className='form-control' id='text' id='paymentCcv' placeholder={ccv} value={ccv} onChange={this.changeCcv} ></input>
+                  <input className='form-control' id='text' id='paymentCcv' placeholder={this.state.ccv} value={ccv} onChange={this.changeCcv} ></input>
                 </div>
               </form>
             </div>
