@@ -17,9 +17,11 @@ namespace WildflowerCoffeeGifts.Controllers
     public class OrdersController : FirebaseEnabledController
     {
         OrderRepository _orderRepo;
+        UsersRepository _userRepo;
         public OrdersController()
         {
             _orderRepo = new OrderRepository();
+            _userRepo = new UsersRepository();
         }
 
         [HttpGet]
@@ -47,10 +49,11 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(selectedOrder);
         }
 
-        // method for getting the cart!!!
+        // method for getting the cart!!! UPDATED TO USE UID _ IS THIS CORRECT????? AND THEN I Need to go update the corresponding function in the Repo file to use uid????
         [HttpGet("cart/{userId}")]
-        public IActionResult GetCart(int userId)
+        public IActionResult GetCart(string uid)
         {
+            var userId = _userRepo.GetUserIdByUid(uid);
             if (_orderRepo.GetCart(userId) == null) return NoContent();
 
             var selectedOrder = _orderRepo.GetCart(userId);

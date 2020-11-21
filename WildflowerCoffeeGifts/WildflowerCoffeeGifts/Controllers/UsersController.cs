@@ -39,13 +39,13 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(selectedUser);
         }
 
-        // trying!! get user by uid??
+        // NEW method to get the user ID by the Firebase UID now that we haev authentication via Firebase:
         [HttpGet("uid/{uid}")]
-        public IActionResult GetUserByUid(int uid)
+        public IActionResult GetUserIdByUid(string uid)
         {
-            var selectedUser = _userRepo.GetUserByUid(uid);
-            if (selectedUser == null) return NotFound("We did not find a user with that UID. Please try again.");
-            return Ok(selectedUser);
+            var selectedUserId = _userRepo.GetUserIdByUid(uid);
+            if (selectedUserId == 0) return NotFound("We did not find a user with that UID. Please try again.");
+            return Ok(selectedUserId);
         }
 
         [HttpPost]
