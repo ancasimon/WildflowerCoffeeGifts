@@ -2,10 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import ShoppingCart from '../ShoppingCart/ShoppingCart';
+
+import authData from '../../../helpers/data/authData';
 import ordersData from '../../../helpers/data/ordersData';
 import productOrdersData from '../../../helpers/data/productOrdersData';
 import paymentTypesData from '../../../helpers/data/paymentTypesData';
 import productsData from '../../../helpers/data/productsData';
+import usersData from '../../../helpers/data/usersData';
 
 import './SingleProductView.scss';
 
@@ -13,7 +16,7 @@ class SingleProductView extends React.Component {
   state = {
     selectedProduct: {},
     selectedProductId: this.props.match.params.id, // we may need to move this to props when we do the product cards and pass down the id of the card selected ...
-    userId: 22,
+    userId: 0,
     cart: {},
     lineItems: [],
     productQuantityOnSingleView: 1,
@@ -22,6 +25,7 @@ class SingleProductView extends React.Component {
     productInCart: false,
     relatedLineItemId: 0,
     relatedLineItem: {},
+    uid: authData.getUid(),
   }
 
   buildSingleView = () => {
@@ -37,6 +41,17 @@ class SingleProductView extends React.Component {
       .catch((error) => console.error('Unable to get the selected product', error));
   }
 
+  getUserIdByUid = () => {
+    // const uid = authData.getUid();
+    console.error('uid!!!', this.state.uid);
+    usersData.getUserIdByUid(this.state.uid)
+      .then((userIdResponse) => {
+        console.error('userresp', userIdResponse);
+        this.setState({ userId: userIdResponse.data });
+      })
+      .catch((error) => console.error('Could not get user by UID.', error));
+  }
+
   getCart = () => {
     const {
       cart,
@@ -50,28 +65,33 @@ class SingleProductView extends React.Component {
       relatedLineItemId,
       relatedLineItem,
     } = this.state;
-    ordersData.getCart(userId)
-      .then((orderResponse) => {
-        if (orderResponse.status == 200) {
-          this.setState({
-            cart: orderResponse.data,
-            lineItems: orderResponse.data.lineItems,
-          });
-          console.error('line items', this.state.lineItems);
-          for (let i = 0; i < orderResponse.data.lineItems.length; i += 1) {
-            if (orderResponse.data.lineItems[i].productId == this.state.selectedProductId) {
-              this.setState({ previousQuantityInCart: orderResponse.data.lineItems[i].qty });
-              this.setState({ productInCart: true });
-              this.setState({ relatedLineItemId: orderResponse.data.lineItems[i].id });
-              this.setState({ relatedLineItem: orderResponse.data.lineItems[i] });
+    usersData.getUserIdByUid(this.state.uid)
+      .then((userIdResponse) => {
+        console.error('userresp', userIdResponse);
+        this.setState({ userId: userIdResponse.data });
+        ordersData.getCart(this.state.uid)
+          .then((orderResponse) => {
+            if (orderResponse.status == 200) {
+              this.setState({
+                cart: orderResponse.data,
+                lineItems: orderResponse.data.lineItems,
+              });
+              console.error('line items', this.state.lineItems);
+              for (let i = 0; i < orderResponse.data.lineItems.length; i += 1) {
+                if (orderResponse.data.lineItems[i].productId == this.state.selectedProductId) {
+                  this.setState({ previousQuantityInCart: orderResponse.data.lineItems[i].qty });
+                  this.setState({ productInCart: true });
+                  this.setState({ relatedLineItemId: orderResponse.data.lineItems[i].id });
+                  this.setState({ relatedLineItem: orderResponse.data.lineItems[i] });
+                }
+              }
+            } else {
+              this.setState({
+                cart: null,
+                lineItems: [],
+              });
             }
-          }
-        } else {
-          this.setState({
-            cart: null,
-            lineItems: [],
           });
-        }
       })
       .catch((error) => console.error('Unable to get the shopping cart.', error));
   }
@@ -86,6 +106,7 @@ class SingleProductView extends React.Component {
       productInCart,
     } = this.state;
     this.buildSingleView(selectedProductId);
+    this.getUserIdByUid();
     this.getCart(userId);
   }
 
@@ -113,12 +134,14 @@ class SingleProductView extends React.Component {
       relatedLineItemId,
       relatedLineItem,
     } = this.state;
+    this.getUserIdByUid(this.state.uid);
     if (cart == null) {
       ordersData.createCart(userId)
         .then((newOrderResponse) => {
           this.setState({
             cart: newOrderResponse.data,
             lineItems: [],
+            userId: this.state.userId,
           });
           const orderId = newOrderResponse.data.id;
           const productId = this.state.selectedProductId;

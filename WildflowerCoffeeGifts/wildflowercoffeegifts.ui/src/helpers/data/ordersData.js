@@ -3,7 +3,7 @@ import { baseUrl } from '../constants.json';
 
 const getSingleOrder = (id) => axios.get(`${baseUrl}/orders/${id}`);
 
-const getCart = (uid) => axios.get(`${baseUrl}/orders/cart/${uid}`);
+const getCart = (uid) => axios.get(`${baseUrl}/orders/cart/uid/${uid}`);
 
 const postOrder = (newOrder) => axios.post(`${baseUrl}/orders`, newOrder);
 

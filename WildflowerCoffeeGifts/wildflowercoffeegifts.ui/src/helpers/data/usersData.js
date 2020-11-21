@@ -18,9 +18,17 @@ const getAllUsers = () => new Promise((resolve, reject) => {
 });
 
 const getSingleUser = (userId) => axios.get(`${baseUrl}/users/${userId}`);
+
 const getProfileUser = (id) => axios.get(`${baseUrl}/users/${id}/profile`);
 
 const updateUser = (userId, updatedUser) => axios.put(`${baseUrl}/users/${userId}`, updatedUser);
 
-export default { getAllUsers, getSingleUser, getProfileUser, updateUser };
+const getUserIdByUid = (uid) => axios.get(`${baseUrl}/users/uid/${uid}`);
 
+export default {
+  getAllUsers,
+  getSingleUser,
+  getProfileUser,
+  updateUser,
+  getUserIdByUid,
+};

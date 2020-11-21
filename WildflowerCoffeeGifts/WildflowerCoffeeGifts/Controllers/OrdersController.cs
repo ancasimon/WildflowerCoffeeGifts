@@ -50,7 +50,7 @@ namespace WildflowerCoffeeGifts.Controllers
         }
 
         // method for getting the cart using the UID!
-        [HttpGet("cart/{userUid}")]
+        [HttpGet("cart/uid/{userUid}")]
         public IActionResult GetCart(string uid)
         {
             //var userId = _userRepo.GetUserIdByUid(uid);

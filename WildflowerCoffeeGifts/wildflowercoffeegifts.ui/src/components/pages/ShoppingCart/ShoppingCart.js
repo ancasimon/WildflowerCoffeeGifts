@@ -25,6 +25,7 @@ import usersData from '../../../helpers/data/usersData';
 
 import './ShoppingCart.scss';
 import '../../../styles/index.scss';
+import authData from '../../../helpers/data/authData';
 
 class ShoppingCart extends React.Component {
   state = {
@@ -32,7 +33,7 @@ class ShoppingCart extends React.Component {
     cartId: 0,
     lineItems: [],
     user: {},
-    userId: 22,
+    userId: 0,
     uid: '',
     paymentTypeId: 0,
     selectedPaymentType: {},
@@ -84,28 +85,33 @@ class ShoppingCart extends React.Component {
   }
 
   getUser = () => {
-    const { userId } = this.state;
-    usersData.getSingleUser(userId)
-      .then((userResponse) => {
-        this.setState({
-          user: userResponse.data,
-          userEmail: userResponse.data.email,
-          userPhoneNumber: userResponse.data.phoneNumber,
-          userFirstName: userResponse.data.firstName,
-          userLastName: userResponse.data.lastName,
-          userAddress: userResponse.data.address,
-          userCity: userResponse.data.city,
-          userState: userResponse.data.usState,
-          uid: userResponse.data.uid,
-        });
-        console.log('user', userResponse);
+    // const { userId } = this.state;
+    const uid = authData.getUid();
+    console.error('uid!!!', uid);
+    usersData.getUserIdByUid(uid)
+      .then((userIdResponse) => {
+        console.error('userresp', userIdResponse);
+        this.setState({ userId: userIdResponse.data });
+        usersData.getSingleUser(this.state.userId)
+          .then((userResponse) => {
+            this.setState({
+              user: userResponse.data,
+              userEmail: userResponse.data.email,
+              userPhoneNumber: userResponse.data.phoneNumber,
+              userFirstName: userResponse.data.firstName,
+              userLastName: userResponse.data.lastName,
+              userAddress: userResponse.data.address,
+              userCity: userResponse.data.city,
+              userState: userResponse.data.usState,
+            });
+            console.log('user', userResponse);
+          });
       })
       .catch((error) => console.error('Unable to get user record.', error));
   }
 
   getPaymentTypes = () => {
-    // const { userId } = this.state;
-    const {}
+    const { userId } = this.state;
     paymentTypesData.getAllPaymentTypesByUserId(userId)
       .then((userPaymentTypesResponse) => {
         this.setState({ paymentTypes: userPaymentTypesResponse.data });
@@ -131,7 +137,7 @@ class ShoppingCart extends React.Component {
       deliveryState,
     } = this.state;
 
-    ordersData.getCart(userId)
+    ordersData.getCart(this.state.uid)
       .then((cartResponse) => {
         if (cartResponse.status === 200) {
           this.setState({
@@ -454,7 +460,7 @@ class ShoppingCart extends React.Component {
     } = this.state;
     const updatedOrder = {
       id: cartId,
-      userId: cart.userId,
+      userId: this.state.userId,
       isCompleted: true,
       totalPrice: cart.totalPrice,
       paymentTypeId: this.state.selectedPaymentType.id,
@@ -470,7 +476,7 @@ class ShoppingCart extends React.Component {
       recipientLastName: this.state.recipientLastName,
     };
     const updatedUser = {
-      id: user.Id,
+      id: this.state.userId,
       isActive: user.isActive,
       email: userEmail,
       username: user.userName,
@@ -487,7 +493,7 @@ class ShoppingCart extends React.Component {
     const updatedPaymentType = {
       id: this.state.selectedPaymentType.id,
       paymentOption,
-      userId,
+      userId: this.state.userId,
       accountNo,
       expirationMonth,
       expirationYear,
