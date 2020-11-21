@@ -72,7 +72,7 @@ namespace WildflowerCoffeeGifts.DataAccess
             return selectedUser;
         }
 
-        // NEW method to get the user ID by the Firebase UID now that we haev authentication via Firebase:
+        // NEW method to get the user ID by the Firebase UID now that we have authentication via Firebase:
         public int GetUserIdByUid(string uid)
         {
             using var db = new SqlConnection(_connectionString);
@@ -81,9 +81,9 @@ namespace WildflowerCoffeeGifts.DataAccess
                             from Users
                             where Uid = @uid";
 
-            var parameterForUserUid = new { uid }; // I would like to use the UserId function Nathan added to the FirebaseEnabledController but cannot figure it out ....
+            var parameterForUserUid = new { uid };
 
-            //var selectedUser = db.QueryFirstOrDefault<User>(queryForUserByUid, parameterForUserUid);
+            //var selectedUser = db.QueryFirstOrDefault<User>(queryForUserByUid, parameterForUserUid); // previously, I was returning the whole object but I think I just need ID.
 
             var selectedUserId = db.ExecuteScalar<int>(queryForUserByUid, parameterForUserUid);
 

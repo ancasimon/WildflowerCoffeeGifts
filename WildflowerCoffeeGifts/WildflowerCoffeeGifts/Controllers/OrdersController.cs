@@ -49,14 +49,14 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(selectedOrder);
         }
 
-        // method for getting the cart!!! UPDATED TO USE UID _ IS THIS CORRECT????? AND THEN I Need to go update the corresponding function in the Repo file to use uid????
-        [HttpGet("cart/{userId}")]
+        // method for getting the cart using the UID!
+        [HttpGet("cart/{userUid}")]
         public IActionResult GetCart(string uid)
         {
-            var userId = _userRepo.GetUserIdByUid(uid);
-            if (_orderRepo.GetCart(userId) == null) return NoContent();
+            //var userId = _userRepo.GetUserIdByUid(uid);
+            if (_orderRepo.GetCart(uid) == null) return NoContent();
 
-            var selectedOrder = _orderRepo.GetCart(userId);
+            var selectedOrder = _orderRepo.GetCart(uid);
 
             return Ok(selectedOrder);
         }

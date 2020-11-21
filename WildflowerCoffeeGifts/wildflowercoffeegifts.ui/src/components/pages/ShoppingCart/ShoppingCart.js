@@ -33,6 +33,7 @@ class ShoppingCart extends React.Component {
     lineItems: [],
     user: {},
     userId: 22,
+    uid: '',
     paymentTypeId: 0,
     selectedPaymentType: {},
     validOrder: true,
@@ -95,6 +96,7 @@ class ShoppingCart extends React.Component {
           userAddress: userResponse.data.address,
           userCity: userResponse.data.city,
           userState: userResponse.data.usState,
+          uid: userResponse.data.uid,
         });
         console.log('user', userResponse);
       })
@@ -102,7 +104,8 @@ class ShoppingCart extends React.Component {
   }
 
   getPaymentTypes = () => {
-    const { userId } = this.state;
+    // const { userId } = this.state;
+    const {}
     paymentTypesData.getAllPaymentTypesByUserId(userId)
       .then((userPaymentTypesResponse) => {
         this.setState({ paymentTypes: userPaymentTypesResponse.data });
