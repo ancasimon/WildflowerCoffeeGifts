@@ -1,6 +1,23 @@
 import axios from 'axios';
 import { baseUrl } from '../constants.json';
 
-const getSingleUser = (userId) => axios.get(`${baseUrl}/users/${userId}`);
+const getAllUsers = () => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/users`)
+    .then((response) => {
+      const fbUsers = response.data;
+      const users = [];
+      if (fbUsers) {
+        Object.keys(fbUsers).forEach((fbId) => {
+          fbUsers[fbId].id = fbId;
+          users.push(fbUsers[fbId]);
+        });
+      }
+      resolve(users);
+    })
+    .catch((error) => reject(error));
+});
 
-export default { getSingleUser };
+const getSingleUser = (userId) => axios.get(`${baseUrl}/users/${userId}`);
+const getProfileUser = (id) => axios.get(`${baseUrl}/users/${id}/profile`);
+
+export default { getAllUsers, getSingleUser, getProfileUser };
