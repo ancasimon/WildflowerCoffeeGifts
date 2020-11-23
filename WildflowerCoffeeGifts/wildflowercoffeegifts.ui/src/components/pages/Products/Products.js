@@ -29,7 +29,7 @@ class Products extends React.Component {
     const buildProducts = products.map((product) => (<SingleProduct key={product.id} product={product} authed={authed}/>));
 
     return (
-        <div className="container product-view">
+    <div className="Products">
           <div className="row">
             <div className="col-3 product-cat">
              <ProductThemes/>
@@ -38,7 +38,7 @@ class Products extends React.Component {
               {buildProducts}
             </div>
             </div>
-            </div>
+            // </div>
     );
   }
 }

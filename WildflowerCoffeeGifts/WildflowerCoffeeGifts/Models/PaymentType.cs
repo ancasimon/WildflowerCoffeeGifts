@@ -15,5 +15,6 @@ namespace WildflowerCoffeeGifts.Models
         public int ExpirationMonth { get; set; }
         public int ExpirationYear { get; set; }
         public bool IsActive { get; set; } = true;
+        public int Ccv { get; set; }
     }
 }

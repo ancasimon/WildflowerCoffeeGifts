@@ -26,7 +26,7 @@ namespace WildflowerCoffeeGifts.Controllers
         }
 
         [HttpGet]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public IActionResult GetAllProducts()
         {
             var allProducts = _productsRepo.GetProducts();
@@ -35,6 +35,7 @@ namespace WildflowerCoffeeGifts.Controllers
         }
 
         [HttpGet("Top")]
+        [AllowAnonymous]
         public IActionResult GetProductsTopTwenty()
         {
             var topProducts = _productsRepo.GetProductsTopTwenty();
@@ -44,6 +45,7 @@ namespace WildflowerCoffeeGifts.Controllers
 
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public IActionResult ViewSingleProduct(int id)
         {
             // var singleProduct = _productsRepo.ViewProductById(id); // Anca: changed this method to call the product model that includes the related data as well!!!
@@ -55,6 +57,7 @@ namespace WildflowerCoffeeGifts.Controllers
         }
 
         [HttpGet("search/{searchWord}")]
+        [AllowAnonymous]
         public IActionResult SearchProducts(string searchWord)
         {
             var searchProducts = _productsRepo.FindAProduct(searchWord);

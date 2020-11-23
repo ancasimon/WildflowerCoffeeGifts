@@ -62,6 +62,9 @@ class MyNavbar extends React.Component {
             <NavItem className="NavItem">
               <NavLink tag={RRNavLink} to="/login" className='listItems'>Log In</NavLink>
             </NavItem>
+            <NavItem className="NavItem">
+              <NavLink tag={RRNavLink} to="/profile" className='listItems'>Profile</NavLink>
+            </NavItem>
             <form className='searchbar'>
               <input className='searchInput mr-2' onChange={this.filterProducts} type="text" placeholder="Search Products" name="search" value={this.state.searchInput}/>
               <Link className='searchButton listItems' to={wordSearched} searchinput={this.state.searchInput}><i className="fa fa-search"></i></Link>

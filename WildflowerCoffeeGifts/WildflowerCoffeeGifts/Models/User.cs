@@ -15,6 +15,10 @@ namespace WildflowerCoffeeGifts.Models
         public DateTime DateCreated { get; set; }
         public string Password { get; set; }
         public bool IsActive { get; set; } = true;
+        public string Address { get; set; }
+        public string City { get; set; }
+        public Int64 PhoneNumber { get; set; }
+        public UsStates UsState { get; set; }
         public string Uid { get; set; }
     }
 }

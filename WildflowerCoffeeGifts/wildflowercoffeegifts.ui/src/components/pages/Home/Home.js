@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 
@@ -8,10 +9,12 @@ import SingleProduct from '../../shared/SingleProduct/SingleProduct';
 import productsData from '../../../helpers/data/productsData';
 
 import './Home.scss';
+import '../../../styles/index.scss';
 
 class Home extends React.Component {
   static propTypes = {
     authed: PropTypes.bool.isRequired,
+    history: PropTypes.func.isRequired,
   }
 
   state = { products: [] };
@@ -30,26 +33,26 @@ class Home extends React.Component {
 
     return (
       <div>
-         <div className="jumbotron">
+        <div className="jumbotron">
           <div className="jumbotronText">
             <h1 className="greeting">Thank you for visiting us at Wildflower Coffee Gifts!</h1>
             <h2 className='aboutUs'>We are a locally-owned floral shop offering gifts for any occasion in reusable coffee mugs!</h2>
           </div>
         </div>
         <br />
-        <div className="container twenty-product-view">
-          <div className="row">
-            <div className="col-3 twenty-product-cat">
-             <ProductThemes/>
-            </div>
-            <div className="col-9 d-flex flex-wrap twenty-product-featured">
-              {buildTwentyProducts}
-            </div>
-            </div>
-            </div>
-            </div>
+        <div className="container">
+        <div className="row">
+          <div className="col-3 twenty-product-cat">
+            <ProductThemes/>
+          </div>
+          <div className="col-9 d-flex flex-wrap twenty-product-featured">
+            {buildTwentyProducts}
+          </div>
+        </div>
+      </div>
+      </div>
     );
   }
 }
 
-export default Home;
+export default withRouter(Home);

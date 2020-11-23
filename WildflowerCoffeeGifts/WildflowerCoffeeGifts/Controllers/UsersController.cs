@@ -10,15 +10,10 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WildflowerCoffeeGifts.Controllers
 {
-    public abstract class FirebaseEnabledController : ControllerBase
-    {
-        protected string UserId => User.FindFirst(x => x.Type == "user_id").Value;
-    }
-
 
     [Route("api/users")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     // [AllowAnonymous] add this to any method that does not require auth
     public class UsersController : FirebaseEnabledController
     {
@@ -42,6 +37,15 @@ namespace WildflowerCoffeeGifts.Controllers
             var selectedUser = _userRepo.GetUsersById(id);
             if (selectedUser == null) return NotFound("We did not find a user with that ID. Please try again.");
             return Ok(selectedUser);
+        }
+
+        // New method to get the yser ID by the Firebase ID now that we have authentication via Firebase:
+        [HttpGet("uid/{uid}")]
+        public IActionResult GetUserIdByUid(string uid)
+        {
+            var selectedUserId = _userRepo.GetUserIdByUid(uid);
+            if (selectedUserId == 0) return NotFound("We did not find a user with this UID. Please try again.");
+            return Ok(selectedUserId);
         }
 
         [HttpPost]

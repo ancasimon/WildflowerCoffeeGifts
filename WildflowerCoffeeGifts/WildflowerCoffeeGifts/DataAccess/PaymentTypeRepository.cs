@@ -54,6 +54,18 @@ namespace WildflowerCoffeeGifts.DataAccess
             return latestPaymentTypeForUser;
         }
 
+        public IEnumerable<PaymentType> GetAllPaymentTypesByUserId(int userId)
+        {
+            using var db = new SqlConnection(_connectionString);
+            var sqlForAllPaymentTypesByUserId = @"select * from PaymentTypes
+                                                    where UserId = @userId AND IsActive = 1
+                                                    order by Id desc";
+            var parameterForUserId = new { userId };
+            var allPaymentTypes = db.Query<PaymentType>(sqlForAllPaymentTypesByUserId, parameterForUserId);
+
+            return allPaymentTypes;
+        }
+
         public IEnumerable<PaymentType> GetPaymentTypesByStatus(bool isActive)
         {
             using var db = new SqlConnection(_connectionString);
@@ -75,7 +87,8 @@ namespace WildflowerCoffeeGifts.DataAccess
                          [AccountNo],
                          [ExpirationYear],
                          [ExpirationMonth],
-                         [IsActive])
+                         [IsActive],
+                         [Ccv])
                          Output inserted.Id
                         VALUES 
                          (@paymentOption,
@@ -83,7 +96,8 @@ namespace WildflowerCoffeeGifts.DataAccess
                           @accountNo,
                           @expirationYear,
                           @expirationMonth,
-                          @isActive)";
+                          @isActive,
+                          @ccv)";
 
             using var db = new SqlConnection(_connectionString);
 
@@ -108,7 +122,8 @@ namespace WildflowerCoffeeGifts.DataAccess
                           [AccountNo] = @accountNo,
                           [ExpirationYear] = @expirationYear,
                           [ExpirationMonth] = @expirationMonth,
-                          [IsActive] = @isActive
+                          [IsActive] = @isActive,
+                          [Ccv] = @ccv
                           OUTPUT INSERTED.*
                             WHERE Id = @id";
             using var db = new SqlConnection(_connectionString);
@@ -121,6 +136,7 @@ namespace WildflowerCoffeeGifts.DataAccess
                 updatedInfo.ExpirationYear,
                 updatedInfo.ExpirationMonth,
                 updatedInfo.IsActive,
+                updatedInfo.Ccv,
                 id
             };
 

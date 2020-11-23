@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 import fbConnection from '../helpers/data/connection';
 import Login from '../components/pages/Login/Login';
+import Profile from '../components/Profile/Profile';
 
 import Home from '../components/pages/Home/Home';
 import MyNavbar from '../components/shared/MyNavbar/MyNavbar';
@@ -58,12 +59,13 @@ class App extends React.Component {
             <MyNavbar authed={authed} />
             <div className="container">
               <div className="row">
-                <Switch>
+                <Switch authed={authed}>
                   <Route path='/login' component={Login} authed={authed}></Route>
+                  <PrivateRoute path='/profile' component={Profile} authed={authed} />
                   <PrivateRoute path='/cart' component={ShoppingCart} authed={authed} />
                   <PrivateRoute path='/orders' component={Orders} authed={authed} />
+                  <Route path='/products/:id' render={(props) => <SingleProductView authed={authed} {...props} />} />
                   <Route path='/products/search/:searchWord' component={SearchedProducts} authed={authed} />
-                  <Route path='/products/:id' component={SingleProductView} authed={authed} />
                   <Route path='/products' component={Products} authed={authed} />
                   <Route path='/home' component={Home} authed={authed} />
 

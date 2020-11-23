@@ -17,9 +17,11 @@ namespace WildflowerCoffeeGifts.Controllers
     public class PaymentTypeController : ControllerBase
     {
         PaymentTypeRepository _paymentTypeRepo;
+        UsersRepository _userRepo;
         public PaymentTypeController()
         {
             _paymentTypeRepo = new PaymentTypeRepository();
+            _userRepo = new UsersRepository();
         }
 
         [HttpGet]
@@ -29,6 +31,18 @@ namespace WildflowerCoffeeGifts.Controllers
 
             return Ok(allPaymentTypes);
         }
+
+        [HttpGet("all/{uid}")]
+        public IActionResult GetAllPaymentTypesByUserUid(string uid)
+
+        {
+            var currentUserId = _userRepo.GetUserIdByUid(uid);
+            if (_paymentTypeRepo.GetAllPaymentTypesByUserId(currentUserId) == null) return NoContent();
+            var allPaymentTypesForSelectedUser = _paymentTypeRepo.GetAllPaymentTypesByUserId(currentUserId);
+
+            return Ok(allPaymentTypesForSelectedUser);
+        }
+
 
         [HttpGet("{id}")]
         public IActionResult GetSinglePaymentTypeById(int id)

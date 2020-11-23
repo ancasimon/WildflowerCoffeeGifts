@@ -86,7 +86,7 @@ class Login extends React.Component {
           <h1 className="text-center"><em>Welcome</em></h1>
         <div id="login-form">
           <form className="form-horizontal col-sm-12 col-sm-offset-3">
-             <div className="form-group">
+            <div className="form-group">
               <label htmlFor="inputEmail" className="col-sm-4 control-label">
                 Email:
               </label>
@@ -120,17 +120,17 @@ class Login extends React.Component {
               <div>
                 <button m-5px
                   type="submit"
-                  className="btn btn-outline-dark"
+                  className="btn btn-outline-dark wcgButton"
                   onClick={this.loginClickEvent}
                 >
-                  Login
+                  Log In
                 </button>
                  <button
                   type="submit"
-                  className="btn btn-outline-dark"
+                  className="btn btn-outline-dark wcgButton"
                   onClick={this.logoutClickEvent}
                 >
-                  LogOut
+                  Log Out
                 </button>
               </div>
             </div>

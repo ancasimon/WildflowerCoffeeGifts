@@ -30,6 +30,7 @@ class SingleLineItem extends React.Component {
       price: this.props.item.price,
       subtotal: this.props.item.subtotal,
       isActive: false,
+      imageUrl: this.props.item.imageUrl,
     };
     productOrdersData.updateProductOrder(selectedLineItemId, updatedLineItem)
       .then(() => {

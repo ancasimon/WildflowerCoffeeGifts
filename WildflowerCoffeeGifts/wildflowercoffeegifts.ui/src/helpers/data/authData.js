@@ -51,7 +51,15 @@ const logoutUser = () => {
   return firebase.auth().signOut();
 };
 
-const getUid = () => firebase.auth().currentUser.uid;
+const getUid = () => {
+  const token = sessionStorage.getItem('token');
+  let uid = '';
+
+  if (token != null) {
+    uid = firebase.auth().currentUser.uid;
+  }
+  return uid;
+};
 
 export default {
   getUid, loginUser, logoutUser, registerUser,

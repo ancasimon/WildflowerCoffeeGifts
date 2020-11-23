@@ -8,6 +8,7 @@ const lineItemShape = PropTypes.shape({
   productId: PropTypes.number.isRequired,
   qty: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string.isRequired,
 });
 
 export default { lineItemShape };
