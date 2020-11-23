@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 
@@ -55,4 +54,4 @@ class Home extends React.Component {
   }
 }
 
-export default withRouter(Home);
+export default Home;
