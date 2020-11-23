@@ -72,20 +72,21 @@ namespace WildflowerCoffeeGifts.DataAccess
             return selectedUser;
         }
 
-        //public User GetUserIdByUid(int uid)
-        //{
-        //    using var db = new SqlConnection(_connectionString);
+        // NEW method to get the user ID by the Firebase UID now that we have authentication via Firebase:
+        public int GetUserIdByUid(string uid)
+        {
+            using var db = new SqlConnection(_connectionString);
 
-        //    var query = @"select *
-        //                    from Users
-        //                    where Uid = @Uid";
+            var queryForUserByUid = @"select *
+                            from Users
+                            where Uid = @uid";
 
-        //    var parameters = new { uid = UserId }; //WHAT VALUE DO I USE HERE TO DEFINE THE UID???
+            var parameterForUserUid = new { uid };
 
-        //    var selectedUser = db.QueryFirstOrDefault<User>(query, parameters);
+            var selectedUserId = db.ExecuteScalar<int>(queryForUserByUid, parameterForUserUid);
 
-        //    return selectedUserId;
-        //}
+            return selectedUserId;
+        }
 
         public User Update(int id, User user)
         {
