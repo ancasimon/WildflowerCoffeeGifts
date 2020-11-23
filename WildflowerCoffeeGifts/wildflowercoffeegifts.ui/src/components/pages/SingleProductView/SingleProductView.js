@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import ShoppingCart from '../ShoppingCart/ShoppingCart';
+
+import authData from '../../../helpers/data/authData';
 import ordersData from '../../../helpers/data/ordersData';
 import productOrdersData from '../../../helpers/data/productOrdersData';
 import paymentTypesData from '../../../helpers/data/paymentTypesData';
@@ -13,7 +15,8 @@ class SingleProductView extends React.Component {
   state = {
     selectedProduct: {},
     selectedProductId: this.props.match.params.id, // we may need to move this to props when we do the product cards and pass down the id of the card selected ...
-    userId: 22,
+    userId: 0,
+    uid: '',
     cart: {},
     lineItems: [],
     productQuantityOnSingleView: 1,
@@ -41,6 +44,7 @@ class SingleProductView extends React.Component {
     const {
       cart,
       userId,
+      uid,
       lineItems,
       selectedProductId,
       productInCart,
@@ -50,7 +54,9 @@ class SingleProductView extends React.Component {
       relatedLineItemId,
       relatedLineItem,
     } = this.state;
-    ordersData.getCart(userId)
+    const loggedUserUid = authData.getUid();
+
+    ordersData.getCart(loggedUserUid)
       .then((orderResponse) => {
         if (orderResponse.status == 200) {
           this.setState({
@@ -80,13 +86,16 @@ class SingleProductView extends React.Component {
     const {
       selectedProductId,
       userId,
+      uid,
       productQuantityOnSingleView,
       previousQuantityInCart,
       newProductQuantityForCart,
       productInCart,
     } = this.state;
+    const loggedUserUid = authData.getUid();
+    this.setState({ uid: loggedUserUid });
     this.buildSingleView(selectedProductId);
-    this.getCart(userId);
+    this.getCart(loggedUserUid);
   }
 
   changeproductQuantityOnSingleView = (e) => {

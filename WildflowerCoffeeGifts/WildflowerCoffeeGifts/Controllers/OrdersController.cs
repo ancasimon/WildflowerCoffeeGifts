@@ -17,9 +17,11 @@ namespace WildflowerCoffeeGifts.Controllers
     public class OrdersController : FirebaseEnabledController
     {
         OrderRepository _orderRepo;
+        UsersRepository _userRepo;
         public OrdersController()
         {
             _orderRepo = new OrderRepository();
+            _userRepo = new UsersRepository();
         }
 
         [HttpGet]
@@ -48,12 +50,13 @@ namespace WildflowerCoffeeGifts.Controllers
         }
 
         // method for getting the cart!!!
-        [HttpGet("cart/{userId}")]
-        public IActionResult GetCart(int userId)
+        [HttpGet("cart/{uid}")]
+        public IActionResult GetCart(string uid)
         {
-            if (_orderRepo.GetCart(userId) == null) return NoContent();
+            var currentUserId = _userRepo.GetUserIdByUid(uid);
+            if (_orderRepo.GetCart(currentUserId) == null) return NoContent();
 
-            var selectedOrder = _orderRepo.GetCart(userId);
+            var selectedOrder = _orderRepo.GetCart(currentUserId);
 
             return Ok(selectedOrder);
         }

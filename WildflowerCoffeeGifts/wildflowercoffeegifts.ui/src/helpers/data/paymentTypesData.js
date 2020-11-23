@@ -9,6 +9,8 @@ const postPaymentType = (newPaymentType) => axios.post(`${baseUrl}/paymentTypes`
 
 const getAllPaymentTypesByUserId = (userId) => axios.get(`${baseUrl}/paymentTypes/all/${userId}`);
 
+const getAllPaymentTypesByUserUid = (uid) => axios.get(`${baseUrl}/paymentTypes/all/${uid}`);
+
 const updatePaymentType = (paymentTypeId, updatedPaymentType) => axios.put(`${baseUrl}/paymentTypes/${paymentTypeId}`, updatedPaymentType);
 
 export default {
@@ -17,4 +19,5 @@ export default {
   getLatestPaymentTypeForUser,
   getAllPaymentTypesByUserId,
   updatePaymentType,
+  getAllPaymentTypesByUserUid,
 };
