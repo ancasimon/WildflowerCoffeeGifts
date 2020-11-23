@@ -203,7 +203,6 @@ class SingleProductView extends React.Component {
     const { selectedProduct, productQuantityOnSingleView } = this.state;
     const { authed, product } = this.props;
     const buildCartButton = () => {
-      // const { authed } = this.props;
       console.error('auth', { authed });
       if (authed) {
         return (

@@ -60,7 +60,7 @@ class App extends React.Component {
             <div className="container">
               <div className="row">
                 <Switch authed={authed}>
-                  <Route path='/login' component={Login} authed={authed}></Route>
+                  <Route path='/login' render={(props) => <Login authed={authed} {...props} />} />
                   <PrivateRoute path='/profile' component={Profile} authed={authed} />
                   <PrivateRoute path='/cart' component={ShoppingCart} authed={authed} />
                   <PrivateRoute path='/orders' component={Orders} authed={authed} />
