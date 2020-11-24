@@ -53,7 +53,7 @@ namespace WildflowerCoffeeGifts.Controllers
         [HttpGet("cart/{uid}")]
         public IActionResult GetCart(string uid)
         {
-            var currentUserId = _userRepo.GetUserIdByUid(uid);
+            var currentUserId = _userRepo.GetUserIdByUid(UserId);
             if (_orderRepo.GetCart(uid) == null) return NoContent();
 
             var selectedOrder = _orderRepo.GetCart(uid);

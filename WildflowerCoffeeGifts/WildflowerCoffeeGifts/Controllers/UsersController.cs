@@ -43,7 +43,7 @@ namespace WildflowerCoffeeGifts.Controllers
         [HttpGet("uid/{uid}")]
         public IActionResult GetUserIdByUid(string uid)
         {
-            var selectedUserId = _userRepo.GetUserIdByUid(uid);
+            var selectedUserId = _userRepo.GetUserIdByUid(UserId);
             if (selectedUserId == 0) return NotFound("We did not find a user with this UID. Please try again.");
             return Ok(selectedUserId);
         }
