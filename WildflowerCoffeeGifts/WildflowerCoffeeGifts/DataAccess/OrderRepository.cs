@@ -125,15 +125,17 @@ namespace WildflowerCoffeeGifts.DataAccess
         }
 
         // DEFINITION OF EXISTING CART: Get current incomplete/pending order for a given user (with related ProductOrder records too)!
-        public Order GetCart(int userId)
+        public Order GetCart(string uid)
         {
             using var db = new SqlConnection(_connectionString);
 
             // get the details of the order id for the userId passed in as a parameter:
-            var parameterUserId = new { UserId = userId };
+            var parameterUserId = new { uid };
             var queryForOrder = @"select *
                                 from Orders o
-                                where o.IsCompleted = 0 AND o.UserId = @UserId AND o.IsActive=1"; //what is on the left side of the equation here is the variable I am declaring - and I am filling it with the data on the right, which is the parameter we are passing in to the method / and the variable is calling that parameter!!          
+                                    join users u 
+                                        on u.id = o.userid
+                                where o.IsCompleted = 0 AND u.UID = @uid AND o.IsActive=1"; //what is on the left side of the equation here is the variable I am declaring - and I am filling it with the data on the right, which is the parameter we are passing in to the method / and the variable is calling that parameter!!          
             var selectedOrder = db.QueryFirstOrDefault<Order>(queryForOrder, parameterUserId);
 
 

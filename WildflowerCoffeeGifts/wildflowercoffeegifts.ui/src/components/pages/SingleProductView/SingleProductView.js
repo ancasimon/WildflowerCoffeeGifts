@@ -1,19 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import PropTypes from 'prop-types';
+
 import ShoppingCart from '../ShoppingCart/ShoppingCart';
+
+import authData from '../../../helpers/data/authData';
 import ordersData from '../../../helpers/data/ordersData';
 import productOrdersData from '../../../helpers/data/productOrdersData';
 import paymentTypesData from '../../../helpers/data/paymentTypesData';
 import productsData from '../../../helpers/data/productsData';
 
+import productShape from '../../../helpers/propz/productShape';
+
 import './SingleProductView.scss';
 
 class SingleProductView extends React.Component {
+  static propTypes = {
+    authed: PropTypes.bool.isRequired,
+    product: productShape.productShape,
+    productId: PropTypes.number.isRequired,
+  }
+
   state = {
     selectedProduct: {},
     selectedProductId: this.props.match.params.id, // we may need to move this to props when we do the product cards and pass down the id of the card selected ...
-    userId: 22,
+    userId: 0,
+    uid: '',
     cart: {},
     lineItems: [],
     productQuantityOnSingleView: 1,
@@ -41,6 +54,7 @@ class SingleProductView extends React.Component {
     const {
       cart,
       userId,
+      uid,
       lineItems,
       selectedProductId,
       productInCart,
@@ -50,7 +64,8 @@ class SingleProductView extends React.Component {
       relatedLineItemId,
       relatedLineItem,
     } = this.state;
-    ordersData.getCart(userId)
+    const loggedUserUid = authData.getUid();
+    ordersData.getCart(loggedUserUid)
       .then((orderResponse) => {
         if (orderResponse.status == 200) {
           this.setState({
@@ -80,13 +95,18 @@ class SingleProductView extends React.Component {
     const {
       selectedProductId,
       userId,
+      uid,
       productQuantityOnSingleView,
       previousQuantityInCart,
       newProductQuantityForCart,
       productInCart,
     } = this.state;
+    const loggedUserUid = authData.getUid();
+    this.setState({ uid: loggedUserUid });
+    if (loggedUserUid != '') {
+      this.getCart(loggedUserUid);
+    }
     this.buildSingleView(selectedProductId);
-    this.getCart(userId);
   }
 
   changeproductQuantityOnSingleView = (e) => {
@@ -143,7 +163,8 @@ class SingleProductView extends React.Component {
         .catch((error) => console.error('Unable to create the new shopping cart.', error));
       // below is the scenario if a cart already exists!
     } else {
-      const orderId = cart.id;
+      const orderId = this.state.cart.id;
+      console.error('order id for creating line item for existing cart', orderId);
       const productId = this.state.selectedProductId;
       const isActive = this.state.relatedLineItem;
       this.setState({ newProductQuantityForCart: this.state.productQuantityOnSingleView + this.state.previousQuantityInCart });
@@ -180,9 +201,21 @@ class SingleProductView extends React.Component {
 
   render() {
     const { selectedProduct, productQuantityOnSingleView } = this.state;
+    const { authed, product } = this.props;
+    const buildCartButton = () => {
+      console.error('auth', { authed });
+      if (authed) {
+        return (
+          <button type="submit" className="btn wcgButton mx-4" onClick={this.addToCart}>Add to Cart</button>
+        );
+      }
+      return (
+        <Link to='/login' className="btn wcgButton mx-4">Please Log In to Add to Cart</Link>
+      );
+    };
 
     return (
-            <div>
+            <div {...this.props}>
                   <Link to='/products' className="return-back"><i className="fas fa-backward"></i>  Back To Products</Link>
                 {
                 selectedProduct.isActive
@@ -201,7 +234,7 @@ class SingleProductView extends React.Component {
                       <p><b>Flower Arrangement:</b> {selectedProduct.flowerArrName}</p>
                       <label htmlFor="product-quantity"><b>Quantity:</b></label>
                       <input id="product-quantity" className="qty-input" type="text" value={productQuantityOnSingleView} onChange={this.changeproductQuantityOnSingleView} />
-                      <button className="cart" type="submit" className="btn wcgButton" onClick={this.addToCart}>Add to Cart</button>
+                      {buildCartButton()}
                     </div>
                     </div>
                     </div>

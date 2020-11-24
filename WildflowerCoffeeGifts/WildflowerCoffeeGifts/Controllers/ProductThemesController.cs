@@ -25,6 +25,7 @@ namespace WildflowerCoffeeGifts.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetAllThemes()
         {
             var allThemes = _themeRepo.GetAllThemes();
@@ -33,6 +34,7 @@ namespace WildflowerCoffeeGifts.Controllers
         }
 
         [HttpGet("topthree")]
+        [AllowAnonymous]
         public IActionResult GetProductsTopThreeAndCount()
         {
             var countThemes = _countRepo.GetProductsTopThreeAndCount();

@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 
 import SingleLineItem from '../../shared/SingleLineItem/SingleLineItem';
 
+import authData from '../../../helpers/data/authData';
 import ordersData from '../../../helpers/data/ordersData';
 import paymentTypesData from '../../../helpers/data/paymentTypesData';
 import usersData from '../../../helpers/data/usersData';
@@ -32,7 +33,8 @@ class ShoppingCart extends React.Component {
     cartId: 0,
     lineItems: [],
     user: {},
-    userId: 22,
+    userId: 0,
+    uid: '',
     paymentTypeId: 0,
     selectedPaymentType: {},
     validOrder: true,
@@ -83,27 +85,32 @@ class ShoppingCart extends React.Component {
   }
 
   getUser = () => {
-    const { userId } = this.state;
-    usersData.getSingleUser(userId)
-      .then((userResponse) => {
-        this.setState({
-          user: userResponse.data,
-          userEmail: userResponse.data.email,
-          userPhoneNumber: userResponse.data.phoneNumber,
-          userFirstName: userResponse.data.firstName,
-          userLastName: userResponse.data.lastName,
-          userAddress: userResponse.data.address,
-          userCity: userResponse.data.city,
-          userState: userResponse.data.usState,
-        });
-        console.log('user', userResponse);
+    const loggedUserUid = authData.getUid();
+    usersData.getSingleUserIdByUid(loggedUserUid)
+      .then((userIdReturned) => {
+        this.setState({ userId: userIdReturned.data });
+        usersData.getSingleUser(this.state.userId)
+          .then((userResponse) => {
+            this.setState({
+              user: userResponse.data,
+              userEmail: userResponse.data.email,
+              userPhoneNumber: userResponse.data.phoneNumber,
+              userFirstName: userResponse.data.firstName,
+              userLastName: userResponse.data.lastName,
+              userAddress: userResponse.data.address,
+              userCity: userResponse.data.city,
+              userState: userResponse.data.usState,
+            });
+            console.log('user', userResponse);
+          });
       })
       .catch((error) => console.error('Unable to get user record.', error));
   }
 
   getPaymentTypes = () => {
+    const loggedUserUid = authData.getUid();
     const { userId } = this.state;
-    paymentTypesData.getAllPaymentTypesByUserId(userId)
+    paymentTypesData.getAllPaymentTypesByUserUid(loggedUserUid)
       .then((userPaymentTypesResponse) => {
         this.setState({ paymentTypes: userPaymentTypesResponse.data });
         console.error('pmt types', userPaymentTypesResponse.data);
@@ -115,6 +122,7 @@ class ShoppingCart extends React.Component {
     const {
       cart,
       userId,
+      uid,
       lineItems,
       paymentTypeId,
       selectedPaymentType,
@@ -127,8 +135,9 @@ class ShoppingCart extends React.Component {
       deliveryCity,
       deliveryState,
     } = this.state;
-
-    ordersData.getCart(userId)
+    const loggedUserUid = authData.getUid();
+    console.error('recently logged in user uid', loggedUserUid);
+    ordersData.getCart(loggedUserUid)
       .then((cartResponse) => {
         if (cartResponse.status === 200) {
           this.setState({
@@ -189,9 +198,11 @@ class ShoppingCart extends React.Component {
 
   buildCartPage = () => {
     const { userId, cart } = this.state;
-    this.getCart(userId);
-    this.getUser(userId);
-    this.getPaymentTypes(userId);
+    const loggedUserUid = authData.getUid();
+    this.setState({ uid: loggedUserUid });
+    this.getCart(loggedUserUid);
+    this.getUser(loggedUserUid);
+    this.getPaymentTypes(loggedUserUid);
   }
 
   componentDidMount() {
@@ -684,7 +695,7 @@ class ShoppingCart extends React.Component {
                 </Collapse>
               </div>
               <div>
-                <Button className="wcgButton" onClick={this.toggleBillingInfo}>Add Billing Address</Button>
+                <Button className="wcgButton mt-5" onClick={this.toggleBillingInfo}>Add Billing Address</Button>
                   <Collapse isOpen={isOpenBillingInfo}>
                     <Card className="newBlock">
                       <CardBody>
@@ -776,7 +787,7 @@ class ShoppingCart extends React.Component {
                 </Collapse>
                 </div>
           <div>
-          <button type='submit' className='btn wcgButton' onClick={this.toggleModal}>Add Payment Details</button>
+          <button type='submit' className='btn wcgButton mt-5' onClick={this.toggleModal}>Add Payment Details</button>
 
           {/* modal with payment info below: */}
           <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
