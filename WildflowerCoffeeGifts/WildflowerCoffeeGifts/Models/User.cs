@@ -19,6 +19,7 @@ namespace WildflowerCoffeeGifts.Models
         public string City { get; set; }
         public Int64 PhoneNumber { get; set; }
         public UsStates UsState { get; set; }
+        public int Zipcode { get; set; }
         public string Uid { get; set; }
     }
 }

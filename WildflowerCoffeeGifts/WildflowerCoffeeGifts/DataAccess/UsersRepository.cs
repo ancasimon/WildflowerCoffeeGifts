@@ -35,10 +35,11 @@ namespace WildflowerCoffeeGifts.DataAccess
                                  ,[City]
                                  ,[PhoneNumber]
                                  ,[UsState]
+                                 ,[Zipcode]
                                  )
                                 Output inserted.id
                                 VALUES
-                                (@Email,@FirstName,@LastName,@Email,GETDATE(),@Password,@IsActive,@Uid, @Address, @City, @PhoneNumber, @UsState)";
+                                (@Email,@FirstName,@LastName,@Email,GETDATE(),@Password,@IsActive,@Uid, @Address, @City, @PhoneNumber, @UsState, @Zipcode)";
             using var db = new SqlConnection(_connectionString);
 
             var newId = db.ExecuteScalar<int>(sql, userToAdd);

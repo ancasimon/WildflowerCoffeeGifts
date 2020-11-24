@@ -19,6 +19,11 @@ class Login extends React.Component {
       password: '',
       firstName: '',
       lastName: '',
+      address: '',
+      city: '',
+      usState: '',
+      zipcode: '',
+      phoneNumber: '',
     },
   }
 
@@ -85,14 +90,44 @@ class Login extends React.Component {
     this.setState({ user: tempUser });
   };
 
-  render() {
-    const { user } = this.state;
-    const { authed } = this.props;
-    console.error('authed on login??', this.props.authed);
+ addressChange = (e) => {
+   const tempUser = { ...this.state.user };
+   tempUser.address = e.target.value;
+   this.setState({ user: tempUser });
+ };
 
-    const buildLogButtons = () => {
-      if (authed) {
-        return (
+  cityChange = (e) => {
+    const tempUser = { ...this.state.user };
+    tempUser.city = e.target.value;
+    this.setState({ user: tempUser });
+  };
+
+    stateChange = (e) => {
+      const tempUser = { ...this.state.user };
+      tempUser.usState = e.target.value;
+      this.setState({ user: tempUser });
+    };
+
+    zipcodeChange = (e) => {
+      const tempUser = { ...this.state.user };
+      tempUser.zipcode = e.target.value;
+      this.setState({ user: tempUser });
+    };
+
+    phoneChange = (e) => {
+      const tempUser = { ...this.state.user };
+      tempUser.phoneNumber = e.target.value;
+      this.setState({ user: tempUser });
+    };
+
+    render() {
+      const { user } = this.state;
+      const { authed } = this.props;
+      console.error('authed on login??', this.props.authed);
+
+      const buildLogButtons = () => {
+        if (authed) {
+          return (
           <div className="btn container">
             <button
               type="submit"
@@ -102,9 +137,9 @@ class Login extends React.Component {
               Log Out
             </button>
           </div>
-        );
-      }
-      return (
+          );
+        }
+        return (
         <div className="btn container">
           <div>
             <button m-5px
@@ -147,6 +182,81 @@ class Login extends React.Component {
                 />
               </div>
             </div>
+            <div className="form-group">
+              <label htmlFor="inputAddress" className="col-sm-4 control-label">
+                Street Address:
+              </label>
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputAddress"
+                  placeholder="Please enter street address."
+                  value={this.state.user.address}
+                  onChange={this.addressChange}
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="inputCity" className="col-sm-4 control-label">
+               City:
+              </label>
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputCity"
+                  placeholder="Please enter city"
+                  value={this.state.user.city}
+                  onChange={this.cityChange}
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="inputUsState" className="col-sm-4 control-label">
+                State:
+              </label>
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputUsState"
+                  placeholder="Please enter state"
+                  value={this.state.user.state}
+                  onChange={this.stateChange}
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="inputZipCode" className="col-sm-4 control-label">
+               Zipcode:
+              </label>
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputZipCode"
+                  placeholder="Please enter zipcode"
+                  value={this.state.user.zipcode}
+                  onChange={this.zipcodeChange}
+                />
+              </div>
+            </div>
+              <div className="form-group">
+              <label htmlFor="inputPhone" className="col-sm-4 control-label">
+                Phone Number:
+              </label>
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputPhone"
+                  placeholder="Please enter phone number"
+                  value={this.state.user.phoneNumber}
+                  onChange={this.phoneChange}
+                />
+              </div>
+            </div>
             <div className="form-group mt-15px">
               <div>
                 <button
@@ -158,9 +268,9 @@ class Login extends React.Component {
             </div>
           </div>
           </div>
-      );
-    };
-    return (
+        );
+      };
+      return (
       <div className="Login" {...this.props}>
         <div className="box-container">
           <h1 className="text-center"><em>Welcome</em></h1>
@@ -196,13 +306,14 @@ class Login extends React.Component {
                 />
               </div>
             </div>
+
             {buildLogButtons()}
           </form>
         </div>
       </div>
       </div>
-    );
-  }
+      );
+    }
 }
 
 export default Login;

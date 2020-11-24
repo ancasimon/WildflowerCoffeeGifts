@@ -28,6 +28,11 @@ const registerUser = (user) =>
       userName: user.userName,
       firstName: user.firstName,
       lastName: user.lastName,
+      address: user.address,
+      city: user.city,
+      usState: user.usState,
+      phoneNumber: user.phoneNumber,
+      zipcode: user.zipcode,
     };
 
     // get token from firebase
