@@ -85,8 +85,8 @@ class ShoppingCart extends React.Component {
   }
 
   getUser = () => {
-    const loggedUserUid = authData.getUid();
-    usersData.getSingleUserIdByUid(loggedUserUid)
+    // const loggedUserUid = authData.getUid();
+    usersData.getSingleUserIdByUid()
       .then((userIdReturned) => {
         this.setState({ userId: userIdReturned.data });
         usersData.getSingleUser(this.state.userId)
@@ -108,9 +108,9 @@ class ShoppingCart extends React.Component {
   }
 
   getPaymentTypes = () => {
-    const loggedUserUid = authData.getUid();
+    // const loggedUserUid = authData.getUid();
     const { userId } = this.state;
-    paymentTypesData.getAllPaymentTypesByUserUid(loggedUserUid)
+    paymentTypesData.getAllPaymentTypesByUserUid()
       .then((userPaymentTypesResponse) => {
         this.setState({ paymentTypes: userPaymentTypesResponse.data });
         console.error('pmt types', userPaymentTypesResponse.data);
@@ -135,9 +135,9 @@ class ShoppingCart extends React.Component {
       deliveryCity,
       deliveryState,
     } = this.state;
-    const loggedUserUid = authData.getUid();
-    console.error('recently logged in user uid', loggedUserUid);
-    ordersData.getCart(loggedUserUid)
+    // const loggedUserUid = authData.getUid();
+    // console.error('recently logged in user uid', loggedUserUid);
+    ordersData.getCart()
       .then((cartResponse) => {
         if (cartResponse.status === 200) {
           this.setState({
@@ -197,12 +197,12 @@ class ShoppingCart extends React.Component {
   }
 
   buildCartPage = () => {
-    const { userId, cart } = this.state;
-    const loggedUserUid = authData.getUid();
-    this.setState({ uid: loggedUserUid });
-    this.getCart(loggedUserUid);
-    this.getUser(loggedUserUid);
-    this.getPaymentTypes(loggedUserUid);
+    // const { userId, cart } = this.state;
+    // const loggedUserUid = authData.getUid();
+    // this.setState({ uid: loggedUserUid });
+    this.getUser();
+    this.getCart();
+    this.getPaymentTypes();
   }
 
   componentDidMount() {
@@ -216,7 +216,7 @@ class ShoppingCart extends React.Component {
       cart,
       userId,
     } = this.state;
-    ordersData.createCart(userId)
+    ordersData.createCart()
       .then((newOrderResponse) => {
         this.setState({
           cart: newOrderResponse.data,

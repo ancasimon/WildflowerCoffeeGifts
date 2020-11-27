@@ -125,17 +125,15 @@ namespace WildflowerCoffeeGifts.DataAccess
         }
 
         // DEFINITION OF EXISTING CART: Get current incomplete/pending order for a given user (with related ProductOrder records too)!
-        public Order GetCart(string uid)
+        public Order GetCart(int id)
         {
             using var db = new SqlConnection(_connectionString);
 
             // get the details of the order id for the userId passed in as a parameter:
-            var parameterUserId = new { uid };
+            var parameterUserId = new { id };
             var queryForOrder = @"select *
                                 from Orders o
-                                    join users u 
-                                        on u.id = o.userid
-                                where o.IsCompleted = 0 AND u.UID = @uid AND o.IsActive=1"; //what is on the left side of the equation here is the variable I am declaring - and I am filling it with the data on the right, which is the parameter we are passing in to the method / and the variable is calling that parameter!!          
+                                where IsCompleted = 0 AND UserID = @id AND IsActive = 1"; //what is on the left side of the equation here is the variable I am declaring - and I am filling it with the data on the right, which is the parameter we are passing in to the method / and the variable is calling that parameter!!          
             var selectedOrder = db.QueryFirstOrDefault<Order>(queryForOrder, parameterUserId);
 
 
@@ -221,7 +219,8 @@ namespace WildflowerCoffeeGifts.DataAccess
             var parameterUserId = new { userId };
             var queryForLatestPaymentType = @"select *
                                             from PaymentTypes
-                                            where UserId = @userId and IsActive = 1";
+                                            where UserId = @userId and IsActive = 1
+                                            order by Id desc";
             var latestPayment = db.QueryFirstOrDefault<PaymentType>(queryForLatestPaymentType, parameterUserId);
             if (latestPayment == null)
             {

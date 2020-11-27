@@ -64,8 +64,8 @@ class SingleProductView extends React.Component {
       relatedLineItemId,
       relatedLineItem,
     } = this.state;
-    const loggedUserUid = authData.getUid();
-    ordersData.getCart(loggedUserUid)
+    // const loggedUserUid = authData.getUid();
+    ordersData.getCart()
       .then((orderResponse) => {
         if (orderResponse.status == 200) {
           this.setState({
@@ -134,7 +134,7 @@ class SingleProductView extends React.Component {
       relatedLineItem,
     } = this.state;
     if (cart == null) {
-      ordersData.createCart(userId)
+      ordersData.createCart()
         .then((newOrderResponse) => {
           this.setState({
             cart: newOrderResponse.data,

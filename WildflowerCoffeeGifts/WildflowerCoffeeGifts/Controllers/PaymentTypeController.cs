@@ -32,8 +32,8 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(allPaymentTypes);
         }
 
-        [HttpGet("all/{uid}")]
-        public IActionResult GetAllPaymentTypesByUserUid(string uid)
+        [HttpGet("allByUid")]
+        public IActionResult GetAllPaymentTypesByUserUid()
 
         {
             var currentUserId = _userRepo.GetUserIdByUid(UserId);
@@ -54,10 +54,11 @@ namespace WildflowerCoffeeGifts.Controllers
         }
 
         // Anca: Adding a method to get the latest payment type added for a user:
-        [HttpGet("latest/{userId}")]
-        public IActionResult GetLatestPaymentTypeForUser(int userId)
+        [HttpGet("latestByUid")]
+        public IActionResult GetLatestPaymentTypeForUser()
         {
-            var latestPaymentTypeForUser = _paymentTypeRepo.GetLatestPaymentTypeForUser(userId);
+            var currentUserId = _userRepo.GetUserIdByUid(UserId);
+            var latestPaymentTypeForUser = _paymentTypeRepo.GetLatestPaymentTypeForUser(currentUserId);
             if (latestPaymentTypeForUser == null) return NoContent();
 
             return Ok(latestPaymentTypeForUser);

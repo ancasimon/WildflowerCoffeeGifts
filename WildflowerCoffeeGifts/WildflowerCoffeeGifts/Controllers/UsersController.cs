@@ -40,8 +40,8 @@ namespace WildflowerCoffeeGifts.Controllers
         }
 
         // New method to get the yser ID by the Firebase ID now that we have authentication via Firebase:
-        [HttpGet("uid/{uid}")]
-        public IActionResult GetUserIdByUid(string uid)
+        [HttpGet("uid")]
+        public IActionResult GetUserIdByUid()
         {
             var selectedUserId = _userRepo.GetUserIdByUid(UserId);
             if (selectedUserId == 0) return NotFound("We did not find a user with this UID. Please try again.");
