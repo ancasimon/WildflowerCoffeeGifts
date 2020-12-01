@@ -105,6 +105,37 @@ class Login extends React.Component {
         );
       }
       return (
+        <div>
+        <div className="form-group">
+              <label htmlFor="inputEmail" className="col-sm-4 control-label">
+                Email:
+              </label>
+              <div>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="inputEmail"
+                  placeholder="Please enter email"
+                  value={this.state.user.email}
+                  onChange={this.emailChange}
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="inputPassword" className="col-sm-4 control-label">
+                Password:
+              </label>
+              <div>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="inputPassword"
+                  placeholder="Please enter password"
+                  value={this.state.user.password}
+                  onChange={this.passwordChange}
+                />
+              </div>
+            </div>
         <div className="btn container">
           <div>
             <button m-5px
@@ -158,6 +189,7 @@ class Login extends React.Component {
             </div>
           </div>
           </div>
+        </div>
       );
     };
     return (
@@ -166,36 +198,6 @@ class Login extends React.Component {
           <h1 className="text-center"><em>Welcome</em></h1>
         <div id="login-form">
           <form className="form-horizontal col-sm-12 col-sm-offset-3">
-            <div className="form-group">
-              <label htmlFor="inputEmail" className="col-sm-4 control-label">
-                Email:
-              </label>
-              <div>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="inputEmail"
-                  placeholder="Please enter email"
-                  value={this.state.user.email}
-                  onChange={this.emailChange}
-                />
-              </div>
-            </div>
-            <div className="form-group">
-              <label htmlFor="inputPassword" className="col-sm-4 control-label">
-                Password:
-              </label>
-              <div>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="inputPassword"
-                  placeholder="Please enter password"
-                  value={this.state.user.password}
-                  onChange={this.passwordChange}
-                />
-              </div>
-            </div>
             {buildLogButtons()}
           </form>
         </div>

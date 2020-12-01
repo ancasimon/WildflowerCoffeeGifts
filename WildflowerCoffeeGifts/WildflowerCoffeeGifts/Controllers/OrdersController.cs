@@ -50,22 +50,23 @@ namespace WildflowerCoffeeGifts.Controllers
         }
 
         // method for getting the cart!!!
-        [HttpGet("cart/{uid}")]
-        public IActionResult GetCart(string uid)
+        [HttpGet("cartByUid")]
+        public IActionResult GetCart()
         {
-            var currentUserId = _userRepo.GetUserIdByUid(uid);
-            if (_orderRepo.GetCart(uid) == null) return NoContent();
+            var currentUserId = _userRepo.GetUserIdByUid(UserId);
+            if (_orderRepo.GetCart(currentUserId) == null) return NoContent();
 
-            var selectedOrder = _orderRepo.GetCart(uid);
+            var selectedOrder = _orderRepo.GetCart(currentUserId);
 
             return Ok(selectedOrder);
         }
 
         // writing a new method here to create a shopping cart order:
-        [HttpPost("cart/{userId}")]
-        public IActionResult CreateShoppingCart(int userId)
+        [HttpPost("newCartByUid")]
+        public IActionResult CreateShoppingCart()
         {
-            var newCart = _orderRepo.CreateShoppingCart(userId);
+            var currentUserId = _userRepo.GetUserIdByUid(UserId);
+            var newCart = _orderRepo.CreateShoppingCart(currentUserId);
             return Created($"/api/orders/cart/{newCart.Id}", newCart);
         }
 

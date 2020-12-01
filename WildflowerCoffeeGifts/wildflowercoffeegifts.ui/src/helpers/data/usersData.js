@@ -19,7 +19,7 @@ const getAllUsers = () => new Promise((resolve, reject) => {
 
 const getSingleUser = (userId) => axios.get(`${baseUrl}/users/${userId}`);
 
-const getSingleUserIdByUid = (uid) => axios.get(`${baseUrl}/users/uid/${uid}`);
+const getSingleUserIdByUid = () => axios.get(`${baseUrl}/users/uid`);
 
 const getProfileUser = (id) => axios.get(`${baseUrl}/users/${id}/profile`);
 

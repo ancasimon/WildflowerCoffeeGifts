@@ -14,7 +14,7 @@ namespace WildflowerCoffeeGifts.Controllers
     [ApiController]
     [Authorize]
     // [AllowAnonymous] add this to any method that does not require auth
-    public class PaymentTypeController : ControllerBase
+    public class PaymentTypeController : FirebaseEnabledController
     {
         PaymentTypeRepository _paymentTypeRepo;
         UsersRepository _userRepo;
@@ -32,11 +32,11 @@ namespace WildflowerCoffeeGifts.Controllers
             return Ok(allPaymentTypes);
         }
 
-        [HttpGet("all/{uid}")]
-        public IActionResult GetAllPaymentTypesByUserUid(string uid)
+        [HttpGet("allByUid")]
+        public IActionResult GetAllPaymentTypesByUserUid()
 
         {
-            var currentUserId = _userRepo.GetUserIdByUid(uid);
+            var currentUserId = _userRepo.GetUserIdByUid(UserId);
             if (_paymentTypeRepo.GetAllPaymentTypesByUserId(currentUserId) == null) return NoContent();
             var allPaymentTypesForSelectedUser = _paymentTypeRepo.GetAllPaymentTypesByUserId(currentUserId);
 
@@ -54,10 +54,11 @@ namespace WildflowerCoffeeGifts.Controllers
         }
 
         // Anca: Adding a method to get the latest payment type added for a user:
-        [HttpGet("latest/{userId}")]
-        public IActionResult GetLatestPaymentTypeForUser(int userId)
+        [HttpGet("latestByUid")]
+        public IActionResult GetLatestPaymentTypeForUser()
         {
-            var latestPaymentTypeForUser = _paymentTypeRepo.GetLatestPaymentTypeForUser(userId);
+            var currentUserId = _userRepo.GetUserIdByUid(UserId);
+            var latestPaymentTypeForUser = _paymentTypeRepo.GetLatestPaymentTypeForUser(currentUserId);
             if (latestPaymentTypeForUser == null) return NoContent();
 
             return Ok(latestPaymentTypeForUser);
