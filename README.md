@@ -6,6 +6,6 @@ Our last group project in our bootcamp was a full-stack full CRUD application us
 My focus during our group project was on the shopping cart workflow - starting with the user's ability to view a single product page and add the product to their cart, through updating the cart as needed with more of the same product or additional products, and finishing with the checkout process, which includes delivery and billing data. 
 
 ## Contributors
-Monique Bass
-Beth Nielsen
-Anca Simon
+[Monique Bass](https://github.com/Nikababy01)
+[Beth Nielsen](https://github.com/bethh56)
+[Anca Simon](https://github.com/ancasimon)
