@@ -7,5 +7,8 @@ My focus during our group project was on the shopping cart workflow - starting w
 
 ## Contributors
 [Monique Bass](https://github.com/Nikababy01)
+
 [Beth Nielsen](https://github.com/bethh56)
+
 [Anca Simon](https://github.com/ancasimon)
+
