@@ -12,7 +12,7 @@ namespace WildflowerCoffeeGifts.DataAccess
     {
         static List<ProductTheme> productThemes = new List<ProductTheme>();
 
-        const string _connectionString = "Server=localhost;Database=WCG;Trusted_Connection=True";
+        const string _connectionString = "Server=localhost;Database=WCGAnca;Trusted_Connection=True";
 
         public IEnumerable<ProductTheme> GetAllThemes()
         {

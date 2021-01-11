@@ -12,7 +12,7 @@ namespace WildflowerCoffeeGifts.DataAccess
     {
         static List<User> users = new List<User>();
 
-        const string _connectionString = "Server=localhost;Database=WCG;Trusted_Connection=True";
+        const string _connectionString = "Server=localhost;Database=WCGAnca;Trusted_Connection=True";
 
         public string Address { get; set; }
         public string City { get; set; }

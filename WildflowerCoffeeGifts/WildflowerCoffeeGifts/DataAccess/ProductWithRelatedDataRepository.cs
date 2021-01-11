@@ -10,7 +10,7 @@ namespace WildflowerCoffeeGifts.DataAccess
 {
     public class ProductWithRelatedDataRepository
     {
-        const string _connectionString = "Server=localhost;Database=WCG;Trusted_Connection=True";
+        const string _connectionString = "Server=localhost;Database=WCGAnca;Trusted_Connection=True";
 
         public ProductWithRelatedData ViewProductWithDataById(int id)
         {

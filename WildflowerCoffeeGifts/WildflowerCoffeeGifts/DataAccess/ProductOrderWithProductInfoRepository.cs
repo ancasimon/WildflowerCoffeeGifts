@@ -12,7 +12,7 @@ namespace WildflowerCoffeeGifts.DataAccess
     {
         static List<ProductOrderWithProductInfo> productOrderWithInfo = new List<ProductOrderWithProductInfo>();
 
-        const string _connectionString = "Server=localhost;Database=WCG;Trusted_Connection=True";
+        const string _connectionString = "Server=localhost;Database=WCGAnca;Trusted_Connection=True";
 
         public ProductOrderWithProductInfo Update(int id, ProductOrderWithProductInfo lineItem)
         {

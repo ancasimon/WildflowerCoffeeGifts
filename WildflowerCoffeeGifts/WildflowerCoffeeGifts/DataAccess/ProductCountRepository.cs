@@ -13,7 +13,7 @@ namespace WildflowerCoffeeGifts.DataAccess
 
         static List<ProductCount> productCount = new List<ProductCount>();
 
-        const string _connectionString = "Server=localhost;Database=WCG;Trusted_Connection=True";
+        const string _connectionString = "Server=localhost;Database=WCGAnca;Trusted_Connection=True";
         public List<ProductCount> GetProductsTopThreeAndCount()
         {
             using var db = new SqlConnection(_connectionString);

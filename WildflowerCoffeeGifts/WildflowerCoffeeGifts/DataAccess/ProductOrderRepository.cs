@@ -12,7 +12,7 @@ namespace WildflowerCoffeeGifts.DataAccess
     {
         static List<ProductOrder> productOrders = new List<ProductOrder>();
 
-        const string _connectionString = "Server=localhost;Database=WCG;Trusted_Connection=True";
+        const string _connectionString = "Server=localhost;Database=WCGAnca;Trusted_Connection=True";
 
         // Get all product orders - more just for testing purposes:
         public IEnumerable<ProductOrder> GetAllProductOrders()
