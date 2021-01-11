@@ -26,7 +26,7 @@ namespace WildflowerCoffeeGifts.DataAccess
             {
                 var query = @"Select Top(3)p.Title, p.id
                                 from products p
-                                where ProductThemeId = @pthemeid
+                                where ProductThemeId = @pthemeid and IsActive =1
                                 order by p.Title asc";
                 var parameters = new { pthemeid = item.ProductThemeId };
                 var product = db.Query<ProductCount>(query, parameters).ToList();
