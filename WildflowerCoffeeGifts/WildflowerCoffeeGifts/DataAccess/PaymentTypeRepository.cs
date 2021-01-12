@@ -13,7 +13,7 @@ namespace WildflowerCoffeeGifts.DataAccess
     {
         static List<PaymentType> paymentType = new List<PaymentType>();
 
-        const string _connectionString = "Server=localhost;Database=WCG;Trusted_Connection=True";
+        const string _connectionString = "Server=localhost;Database=WCGAnca;Trusted_Connection=True";
 
         public IEnumerable<PaymentType> GetAllPaymentTypes()
         {

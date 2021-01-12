@@ -13,7 +13,7 @@ namespace WildflowerCoffeeGifts.DataAccess
     {
         static List<Product> products = new List<Product>();
 
-        const string _connectionString = "Server=localhost;Database=WCG;Trusted_Connection=True";
+        const string _connectionString = "Server=localhost;Database=WCGAnca;Trusted_Connection=True";
         public IEnumerable<Product> GetProducts()
         {
             using var db = new SqlConnection(_connectionString);
@@ -59,14 +59,17 @@ namespace WildflowerCoffeeGifts.DataAccess
             var sql = @"WITH TopRows AS(
                         select ProductThemeId,
 	                    Title,
+                        IsActive,
 	                    ROW_NUMBER() OVER(
 	                    PARTITION BY [ProductThemeId]
 	                    Order By [Title] ASC
 	                    )AS [ROW NUMBER]
                             from Products
+                            where IsActive = 1
                             )
                         Select * FROM TopRows
-                        Where TopRows.[ROW NUMBER]<=3";
+                        Where TopRows.[ROW NUMBER]<=3
+                        And IsActive = 1";
 
             var topthreeProducts = db.Query<Product>(sql);
 

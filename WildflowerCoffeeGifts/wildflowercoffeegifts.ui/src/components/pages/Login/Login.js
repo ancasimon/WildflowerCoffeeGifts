@@ -150,7 +150,7 @@ class Login extends React.Component {
             <h6>Need to Register?</h6>
             <div className="form-group">
               <label htmlFor="inputFirstName" className="col-sm-4 control-label">
-                FirstName:
+                First Name:
               </label>
               <div>
                 <input
@@ -165,7 +165,7 @@ class Login extends React.Component {
             </div>
             <div className="form-group">
               <label htmlFor="inputLastName" className="col-sm-4 control-label">
-                LastName:
+                Last Name:
               </label>
               <div>
                 <input
@@ -181,9 +181,9 @@ class Login extends React.Component {
             <div className="form-group mt-15px">
               <div>
                 <button
-                  className="btn btn-primary text-center"
+                  className="btn btn-primary text-center wcgButton"
                   onClick={this.registerClickEvent}>
-                  SignUp
+                  Sign Up
                 </button>
               </div>
             </div>

@@ -48,14 +48,14 @@ namespace WildflowerCoffeeGifts
                 .AddJwtBearer(options =>
                 {
                     options.IncludeErrorDetails = true;
-                    options.Authority = "https://securetoken.google.com/wildflowercoffeegifts";
+                    options.Authority = "https://securetoken.google.com/bangazon-9ebbc";
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateLifetime = true,
                         ValidateAudience = true,
                         ValidateIssuer = true,
-                        ValidAudience = "wildflowercoffeegifts",
-                        ValidIssuer = "https://securetoken.google.com/wildflowercoffeegifts"
+                        ValidAudience = "bangazon-9ebbc",
+                        ValidIssuer = "https://securetoken.google.com/bangazon-9ebbc"
                     };
                 });
 
