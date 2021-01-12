@@ -10,10 +10,6 @@ My individual contributions in the project included:
 * Ability to add a new payment type during checkout. 
 * Creating ERD and mockups for the application workflows and pages.
 
-## SCreenshots
-#### Product Details Page
-![Product Details Page](wildflowercoffeegifts/wildflowercoffeegifts.ui/src/images/SingleProduct.PNG)
-
 ## Features
 1. Users can register on the site and then log in. 
 1. Users can view product categories.
