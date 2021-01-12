@@ -12,13 +12,13 @@ My individual contributions in the project included:
 
 ## Screenshots
 #### Product Details Page
-![Product Details Page](./Wildflowercoffeegifts/wildflowercoffeegifts.ui/src/images/SingleProduct.png)
+![Product Details Page](./WildflowerCoffeeGifts/wildflowercoffeegifts.ui/src/images/SingleProduct.png)
 #### Shopping Cart
-![Cart Page](./Wildflowercoffeegifts/wildflowercoffeegifts.ui/src/images/Cart.png)
+![Cart Page](./WildflowerCoffeeGifts/wildflowercoffeegifts.ui/src/images/Cart.png)
 #### Payment Type Selection
-![Payment Type](./Wildflowercoffeegifts/wildflowercoffeegifts.ui/src/images/SelectPayment.png)
+![Payment Type](./WildflowerCoffeeGifts/wildflowercoffeegifts.ui/src/images/SelectPayment.png)
 #### Placed Order
-![Order](./Wildflowercoffeegifts/wildflowercoffeegifts.ui/src/images/PlaceOrder.png)
+![Order](./WildflowerCoffeeGifts/wildflowercoffeegifts.ui/src/images/PlaceOrder.png)
 
 
 
